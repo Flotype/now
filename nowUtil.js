@@ -67,9 +67,10 @@ nowUtil.watch =  function (obj, prop, fqn, handler) {
 }
 
 nowUtil.initializeScope = function(obj, socket) {
-  var scope = nowUtil.decycle(obj, 'now');
-  nowUtil.debug("initializeScope", "");
-  nowUtil.print(scope);
+  var data = nowUtil.decycle(obj, 'now', [nowUtil.serializeFunction]);
+  var scope = data[0];
+  nowUtil.debug("initializeScope", JSON.stringify(data));
+  //nowUtil.print(scope);
   socket.send(JSON.stringify({type: 'createScope', data: {scope: scope}}));
 }
 
@@ -167,7 +168,6 @@ nowUtil.deepCreateVarAtFqn= function(fqn, scope, value){
     currVar[prop] = Object.getPrototypeOf(value);
     nowUtil.mergeScopes(currVar[prop], value);
   } else {
-    console.log('c');
     currVar[path.pop()] = value;
   }
 }
@@ -219,6 +219,7 @@ nowUtil.print = function(msg) {
 
 nowUtil.decycle = function decycle(object, key, funcHandlers) {
   "use strict";
+  console.log(JSON.stringify(object));
   var objects = [],
       paths = [];
   return (function derez(value, path, name, fqn) {
@@ -229,10 +230,11 @@ nowUtil.decycle = function decycle(object, key, funcHandlers) {
               return null;
           }
           for (i = 0; i < objects.length; i += 1) {
-              if (objects[i] === value) {
-                  return {
-                      $ref: paths[i]
-                  };
+              if (objects[i] === value) {                
+                for(var i in funcHandlers) {
+                  nu.push({$ref: paths[i]});
+                  return nu;
+                }
               }
           }
           objects.push(value);

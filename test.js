@@ -1,7 +1,20 @@
-﻿var server = require('http').createServer(function(req, res){});
-server.listen(80);
+﻿
+var fs = require('fs');
+var server = require('http').createServer(function(req, response){
+  fs.readFile('lolol.html', function(err, data){
+    response.writeHead(200);  
+    response.write(data);  
+    response.end();
+  });
+});
+server.listen(8080);
+
 
 var everyone = require("./nowServerLib.js").initialize(server);
+
+everyone.now.setVar = function(){
+  this.now.harro = "foobar";
+}
 
 everyone.now.distributeMessage = [function(name, message){everyone.now.receiveMessage(name, message);}];
 everyone.now.j = function(){
@@ -11,3 +24,5 @@ everyone.now.j = function(){
 everyone.now.z = [1,2,3];
 
 setTimeout(function(){everyone.now.j = 3;}, 3000);
+
+

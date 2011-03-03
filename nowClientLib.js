@@ -6,7 +6,7 @@ var now = {};
 var socket;
 var SERVER_ID = 'server';
 
-var dependencies = ['http://localhost/nowjs/nowUtil.js', 'http://localhost/nowjs/nowLib.js', "http://localhost/socket.io/socket.io.js"];
+var dependencies = ['/nowjs/nowUtil.js', "/socket.io/socket.io.js"];
 
 for(var i in dependencies){
   var fileref=document.createElement('script');
@@ -43,7 +43,7 @@ window.onload = function(){
   socket.on('connect', function(){ 
     var client = socket;
     client.sessionId = SERVER_ID;
-    nowLib.handleNewConnection(client);
+    exports.handleNewConnection(client);
   });
   
 }
@@ -203,7 +203,7 @@ nowCore.messageHandlers.callReturn = function(client, data){
 
 nowCore.messageHandlers.createScope = function(client, data){
   nowCore.watchersBlacklist[client.sessionId] = {};
-  var scope = nowCore.parseScope(client, data.scope);
+  var scope = nowUtil.retrocycle(data.scope, nowCore.constructHandleFunctionForClientScope(client));
   
   nowUtil.debug("handleCreateScope", "");
   nowUtil.print(scope);
@@ -223,14 +223,13 @@ nowCore.messageHandlers.createScope = function(client, data){
         }
       }
       
-      // Send only the empty array or empty object. Child elements will be populated when their own watchers fire.
-      if(nowUtil.isArray(newVal)) {
-        newVal = [];
-      } else if(typeof newVal == "object"){
-        newVal = {};
-      }
       
-      client.send(JSON.stringify({type: 'replaceVar', data: {newVal: nowUtil.decycle(newVal, fqn), oldFqns: oldFqns, fqn: fqn}}));    
+      nowUtil.addChildrenToBlacklist(nowCore.watchersBlacklist[client.sessionId], newVal, fqn);
+      
+      var key = fqn.split(".")[1];
+      var data = nowUtil.decycle(scope[key], key, [nowUtil.serializeFunction]);
+      
+      client.send(JSON.stringify({type: 'replaceVar', data: {key: key, value: data[0]}}));    
     } else {
       nowUtil.debug("clientScopeWatcherVariableChanged", fqn + " change ignored");
       delete nowCore.watchersBlacklist[client.sessionId][fqn];
@@ -246,30 +245,34 @@ nowCore.messageHandlers.createScope = function(client, data){
 }
 
 
+nowCore.constructHandleFunctionForClientScope = function(client) {
+  return function(funcObj) {
+    return nowCore.constructRemoteFunction(client, funcObj.fqn);
+  }
+}
+
+
 nowCore.messageHandlers.replaceVar = function(client, data){
 
   nowUtil.debug("handleReplaceVar", data.fqn + " => " + data.newVal);
   
   var scope = nowCore.scopes[client.sessionId];
   
-  // If function, inflate into a magic remote function
-  if(data.newVal.hasOwnProperty('type') && data.newVal.type == "function"){
-    var value = nowCore.constructRemoteFunction(client, data.fqn);
-  } else {
-    var value = data.newVal;
-  }
-
-  // Add to the client blacklist so the new variable is not sent back to the client
-  nowCore.watchersBlacklist[client.sessionId][data.fqn] = true;
   
-  // Set any child elements of the new variable as unwatched so new watchers can be set on thems
-  if(typeof data.newVal == "object") {
-    for(var i in data.oldFqns) {
-      delete nowCore.watchers[client.sessionId].data.watchedKeys[data.oldFqns[i]]
+  var newVal = nowUtil.retrocycle(data.value, constructHandleFunctionForClientScope(client));
+
+  nowUtil.addChildrenToBlacklist(nowCore.watchersBlacklist[client.sessionId], newVal, "now."+data.key);
+  
+  for(var key in nowCore.watchers[client.sessionId].data.watchedKeys) {
+    if(key.indexOf("now."+data.key+".") === 0) {
+      delete nowCore.watchers[client.sessionId].data.watchedKeys[key];
     }
   }
+  
+  nowUtil.debug("handleReplaceVar", data.key + " => " + data.value);
 
-  nowUtil.createVarAtFqn(data.fqn, scope, value);
+    
+  scope[data.key] = newVal;
 
 }
 
@@ -288,23 +291,6 @@ nowCore.handleDisconnection = function(client) {
   }, 10000)
 }
 
-nowCore.parseScope = function(client, scope){
-  //Inflate functions into magic functions
-  return nowCore.parseScopeTraverse(client, scope);
-}
-
-nowCore.parseScopeTraverse = function(client, scope) {
-  for(var varName in scope){
-    if(typeof scope[varName] == "object") {
-      scope[varName] = nowCore.parseScopeTraverse(client, scope[varName]);
-    }
-    if(scope[varName].hasOwnProperty('type') && scope[varName].type == "function"){
-      nowUtil.debug("parseScopeTraverse", "found function " + varName);
-      scope[varName] = nowCore.constructRemoteFunction(client, scope[varName].fqn);
-    }
-  }
-  return scope;
-}
 
 nowCore.constructRemoteFunction = function(client, functionName){
   

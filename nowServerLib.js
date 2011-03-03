@@ -1,5 +1,4 @@
 ﻿var proxy = require('./wrap.js');
-var nowUtil = require("./nowUtil.js");
 
 //var diff_match_patch = require('./diff_match_patch.js').diff_match_patch;
 
@@ -14,7 +13,6 @@ var nowUtil = require("./nowUtil.js");
 
 var io = require("socket.io");
 var http = require("http");
-var nowLib = require("./nowLib.js");
 var nowUtil = require("./nowUtil.js");
 var fs = require('fs');
 
@@ -36,24 +34,14 @@ exports.initialize = function(server){
   server.on('request', function(request, response){
     // Handle only GET requests for /nowjs/* files. Pass all other requests through
     if(request.method == "GET"){
-      switch(request.url){
-        case "/nowjs/nowUtil.js":
-          serveFile('./nowUtil.js', request, response);
-          break;
-          
-        case "/nowjs/nowClient.js":
-          serveFile('./nowClient.js', request, response);
-          break;
-          
-        case "/nowjs/nowLib.js":
-          serveFile('./nowLib.js', request, response);
-          break;
-        
-        default:
-          for(var i in defaultListeners){
-            defaultListeners[i](request, response);
-          }
-          break;
+      if(request.url == "/nowjs/nowUtil.js"){
+        serveFile('./nowUtil.js', request, response); 
+      } else if(request.url == "/nowjs/nowClientLib.js") {
+        serveFile('./nowClientLib.js', request, response);
+      } else {
+        for(var i in defaultListeners){
+          defaultListeners[i](request, response);
+        }
       }
     } else {
       for(var i in defaultListeners){
@@ -65,7 +53,7 @@ exports.initialize = function(server){
   socket = io.listen(server);
   socket.on('connection', function(client){
     nowUtil.initializeScope(serverScope, client);
-    nowLib.handleNewConnection(client);
+    exports.handleNewConnection(client);
   });
   
   return everyone;
@@ -138,9 +126,9 @@ nowCore.generateMultiCaller = function(fqn){
   nowUtil.debug("generateMultiCaller", fqn);
   return function(){
     var outputs = {};
-    for(var clientId in nowLib.nowCore.scopes){
+    for(var clientId in nowCore.scopes){
       nowUtil.debug("Multicaller", "Calling "+fqn+" on client " + clientId);
-      var clientScope = nowLib.nowCore.scopes[clientId];
+      var clientScope = nowCore.scopes[clientId];
       var theFunction = nowUtil.getVarFromFqn(fqn, clientScope);
       if(theFunction !== false) {
         outputs[clientId] = theFunction.apply({now: clientScope}, arguments);
@@ -212,7 +200,7 @@ nowCore.messageHandlers.callReturn = function(client, data){
 }
 
 nowCore.messageHandlers.createScope = function(client, data){
-  var scope = nowUtil.retrocycle(data.scope, constructHandleFunctionForClientScope(client));
+  var scope = nowUtil.retrocycle(data.scope, nowCore.constructHandleFunctionForClientScope(client));
   
   nowUtil.debug("handleCreateScope", "");
   nowUtil.print(scope);
@@ -229,7 +217,7 @@ nowCore.messageHandlers.createScope = function(client, data){
 
 nowCore.messageHandlers.replaceVar = function(client, data){
 
-  var newVal = nowUtil.retrocycle(data.value, constructHandleFunctionForClientScope(client));
+  var newVal = nowUtil.retrocycle(data.value, nowCore.constructHandleFunctionForClientScope(client));
 
   nowUtil.debug("handleReplaceVar", data.key + " => " + data.value);
   
