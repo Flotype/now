@@ -20,7 +20,7 @@ exports.wrap = function (store, sessions) {
         taint[key] = true;
     }
     
-    function wrapRoot (rootKey, obj) {
+    function wrapRoot (rootKey, obj, path) {
         if (typeof obj !== 'object' || obj === null) return obj;
         var setTaint = update.bind({}, rootKey);
         var wrap = wrapRoot.bind({}, rootKey);
@@ -28,14 +28,17 @@ exports.wrap = function (store, sessions) {
         return Proxy.create({
             get : function (recv, name) {
                 if (name === 'toJSON' && !obj.hasOwnProperty(name)) {
-                    return function () { return obj };
+                    return function () { 
+                      //return obj;
+                      return {$ref: "$"+ path} 
+                    };
                 }
-                else return wrap(obj[name]);
+                else return wrap(obj[name], path+"[\""+ name+"\"]");
             },
             set : function (recv, name, value) {
                 setTaint();
                 obj[name] = value;
-                return wrap(obj[name]);
+                return wrap(obj[name], path+"[\""+ name+"\"]");
             },
             enumerate : function () {
                 return Object.keys(obj)
@@ -57,12 +60,12 @@ exports.wrap = function (store, sessions) {
             if (name === 'toJSON' && !sessions.hasOwnProperty(name)) {
                 return function () { return sessions }
             }
-            else return wrapRoot(name, sessions[name])
+            else return wrapRoot(name, sessions[name], "[\""+name+"\"]")
         },
         set : function (recv, name, value) {
             sessions[name] = value;
             update(name);
-            return wrapRoot(name, value);
+            return wrapRoot(name, value, name);
         },
         enumerate : function () {
             return Object.keys(sessions)
