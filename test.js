@@ -1,28 +1,13 @@
-﻿var proxy = require('./wrap.js');
-var nproxy = require('node-proxy');
-var cycle = require('./cycle.js');
-//var diff_match_patch = require('./diff_match_patch.js').diff_match_patch;
+﻿var server = require('http').createServer(function(req, res){});
+server.listen(80);
 
-var store = {
-  set: function(key, val, callback){
-    var stringified_now = JSON.stringify(now);
-    console.log(stringified_now);
-    var restored_now = cycle.retrocycle(JSON.parse(stringified_now));
-    console.log(JSON.stringify(restored_now));
-    console.log(restored_now.b == restored_now.a.c[0]);
-    callback();  
-  },
-  remove: function(key){
-    console.log("remove " + key);
-  }
-}
+var everyone = require("./nowServerLib.js").initialize(server);
 
-var now = {};
-now = proxy.wrap(store, now);
+everyone.now.distributeMessage = [function(name, message){everyone.now.receiveMessage(name, message);}];
+everyone.now.j = function(){
+  everyone.now.a[everyone.now.a.length-1]();
+};
 
-setTimeout(function(){
-    now.a = {c: [{}]};
-    now.b = now.a.c[0];
-}, 2000);
+everyone.now.z = [1,2,3];
 
-
+setTimeout(function(){everyone.now.j = 3;}, 3000);
