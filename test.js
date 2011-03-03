@@ -5,6 +5,11 @@ var cycle = require('./cycle.js');
 
 var store = {
   set: function(key, val, callback){
+    var stringified_now = JSON.stringify(now);
+    console.log(stringified_now);
+    var restored_now = cycle.retrocycle(JSON.parse(stringified_now));
+    console.log(JSON.stringify(restored_now));
+    console.log(restored_now.b == restored_now.a.c[0]);
     callback();  
   },
   remove: function(key){
@@ -16,7 +21,8 @@ var now = {};
 now = proxy.wrap(store, now);
 
 setTimeout(function(){
-
+    now.a = {c: [{}]};
+    now.b = now.a.c[0];
 }, 2000);
 
 
