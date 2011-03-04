@@ -336,14 +336,14 @@ nowCore.everyoneStore = {
       newObjects[0] = [];
       // For client scope
       for(var i in nowCore.scopes) {
-        nowObjects.push([]);
+        newObjects.push([]);
       }
     } else {      
       // For server scope
       newObjects[0] = {};
       // For client scope
       for(var i in nowCore.scopes) {
-        nowObjects.push({});
+        newObjects.push({});
       }
     }
     
