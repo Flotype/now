@@ -71,7 +71,7 @@ nowUtil.initializeScope = function(obj, socket) {
   var scope = data[0];
   nowUtil.debug("initializeScope", JSON.stringify(data));
   //nowUtil.print(scope);
-  socket.send(JSON.stringify({type: 'createScope', data: {scope: scope}}));
+  socket.send({type: 'createScope', data: {scope: scope}});
 }
 
 nowUtil.isArray = function (obj) {
@@ -81,7 +81,6 @@ nowUtil.isArray = function (obj) {
 nowUtil.getVarFromFqn = function(fqn, scope){
   var path = fqn.split(".");
   path.shift();
-  
   var currVar = scope;
   while(path.length > 0){
     var prop = path.shift();
@@ -165,7 +164,11 @@ nowUtil.deepCreateVarAtFqn= function(fqn, scope, value){
   var currVar = nowUtil.getVarParentFromFqn(fqn, scope);
   if (typeof value == "object"){
     var prop = path.pop();
-    currVar[prop] = Object.getPrototypeOf(value);
+    if(nowUtil.isArray(value)) {
+      currVar[prop] = [];
+    } else {
+      currVar[prop] = {};
+    }
     nowUtil.mergeScopes(currVar[prop], value);
   } else {
     currVar[path.pop()] = value;
@@ -176,7 +179,11 @@ nowUtil.mergeScopes = function(current, incoming) {
   for(var prop in incoming){
     if(typeof incoming[prop] == "object"){
       if(!current.hasOwnProperty(prop)){
-        current[prop] = Object.getPrototypeOf(incoming[prop]);
+        if(nowUtil.isArray(incoming[prop])) {
+          current[prop] = [];
+        } else {
+          current[prop] = {};
+        }
       }
       nowUtil.mergeScopes(current[prop], incoming[prop]);
     } else {
@@ -191,7 +198,11 @@ nowUtil.multiDeepCopy = function(targets, incoming) {
       if(typeof incoming[prop] == "object") {
         var next = [];
         for(var i in targets){
-          targets[i][prop] = Object.getPrototypeOf(incoming[prop]);
+          if(nowUtil.isArray(incoming[prop])) {
+            targets[i][prop] = [];
+          } else {
+            targets[i][prop] = {};  
+          }
           next[i] = targets[i][prop];
         }
         nowUtil.multiDeepCopy(next, incoming[prop]);
@@ -219,11 +230,11 @@ nowUtil.print = function(msg) {
 
 nowUtil.decycle = function decycle(object, key, funcHandlers) {
   "use strict";
-  console.log(JSON.stringify(object));
   var objects = [],
       paths = [];
   return (function derez(value, path, name, fqn) {
       var i, name, nu;
+      
       switch (typeof value) {
       case 'object':
           if (!value) {
@@ -233,8 +244,8 @@ nowUtil.decycle = function decycle(object, key, funcHandlers) {
               if (objects[i] === value) {                
                 for(var i in funcHandlers) {
                   nu.push({$ref: paths[i]});
-                  return nu;
                 }
+                return nu;
               }
           }
           objects.push(value);
@@ -247,7 +258,7 @@ nowUtil.decycle = function decycle(object, key, funcHandlers) {
               for (i = 0; i < value.length; i += 1) {
                   var values = derez(value[i], path + '[' + i + ']', i, fqn+"."+i);
                   for(var j in values) {
-                    nu[j][i] = values[i];
+                    nu[j][i] = values[j];
                   }
               }
           } else {
@@ -257,10 +268,10 @@ nowUtil.decycle = function decycle(object, key, funcHandlers) {
               }
               for (name in value) {
                   if (Object.prototype.hasOwnProperty.call(value, name)) {
-                      values = derez(value[name], path + '[' + JSON.stringify(name) + ']', name, fqn+"."+name);
+                      var values = derez(value[name], path + '[' + JSON.stringify(name) + ']', name, fqn+"."+name);
                   }
                   for(var j in values) {
-                    nu[j][name] = values[name];
+                    nu[j][name] = values[j];
                   }
               }
           }
@@ -280,7 +291,7 @@ nowUtil.decycle = function decycle(object, key, funcHandlers) {
           }
           return output;
       }
-  }(object, '$', '', 'now.'+key));
+  }(object, '$', '', key));
 };
 
 
@@ -293,6 +304,10 @@ nowUtil.retrocycle = function retrocycle($, funcHandler) {
           if (Object.prototype.toString.apply(value) === '[object Array]') {
               for (i = 0; i < value.length; i += 1) {
                   item = value[i];
+                  if(item.hasOwnProperty("type") && item.type == 'function') {
+                    value[i] = funcHandler(value[i]);
+                    item = value[i];
+                  }
                   if (item && typeof item === 'object') {
                       path = item.$ref;
                       if (typeof path === 'string' && px.test(path)) {
@@ -307,6 +322,10 @@ nowUtil.retrocycle = function retrocycle($, funcHandler) {
                   if (typeof value[name] === 'object') {
                       item = value[name];
                       if (item) {
+                          if(item.hasOwnProperty("type") && item.type == 'function') {
+                            value[name] = funcHandler(value[name]);
+                            item = value[name];
+                          }
                           path = item.$ref;
                           if (typeof path === 'string' && px.test(path)) {
                               value[name] = eval(path);
@@ -314,8 +333,6 @@ nowUtil.retrocycle = function retrocycle($, funcHandler) {
                               rez(item);
                           }
                       }
-                  } else if (typeof value[name] === 'function') {
-                    value[name] = funcHandler(value[name]);
                   }
               }
           }

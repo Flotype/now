@@ -1,4 +1,4 @@
-﻿var proxy = require('./wrap.js');
+var proxy = require('./wrap.js');
 
 //var diff_match_patch = require('./diff_match_patch.js').diff_match_patch;
 
@@ -31,13 +31,15 @@ exports.initialize = function(server){
   // Override the default HTTP server listeners
   var defaultListeners = server.listeners('request');
   server.removeAllListeners('request');
+  var path = module.filename.split('/');
+  var directory = path.splice(0, path.length - 1).join('/');
   server.on('request', function(request, response){
     // Handle only GET requests for /nowjs/* files. Pass all other requests through
     if(request.method == "GET"){
       if(request.url == "/nowjs/nowUtil.js"){
-        serveFile('./nowUtil.js', request, response); 
+        serveFile(directory + '/nowUtil.js', request, response); 
       } else if(request.url == "/nowjs/nowClientLib.js") {
-        serveFile('./nowClientLib.js', request, response);
+        serveFile(directory + '/nowClientLib.js', request, response);
       } else {
         for(var i in defaultListeners){
           defaultListeners[i](request, response);
@@ -52,7 +54,13 @@ exports.initialize = function(server){
   
   socket = io.listen(server);
   socket.on('connection', function(client){
-    nowUtil.initializeScope(serverScope, client);
+
+
+
+  nowUtil.initializeScope(serverScope, client);
+
+    console.log("everyone: ");
+    console.log(everyone.now.z);
     exports.handleNewConnection(client);
   });
   
@@ -97,7 +105,7 @@ function serveFile(filename, request, response){
 exports.handleNewConnection = function(client){
 
   client.on('message', function(message){
-    var messageObj = JSON.parse(message);
+    var messageObj = message;
     if(messageObj != null && "type" in messageObj && messageObj.type in nowCore.messageHandlers) {
         nowCore.messageHandlers[messageObj.type](client, messageObj.data);
     }
@@ -144,12 +152,12 @@ nowCore.generateMultiCaller = function(fqn){
 nowCore.messageHandlers.remoteCall = function(client, data){
   nowUtil.debug("handleRemoteCall", data.callId)
   var clientScope = nowCore.proxies[client.sessionId];
-  
   var theFunction;
   if(data.functionName.split('_')[0] == 'closure'){
     theFunction = nowCore.closures[data.functionName];
   } else {
     theFunction = nowUtil.getVarFromFqn(data.functionName, clientScope);
+    
   }
   
   var theArgs = data.arguments;
@@ -173,10 +181,11 @@ nowCore.messageHandlers.remoteCall = function(client, data){
     
     response.data.retval = retval;
   } catch(err) {
+    console.log(err.stack);
     response.data.err = err;
   }
   if(data.callReturnExpected){
-    client.send(JSON.stringify(nowUtil.decycle(response)));
+    client.send(nowUtil.decycle(response, '', [function(fqn, func){return func;}]));
   }
   nowUtil.debug("handleRemoteCall" , "completed " + callId);
 }
@@ -205,9 +214,12 @@ nowCore.messageHandlers.createScope = function(client, data){
   nowUtil.debug("handleCreateScope", "");
   nowUtil.print(scope);
   
+  
+  console.log("beforeMergeScope: " + JSON.stringify(scope));
+  
   // Merge the server defaults into the incoming scope
   nowUtil.mergeScopes(scope, serverScope);
-  
+  console.log("serverScope: " + JSON.stringify(serverScope));
   // Create proxy object
   nowCore.proxies[client.sessionId] = proxy.wrap(nowCore.constructClientScopeStore(client), scope);
   nowCore.scopes[client.sessionId] = scope;
@@ -221,8 +233,7 @@ nowCore.messageHandlers.replaceVar = function(client, data){
 
   nowUtil.debug("handleReplaceVar", data.key + " => " + data.value);
   
-  var scope = nowCore.scopes[client.sessionId];
-  
+  var scope = nowCore.scopes[client.sessionId];  
   scope[data.key] = newVal;
 }
 
@@ -273,16 +284,18 @@ nowCore.constructRemoteFunction = function(client, functionName){
         arguments[i] = {type: 'function', fqn: closureId};
       }
     }
+    
+    var theArgs = arguments;
+    
     //Register the callback in the callbacks table
     if(!nowCore.callbacks[client.sessionId]){
       nowCore.callbacks[client.sessionId] = {};
     }
-    
     if(callback){
       nowCore.callbacks[client.sessionId][callId] = callback;
     }
     process.nextTick(function(){
-      client.send(JSON.stringify({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: arguments, callReturnExpected: callReturnExpected}}));
+      client.send({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: theArgs, callReturnExpected: callReturnExpected}});
     });
     
     return true;
@@ -295,13 +308,15 @@ nowCore.constructClientScopeStore = function(client) {
   return {
     set: function(key, val, callback){
     
-      var data =  nowUtil.decycle(val, key, [nowUtil.serializeFunction, function(fqn, func){ return nowCore.constructRemoteFunction(client, fqn); }]);
+      nowUtil.debug("clientScopeStore", key + " => " + val);
+      
+      var data =  nowUtil.decycle(val, "now."+key, [nowUtil.serializeFunction, function(fqn, func){ return nowCore.constructRemoteFunction(client, fqn); }]);
       
       // data[0] = For client
       // data[1] = For Everyone
       
     
-      client.send(JSON.stringify({type: 'replaceVar', data: {key: key, val: data[0]}}));
+      client.send({type: 'replaceVar', data: {key: key, value: data[0]}});
       
       everyone.nowScope[key] = data[1];
       
@@ -317,27 +332,27 @@ nowCore.constructClientScopeStore = function(client) {
 nowCore.everyoneStore = {
   set: function(key, val, callback){
     var newObjects = [];
-    
+    nowUtil.debug("EveryoneSetting", key +" =>  " + val);
     if(nowUtil.isArray(val)) {      
       // For server scope
       newObjects[0] = [];
       // For client scope
       for(var i in nowCore.scopes) {
-        nowObjects.push([]);
+        newObjects.push([]);
       }
     } else {      
       // For server scope
       newObjects[0] = {};
       // For client scope
       for(var i in nowCore.scopes) {
-        nowObjects.push({});
+        newObjects.push({});
       }
     }
     
     
     nowUtil.multiDeepCopy(newObjects, val);
     
-    var data = nowUtil.decycle(val, key, [function(fqn, func){
+    var data = nowUtil.decycle(val, "now."+key, [function(fqn, func){
       var multiCaller = nowCore.generateMultiCaller(fqn);
       nowUtil.createVarAtFqn(fqn, everyone.nowScope, multiCaller);
       return nowUtil.serializeFunction(fqn, func); 
@@ -345,13 +360,11 @@ nowCore.everyoneStore = {
     
     serverScope[key] = newObjects.pop();
     for(var i in nowCore.scopes) {
-      nowCores.scopes[i] = newObjects.pop();
+      nowCore.scopes[i] = newObjects.pop();
     }
     
     socket.broadcast({type: 'replaceVar', data: {key: key, val: data[0]}});
     
-    everyone.nowScope[key] = data[1];
-    console.log(serverScope);
     callback();  
   },
   remove: function(key){
