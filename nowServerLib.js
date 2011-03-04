@@ -52,7 +52,13 @@ exports.initialize = function(server){
   
   socket = io.listen(server);
   socket.on('connection', function(client){
-    nowUtil.initializeScope(serverScope, client);
+
+
+
+  nowUtil.initializeScope(serverScope, client);
+
+    console.log("everyone: ");
+    console.log(everyone.now.z);
     exports.handleNewConnection(client);
   });
   
@@ -144,12 +150,14 @@ nowCore.generateMultiCaller = function(fqn){
 nowCore.messageHandlers.remoteCall = function(client, data){
   nowUtil.debug("handleRemoteCall", data.callId)
   var clientScope = nowCore.proxies[client.sessionId];
-  
+  console.log("clingScope:" + JSON.stringify(clientScope));
   var theFunction;
   if(data.functionName.split('_')[0] == 'closure'){
     theFunction = nowCore.closures[data.functionName];
   } else {
+    console.log(data.functionName);
     theFunction = nowUtil.getVarFromFqn(data.functionName, clientScope);
+    
   }
   
   var theArgs = data.arguments;
@@ -173,10 +181,11 @@ nowCore.messageHandlers.remoteCall = function(client, data){
     
     response.data.retval = retval;
   } catch(err) {
+    console.log(err.stack);
     response.data.err = err;
   }
   if(data.callReturnExpected){
-    client.send(JSON.stringify(nowUtil.decycle(response)));
+    client.send(JSON.stringify(nowUtil.decycle(response, '', [function(fqn, func){return func;}])));
   }
   nowUtil.debug("handleRemoteCall" , "completed " + callId);
 }
@@ -205,9 +214,12 @@ nowCore.messageHandlers.createScope = function(client, data){
   nowUtil.debug("handleCreateScope", "");
   nowUtil.print(scope);
   
+  
+  console.log("beforeMergeScope: " + JSON.stringify(scope));
+  
   // Merge the server defaults into the incoming scope
   nowUtil.mergeScopes(scope, serverScope);
-  
+  console.log("serverScope: " + JSON.stringify(serverScope));
   // Create proxy object
   nowCore.proxies[client.sessionId] = proxy.wrap(nowCore.constructClientScopeStore(client), scope);
   nowCore.scopes[client.sessionId] = scope;
@@ -295,7 +307,7 @@ nowCore.constructClientScopeStore = function(client) {
   return {
     set: function(key, val, callback){
     
-      var data =  nowUtil.decycle(val, key, [nowUtil.serializeFunction, function(fqn, func){ return nowCore.constructRemoteFunction(client, fqn); }]);
+      var data =  nowUtil.decycle(val, "now."+key, [nowUtil.serializeFunction, function(fqn, func){ return nowCore.constructRemoteFunction(client, fqn); }]);
       
       // data[0] = For client
       // data[1] = For Everyone
@@ -317,7 +329,7 @@ nowCore.constructClientScopeStore = function(client) {
 nowCore.everyoneStore = {
   set: function(key, val, callback){
     var newObjects = [];
-    
+    nowUtil.debug("EveryoneSetting", key +" =>  " + val);
     if(nowUtil.isArray(val)) {      
       // For server scope
       newObjects[0] = [];
@@ -337,7 +349,7 @@ nowCore.everyoneStore = {
     
     nowUtil.multiDeepCopy(newObjects, val);
     
-    var data = nowUtil.decycle(val, key, [function(fqn, func){
+    var data = nowUtil.decycle(val, "now."+key, [function(fqn, func){
       var multiCaller = nowCore.generateMultiCaller(fqn);
       nowUtil.createVarAtFqn(fqn, everyone.nowScope, multiCaller);
       return nowUtil.serializeFunction(fqn, func); 
@@ -350,8 +362,6 @@ nowCore.everyoneStore = {
     
     socket.broadcast({type: 'replaceVar', data: {key: key, val: data[0]}});
     
-    everyone.nowScope[key] = data[1];
-    console.log(serverScope);
     callback();  
   },
   remove: function(key){
