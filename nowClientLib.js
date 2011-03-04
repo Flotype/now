@@ -1,4 +1,4 @@
-﻿window.nowLib = {};
+window.nowLib = {};
 var exports = window.nowLib;
 
 
@@ -118,7 +118,7 @@ exports.NowWatcher = function(fqnRoot, scopeObj, variableChanged) {
 exports.handleNewConnection = function(client){
 
   client.on('message', function(message){
-    var messageObj = JSON.parse(message);
+    var messageObj = message;
     if(messageObj != null && "type" in messageObj && messageObj.type in nowCore.messageHandlers) {
         nowCore.messageHandlers[messageObj.type](client, messageObj.data);
     }
@@ -180,7 +180,7 @@ nowCore.messageHandlers.remoteCall = function(client, data){
     response.data.err = err;
   }
   if(data.callReturnExpected){
-    client.send(JSON.stringify(nowUtil.decycle(response)));
+    client.send(nowUtil.decycle(response));
   }
   nowUtil.debug("handleRemoteCall" , "completed " + callId);
 }
@@ -231,7 +231,7 @@ nowCore.messageHandlers.createScope = function(client, data){
       var key = fqn.split(".")[1];
       var data = nowUtil.decycle(scope[key], key, [nowUtil.serializeFunction]);
       
-      client.send(JSON.stringify({type: 'replaceVar', data: {key: key, value: data[0]}}));    
+      client.send({type: 'replaceVar', data: {key: key, value: data[0]}});    
     } else {
       nowUtil.debug("clientScopeWatcherVariableChanged", fqn + " change ignored");
       delete nowCore.watchersBlacklist[client.sessionId][fqn];
@@ -326,7 +326,7 @@ nowCore.constructRemoteFunction = function(client, functionName){
       nowCore.callbacks[client.sessionId][callId] = callback;
     }
     
-    client.send(JSON.stringify({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: arguments, callReturnExpected: callReturnExpected}}));
+    client.send({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: arguments, callReturnExpected: callReturnExpected}});
     
     return true;
   }

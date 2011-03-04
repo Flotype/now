@@ -1,4 +1,3 @@
-﻿
 var fs = require('fs');
 var server = require('http').createServer(function(req, response){
   fs.readFile('lolol.html', function(err, data){
@@ -20,6 +19,5 @@ everyone.now.distributeMessage = [function(name, message){everyone.now.receiveMe
 everyone.now.j = function(){
   everyone.now.a[everyone.now.a.length-1]();
 };
-
 
 everyone.now.z = [1,2,3];

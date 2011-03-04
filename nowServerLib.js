@@ -1,4 +1,4 @@
-﻿var proxy = require('./wrap.js');
+var proxy = require('./wrap.js');
 
 //var diff_match_patch = require('./diff_match_patch.js').diff_match_patch;
 
@@ -31,13 +31,15 @@ exports.initialize = function(server){
   // Override the default HTTP server listeners
   var defaultListeners = server.listeners('request');
   server.removeAllListeners('request');
+  var path = module.filename.split('/');
+  var directory = path.splice(0, path.length - 1).join('/');
   server.on('request', function(request, response){
     // Handle only GET requests for /nowjs/* files. Pass all other requests through
     if(request.method == "GET"){
       if(request.url == "/nowjs/nowUtil.js"){
-        serveFile('./nowUtil.js', request, response); 
+        serveFile(directory + '/nowUtil.js', request, response); 
       } else if(request.url == "/nowjs/nowClientLib.js") {
-        serveFile('./nowClientLib.js', request, response);
+        serveFile(directory + '/nowClientLib.js', request, response);
       } else {
         for(var i in defaultListeners){
           defaultListeners[i](request, response);
@@ -103,7 +105,7 @@ function serveFile(filename, request, response){
 exports.handleNewConnection = function(client){
 
   client.on('message', function(message){
-    var messageObj = JSON.parse(message);
+    var messageObj = message;
     if(messageObj != null && "type" in messageObj && messageObj.type in nowCore.messageHandlers) {
         nowCore.messageHandlers[messageObj.type](client, messageObj.data);
     }
@@ -183,7 +185,7 @@ nowCore.messageHandlers.remoteCall = function(client, data){
     response.data.err = err;
   }
   if(data.callReturnExpected){
-    client.send(JSON.stringify(nowUtil.decycle(response, '', [function(fqn, func){return func;}])));
+    client.send(nowUtil.decycle(response, '', [function(fqn, func){return func;}]));
   }
   nowUtil.debug("handleRemoteCall" , "completed " + callId);
 }
@@ -293,7 +295,7 @@ nowCore.constructRemoteFunction = function(client, functionName){
       nowCore.callbacks[client.sessionId][callId] = callback;
     }
     process.nextTick(function(){
-      client.send(JSON.stringify({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: theArgs, callReturnExpected: callReturnExpected}}));
+      client.send({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: theArgs, callReturnExpected: callReturnExpected}});
     });
     
     return true;
@@ -314,7 +316,7 @@ nowCore.constructClientScopeStore = function(client) {
       // data[1] = For Everyone
       
     
-      client.send(JSON.stringify({type: 'replaceVar', data: {key: key, value: data[0]}}));
+      client.send({type: 'replaceVar', data: {key: key, value: data[0]}});
       
       everyone.nowScope[key] = data[1];
       
@@ -358,7 +360,7 @@ nowCore.everyoneStore = {
     
     serverScope[key] = newObjects.pop();
     for(var i in nowCore.scopes) {
-      nowCores.scopes[i] = newObjects.pop();
+      nowCore.scopes[i] = newObjects.pop();
     }
     
     socket.broadcast({type: 'replaceVar', data: {key: key, val: data[0]}});

@@ -71,7 +71,7 @@ nowUtil.initializeScope = function(obj, socket) {
   var scope = data[0];
   nowUtil.debug("initializeScope", JSON.stringify(data));
   //nowUtil.print(scope);
-  socket.send(JSON.stringify({type: 'createScope', data: {scope: scope}}));
+  socket.send({type: 'createScope', data: {scope: scope}});
 }
 
 nowUtil.isArray = function (obj) {
