@@ -150,12 +150,10 @@ nowCore.generateMultiCaller = function(fqn){
 nowCore.messageHandlers.remoteCall = function(client, data){
   nowUtil.debug("handleRemoteCall", data.callId)
   var clientScope = nowCore.proxies[client.sessionId];
-  console.log("clingScope:" + JSON.stringify(clientScope));
   var theFunction;
   if(data.functionName.split('_')[0] == 'closure'){
     theFunction = nowCore.closures[data.functionName];
   } else {
-    console.log(data.functionName);
     theFunction = nowUtil.getVarFromFqn(data.functionName, clientScope);
     
   }
@@ -233,8 +231,7 @@ nowCore.messageHandlers.replaceVar = function(client, data){
 
   nowUtil.debug("handleReplaceVar", data.key + " => " + data.value);
   
-  var scope = nowCore.scopes[client.sessionId];
-  
+  var scope = nowCore.scopes[client.sessionId];  
   scope[data.key] = newVal;
 }
 
@@ -285,16 +282,18 @@ nowCore.constructRemoteFunction = function(client, functionName){
         arguments[i] = {type: 'function', fqn: closureId};
       }
     }
+    
+    var theArgs = arguments;
+    
     //Register the callback in the callbacks table
     if(!nowCore.callbacks[client.sessionId]){
       nowCore.callbacks[client.sessionId] = {};
     }
-    
     if(callback){
       nowCore.callbacks[client.sessionId][callId] = callback;
     }
     process.nextTick(function(){
-      client.send(JSON.stringify({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: arguments, callReturnExpected: callReturnExpected}}));
+      client.send(JSON.stringify({type: 'remoteCall', data: {callId: callId, functionName: functionName, arguments: theArgs, callReturnExpected: callReturnExpected}}));
     });
     
     return true;
@@ -307,13 +306,15 @@ nowCore.constructClientScopeStore = function(client) {
   return {
     set: function(key, val, callback){
     
+      nowUtil.debug("clientScopeStore", key + " => " + val);
+      
       var data =  nowUtil.decycle(val, "now."+key, [nowUtil.serializeFunction, function(fqn, func){ return nowCore.constructRemoteFunction(client, fqn); }]);
       
       // data[0] = For client
       // data[1] = For Everyone
       
     
-      client.send(JSON.stringify({type: 'replaceVar', data: {key: key, val: data[0]}}));
+      client.send(JSON.stringify({type: 'replaceVar', data: {key: key, value: data[0]}}));
       
       everyone.nowScope[key] = data[1];
       

@@ -156,6 +156,7 @@ nowCore.messageHandlers.remoteCall = function(client, data){
   
   var theArgs = data.arguments;
   
+  
   for(var i in theArgs){
     if(theArgs[i].hasOwnProperty('type') && theArgs[i].type == 'function'){
       theArgs[i] = nowCore.constructRemoteFunction(client, theArgs[i].fqn);
@@ -175,6 +176,7 @@ nowCore.messageHandlers.remoteCall = function(client, data){
     
     response.data.retval = retval;
   } catch(err) {
+    console.log(err);
     response.data.err = err;
   }
   if(data.callReturnExpected){
@@ -254,13 +256,15 @@ nowCore.constructHandleFunctionForClientScope = function(client) {
 
 nowCore.messageHandlers.replaceVar = function(client, data){
 
-  nowUtil.debug("handleReplaceVar", data.fqn + " => " + data.newVal);
+  nowUtil.debug("handleReplaceVar", data.key + " => " + data.value);
   
   var scope = nowCore.scopes[client.sessionId];
   
   
-  var newVal = nowUtil.retrocycle(data.value, constructHandleFunctionForClientScope(client));
+  var newVal = nowUtil.retrocycle(data.value, nowCore.constructHandleFunctionForClientScope(client));
 
+  nowCore.watchersBlacklist[client.sessionId]["now."+data.key] = true;
+  
   nowUtil.addChildrenToBlacklist(nowCore.watchersBlacklist[client.sessionId], newVal, "now."+data.key);
   
   for(var key in nowCore.watchers[client.sessionId].data.watchedKeys) {
@@ -268,9 +272,6 @@ nowCore.messageHandlers.replaceVar = function(client, data){
       delete nowCore.watchers[client.sessionId].data.watchedKeys[key];
     }
   }
-  
-  nowUtil.debug("handleReplaceVar", data.key + " => " + data.value);
-
     
   scope[data.key] = newVal;
 

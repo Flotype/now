@@ -14,7 +14,6 @@ var everyone = require("./nowServerLib.js").initialize(server);
 
 everyone.now.setVar = function(){
   this.now.harro = "foobar";
-  console.log(this.now.harro);
 }
 
 everyone.now.distributeMessage = [function(name, message){everyone.now.receiveMessage(name, message);}];

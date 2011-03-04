@@ -43,6 +43,9 @@ exports.wrap = function (store, sessions) {
             enumerate : function () {
                 return Object.keys(obj)
             },
+            hasOwn : function(name) {
+                return obj.hasOwnProperty(name);
+            },
             delete : function (name) {
                 if (obj.propertyIsEnumerable(name)) {
                     setTaint();
@@ -69,6 +72,9 @@ exports.wrap = function (store, sessions) {
         },
         enumerate : function () {
             return Object.keys(sessions)
+        },        
+        hasOwn : function(name) {
+            return sessions.hasOwnProperty(name);
         },
         delete : function (name) {
             update(name);

@@ -81,7 +81,6 @@ nowUtil.isArray = function (obj) {
 nowUtil.getVarFromFqn = function(fqn, scope){
   var path = fqn.split(".");
   path.shift();
-  console.log("getVar"+JSON.stringify(scope));
   var currVar = scope;
   while(path.length > 0){
     var prop = path.shift();
@@ -305,6 +304,10 @@ nowUtil.retrocycle = function retrocycle($, funcHandler) {
           if (Object.prototype.toString.apply(value) === '[object Array]') {
               for (i = 0; i < value.length; i += 1) {
                   item = value[i];
+                  if(item.hasOwnProperty("type") && item.type == 'function') {
+                    value[i] = funcHandler(value[i]);
+                    item = value[i];
+                  }
                   if (item && typeof item === 'object') {
                       path = item.$ref;
                       if (typeof path === 'string' && px.test(path)) {
@@ -319,7 +322,7 @@ nowUtil.retrocycle = function retrocycle($, funcHandler) {
                   if (typeof value[name] === 'object') {
                       item = value[name];
                       if (item) {
-                          if('type' in item && item.type == 'function') {
+                          if(item.hasOwnProperty("type") && item.type == 'function') {
                             value[name] = funcHandler(value[name]);
                             item = value[name];
                           }
