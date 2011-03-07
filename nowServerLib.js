@@ -1,25 +1,9 @@
 var proxy = require('./wrap.js');
 
-//var diff_match_patch = require('./diff_match_patch.js').diff_match_patch;
-
-
-
-
-
-
-
-
-
-
 var io = require("socket.io");
 var http = require("http");
 var nowUtil = require("./nowUtil.js");
 var fs = require('fs');
-
-
-
-
-
 
 var serverScope = {};
 var everyone = {nowScope: {}};
@@ -59,8 +43,8 @@ exports.initialize = function(server){
 
   nowUtil.initializeScope(serverScope, client);
 
-    console.log("everyone: ");
-    console.log(everyone.now.z);
+    // console.log("everyone: ");
+    // console.log(everyone.now.z);
     exports.handleNewConnection(client);
   });
   
@@ -140,6 +124,8 @@ nowCore.generateMultiCaller = function(fqn){
       var theFunction = nowUtil.getVarFromFqn(fqn, clientScope);
       if(theFunction !== false) {
         outputs[clientId] = theFunction.apply({now: clientScope}, arguments);
+      } else {
+        nowUtil.debug("Multicaler", "No function found for client " + clientId);
       }
     }
     return outputs;
@@ -181,7 +167,7 @@ nowCore.messageHandlers.remoteCall = function(client, data){
     
     response.data.retval = retval;
   } catch(err) {
-    console.log(err.stack);
+    // console.log(err.stack);
     response.data.err = err;
   }
   if(data.callReturnExpected){
@@ -215,11 +201,11 @@ nowCore.messageHandlers.createScope = function(client, data){
   nowUtil.print(scope);
   
   
-  console.log("beforeMergeScope: " + JSON.stringify(scope));
+  // console.log("beforeMergeScope: " + JSON.stringify(scope));
   
   // Merge the server defaults into the incoming scope
   nowUtil.mergeScopes(scope, serverScope);
-  console.log("serverScope: " + JSON.stringify(serverScope));
+  // console.log("serverScope: " + JSON.stringify(serverScope));
   // Create proxy object
   nowCore.proxies[client.sessionId] = proxy.wrap(nowCore.constructClientScopeStore(client), scope);
   nowCore.scopes[client.sessionId] = scope;
@@ -253,6 +239,7 @@ nowCore.handleDisconnection = function(client) {
 
 nowCore.constructHandleFunctionForClientScope = function(client) {
   return function(funcObj) {
+    console.log(funcObj);
     var multiCaller = nowCore.generateMultiCaller(funcObj.fqn);
     nowUtil.createVarAtFqn(funcObj.fqn, everyone.nowScope, multiCaller);
     return nowCore.constructRemoteFunction(client, funcObj.fqn);
@@ -318,12 +305,13 @@ nowCore.constructClientScopeStore = function(client) {
     
       client.send({type: 'replaceVar', data: {key: key, value: data[0]}});
       
+      console.log(data[1]);
       everyone.nowScope[key] = data[1];
       
       callback();  
     },  
     remove: function(key){
-      console.log("remove " + key);
+      // console.log("remove " + key);
     }
   };
   
@@ -358,17 +346,19 @@ nowCore.everyoneStore = {
       return nowUtil.serializeFunction(fqn, func); 
     }]);
     
+    // console.log(data);
+    
     serverScope[key] = newObjects.pop();
     for(var i in nowCore.scopes) {
       nowCore.scopes[i] = newObjects.pop();
     }
     
-    socket.broadcast({type: 'replaceVar', data: {key: key, val: data[0]}});
+    socket.broadcast({type: 'replaceVar', data: {key: key, value: data[0]}});
     
     callback();  
   },
   remove: function(key){
-    console.log("remove " + key);
+    // console.log("remove " + key);
   }
 };
   

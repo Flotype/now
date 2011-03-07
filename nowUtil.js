@@ -225,7 +225,7 @@ nowUtil.debug = function(func, msg){
 }
 
 nowUtil.print = function(msg) {
-  console.log(msg);
+  // console.log(msg);
 }
 
 nowUtil.decycle = function decycle(object, key, funcHandlers) {
