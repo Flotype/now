@@ -116,7 +116,7 @@ exports.nowCore = nowCore;
 
 nowCore.generateMultiCaller = function(fqn){
   nowUtil.debug("generateMultiCaller", fqn);
-  return function(){
+  return function multicall (){
     var outputs = {};
     for(var clientId in nowCore.scopes){
       nowUtil.debug("Multicaller", "Calling "+fqn+" on client " + clientId);
@@ -239,7 +239,6 @@ nowCore.handleDisconnection = function(client) {
 
 nowCore.constructHandleFunctionForClientScope = function(client) {
   return function(funcObj) {
-    console.log(funcObj);
     var multiCaller = nowCore.generateMultiCaller(funcObj.fqn);
     nowUtil.createVarAtFqn(funcObj.fqn, everyone.nowScope, multiCaller);
     return nowCore.constructRemoteFunction(client, funcObj.fqn);
@@ -293,7 +292,7 @@ nowCore.constructRemoteFunction = function(client, functionName){
 nowCore.constructClientScopeStore = function(client) {
 
   return {
-    set: function(key, val, callback){
+    set: function(key, val, callback, changes){
     
       nowUtil.debug("clientScopeStore", key + " => " + val);
       
@@ -305,7 +304,6 @@ nowCore.constructClientScopeStore = function(client) {
     
       client.send({type: 'replaceVar', data: {key: key, value: data[0]}});
       
-      console.log(data[1]);
       everyone.nowScope[key] = data[1];
       
       callback();  
@@ -318,40 +316,26 @@ nowCore.constructClientScopeStore = function(client) {
 }
 
 nowCore.everyoneStore = {
-  set: function(key, val, callback){
-    var newObjects = [];
-    nowUtil.debug("EveryoneSetting", key +" =>  " + val);
-    if(nowUtil.isArray(val)) {      
-      // For server scope
-      newObjects[0] = [];
-      // For client scope
-      for(var i in nowCore.scopes) {
-        newObjects.push([]);
-      }
-    } else {      
-      // For server scope
-      newObjects[0] = {};
-      // For client scope
-      for(var i in nowCore.scopes) {
-        newObjects.push({});
-      }
+  set: function(key, val, callback, changes){
+
+    nowUtil.debug("everyoneStore", key + " => " + val);
+    var scopes = [];
+    
+    // Put all relevant scopes in array so we traverse only once
+    for(var i in nowCore.scopes) {
+      scopes.push(nowCore.scopes[i]);
     }
+    scopes.push(serverScope);
     
+    nowUtil.mergeChanges(scopes, changes);
     
-    nowUtil.multiDeepCopy(newObjects, val);
     
     var data = nowUtil.decycle(val, "now."+key, [function(fqn, func){
       var multiCaller = nowCore.generateMultiCaller(fqn);
       nowUtil.createVarAtFqn(fqn, everyone.nowScope, multiCaller);
       return nowUtil.serializeFunction(fqn, func); 
     }]);
-    
-    // console.log(data);
-    
-    serverScope[key] = newObjects.pop();
-    for(var i in nowCore.scopes) {
-      nowCore.scopes[i] = newObjects.pop();
-    }
+
     
     socket.broadcast({type: 'replaceVar', data: {key: key, value: data[0]}});
     
