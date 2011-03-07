@@ -1,11 +1,7 @@
 <html> 
 <head> 
 <title>nowjs test</title> 
-
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
-
-
- 
 <script src="http://localhost:8080/nowjs/nowClientLib.js"></script>
 
 <script>
@@ -17,24 +13,17 @@ $(document).ready(function(){
   }
 
   $("#send-button").click(function(){
-    now.distributeMessage[0](name, $("#text-input").val());
+    now.distributeMessage(name, $("#text-input").val());
     $("#text-input").val("");
   });
-
+  
 });
-
 </script>
-
-
 </head> 
  
 <body> 
-
 <div id="messages"></div>
-
 <input type="text" id="text-input">
 <input type="button" value="Send" id="send-button">
-
-
 </body> 
 </html> 

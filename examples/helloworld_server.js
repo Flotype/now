@@ -7,11 +7,7 @@ var server = require('http').createServer(function(req, response){
   });
 });
 server.listen(8080);
-
 var everyone = require("../lib/nowServerLib.js").initialize(server);
 
 
-
-
-
-everyone.now.distributeMessage = [function(name, message){everyone.now.receiveMessage(name, message);}];
+everyone.now.distributeMessage = function(name, message){everyone.now.receiveMessage(name, message);};
