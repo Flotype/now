@@ -56,10 +56,10 @@ We pass in that name as well as the user's message to the `receiveMessage` funct
 The `receiveMessage` function is found in the client code. Here it is for reference:
 
     now.receiveMessage = function(name, message){
-      $("<div></div>").text(name + ": " + message).appendTo("#messages");
+      $("#messages").append("<br>" + name + ": " + message);
     }
 
-The client puts its `receiveMessage` function in its `now` pocket so the server can call it when there are new messages. All it does is create a new `div` on the page with the chat message inside it.
+The client puts its `receiveMessage` function in its `now` pocket so the server can call it when there are new messages. All it does is append the new chat message to the page.
 
 Because the client defines the `receiveMessage` function in the `now` pocket, that function also gets added to the server's `everyone.now` pocket. This way, the server can easily call every single client's `receiveMessage` function in one fell swoop. And that is exactly what the server does inside the `distributeMessage` function.
 
