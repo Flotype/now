@@ -12,10 +12,6 @@ $(document).ready(function(){
     $("<div></div>").text(name + ": " + message).appendTo("#messages");
   }
   
-  now.ready(function(){
-    console.log(JSON.stringify(now));
-  });
-
   $("#send-button").click(function(){
     now.distributeMessage(now.name, $("#text-input").val());
     $("#text-input").val("");
