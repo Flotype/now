@@ -1,28 +1,28 @@
 Now.js User Manual
-===========================
-Installing now.js is very easy. In order to get started, you'll first need to have [node.js](http://nodejs.org) and [npm](http://npmjs.org/). 
+==============
+Installing NowJS is very easy. In order to get started, you'll first need to have [node.js](http://nodejs.org) and [npm](http://npmjs.org/). 
 
 Installing
-----------
+-------------------
 At your command line, simply enter `npm install nodejs`.
 
 Setup on the server
 -------------------
-Now.js needs an instance of a node.js `httpServer` in order to communicate. If your application is already using an `httpServer`, now.js can use the existing instance. Otherwise, you will need to create one.
+NowJS needs an instance of a node.js `httpServer` in order to communicate. If your application is already using an `httpServer`, NowJS can use the existing instance. Otherwise, you will need to create one.
 
 At the top of your code, place the following: 
 `var everyone = require("nowjs").initialize(yourHttpServer);`
 
 Setup on the client
 -------------------
-On pages that you would like to use now.js on, simply include this script tag in your HTML head:
+On pages that you would like to use NowJS on, simply include this script tag in your HTML head:
 `<script src="/nowjs/nowClient.js"></script>`
 
 Now.js only works on pages that are served through the same `httpServer` instance that was passed into the `initialize` function above.
 
-Using now.js
-------------
-The secret to now.js lies in two magic objects called `now` and `everyone.now`. In the **Setup on the server** section, we created the `everyone` object. Including the script tag in **Setup on the client** automatically added the `now` object to the document's global namespace.
+Using NowJS
+-------------------
+The secret to NowJS lies in two magic objects called `now` and `everyone.now`. In the **Setup on the server** section, we created the `everyone` object. Including the script tag in **Setup on the client** automatically added the `now` object to the document's global namespace.
 
 ###The shared namespaces
 Each client has a `now` object, which is a namespace that is shared between the server and that particular client. Any variables or functions that are changed/added in this shared namespace get synced automatically to the server.
