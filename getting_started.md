@@ -5,7 +5,7 @@ Getting started with NowJS is really simple. Here we will make a simple chat ser
 Magic Pockets
 -------------
 The secret to NowJS lies in two "magic pockets", `now` and `everyone.now`. 
-The `now` object is a magic pocket that is shared between one particular client and the server. The client can put variables and functions in the `now` magic pocket and the server can freely access them. It works the other way too!
+The `now` object is a magic pocket that is shared between one particular client and the server. The client can put variables and functions in the `now` magic pocket and the server can freely access them. It works the other way around too!
 
 The server can have lots of clients connected at once. That's a lot of magic pockets to keep track of. That's why the server has the `everyone.now` magic pocket. Any variables the server changes or adds to the `everyone.now` pocket gets passed along to every client's personal `now` pocket.
 
