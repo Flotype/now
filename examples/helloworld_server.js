@@ -10,4 +10,13 @@ server.listen(8080);
 var everyone = require("../lib/nowServerLib.js").initialize(server);
 
 
+everyone.connected(function(){
+  console.log("Joined: " + this.now.name);
+});
+
+
+everyone.disconnected(function(){
+  console.log("Left: " + this.now.name);
+});
+
 everyone.now.distributeMessage = function(name, message){everyone.now.receiveMessage(name, message);};

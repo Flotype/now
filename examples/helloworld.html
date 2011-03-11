@@ -2,18 +2,22 @@
 <head> 
 <title>nowjs test</title> 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
-<script src="http://localhost:8080/nowjs/nowClientLib.js"></script>
+<script src="http://localhost:8080/nowjs/now.js"></script>
 
 <script>
 $(document).ready(function(){
   
-  var name = prompt("What's your name?", "")  
+  now.name = prompt("What's your name?", "");  
   now.receiveMessage = function(name, message){
     $("<div></div>").text(name + ": " + message).appendTo("#messages");
   }
+  
+  now.ready(function(){
+    console.log(JSON.stringify(now));
+  });
 
   $("#send-button").click(function(){
-    now.distributeMessage(name, $("#text-input").val());
+    now.distributeMessage(now.name, $("#text-input").val());
     $("#text-input").val("");
   });
   
