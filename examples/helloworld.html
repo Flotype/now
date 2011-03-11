@@ -9,7 +9,7 @@ $(document).ready(function(){
   
   now.name = prompt("What's your name?", "");  
   now.receiveMessage = function(name, message){
-    $("<div></div>").text(name + ": " + message).appendTo("#messages");
+    $("#messages").append("<br>" + name + ": " + message);
   }
   
   $("#send-button").click(function(){
