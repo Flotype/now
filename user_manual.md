@@ -21,7 +21,7 @@ Setup on the client
 On pages that you would like to use NowJS on, simply include this script tag in your HTML head:
 `<script src="/nowjs/now.js"></script>`
 
-NowJS only works on pages that are served through the same `httpServer` instance that was passed into the `initialize` function above.
+NowJS only works on pages that are served through the same http server instance that was passed into the `initialize` function above.
 
 Using NowJS
 -------------------
