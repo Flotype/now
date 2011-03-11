@@ -10,9 +10,7 @@ Setup on the server
 -------------------
 NowJS needs an instance of a node.js http server in order to communicate. If your application is already using an http server, NowJS can use the existing instance. Otherwise, you will need to create one. Here's an example server:
 
-    var yourHttpServer = require('http').createServer(function(req, response){
-      // Serve your static files
-    });
+    var yourHttpServer = require('http').createServer(function(req, response){   // Serve your static files  });
     yourHttpServer.listen(8080);
 
 At the top of your code, place the following: 
