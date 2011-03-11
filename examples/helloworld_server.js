@@ -19,4 +19,4 @@ everyone.disconnected(function(){
   console.log("Left: " + this.now.name);
 });
 
-everyone.now.distributeMessage = function(name, message){everyone.now.receiveMessage(name, message);};
+everyone.now.distributeMessage = function(message){everyone.now.receiveMessage(this.now.name, message);};
