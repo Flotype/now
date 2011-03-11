@@ -66,3 +66,7 @@ Because the client defines the `receiveMessage` function in the `now` pocket, th
 Fin
 ---
 That's all there is to building things in NowJS. Armed with this knowledge, you can build all sorts of real-time applications easily and expressively. Happy coding!
+
+Further Reading
+----------------------
+Now that you've read the Getting Started guide, try the NowJS [User Manual](http://nowjs.com/doc) and [Best Practices}(http://nowjs.com/bestpractices)
