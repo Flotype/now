@@ -40,3 +40,9 @@ When a remote machine invokes a function, the `now` namespace that is shared bet
 When you call a function inside the `everyone.now` namespace, NowJS will attempt to call the corresponding function in each connected client's `now` namespace. If the corresponding function exists, a remote function call will be made to that client. If not, a call will not be made.
 
 Setting variables inside the `everyone.now` namespace will set the same value uniformly across all clients' `now` namespaces. It is possible to also get/read values from `everyone.now`, but since clients may change the value of the variable in their own `now` namespace, the returned value is indeterminate/meaningless.
+
+Further Reading
+----------------------
+Now that you've read the User Manual guide, try the NowJS [Quick Start](http://nowjs.com/guide) and [Best Practices](http://nowjs.com/bestpractices)
+
+Have more questions? You can reach us in #nowjs on freenode
