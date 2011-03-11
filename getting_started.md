@@ -12,7 +12,7 @@ The server can have lots of clients connected at once. That's a lot of magic poc
 Building a chat server
 ----------------------
 ### TL;DR
-This is a pretty long article but the process of building a chat server is simple: the client calls the server's `distributeMessage` function with the message it wants to send. The `distributeMessage` function in turn calls all the clients' `receiveMessage` function, which takes that message and print it for your pretty little eyes.
+This is a pretty long article but the process of building a chat server is simple: the client calls the server's `distributeMessage` function with the message it wants to send. The `distributeMessage` function in turn calls all the clients' `receiveMessage` function, which takes that message and prints it.
 
 ###On the server
 For our chat program, the client should be able to tell the server to send a message to everyone else. We'll call this function `distributeMessage`. Since this function needs to run on the server, we'll put it in the server .js file.
