@@ -1,6 +1,6 @@
 Getting Started with NowJS
 ==========================
-Getting started with NowJS is really simple. Here we will make a simple chat server in just over a dozen lines of code. If you want to follow along on your own computer, download the two source files [here](http://google.com).
+Getting started with NowJS is really simple. Here we will make a simple chat server in just over a dozen lines of code. If you want to follow along on your own computer, download the two source files [here](https://github.com/downloads/Flotype/now/chat-example.tgz).
 
 Magic Pockets
 -------------
