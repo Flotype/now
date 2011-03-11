@@ -11,6 +11,9 @@ The server can have lots of clients connected at once. That's a lot of magic poc
 
 Building a chat server
 ----------------------
+### TL;DR
+This is a pretty long article but the process of building a chat server is simple: the client calls the server's `distributeMessage` function with the message it wants to send. The `distributeMessage` function in turn calls all the clients' `receiveMessage` function, which takes that message and print it for your pretty little eyes.
+
 ###On the server
 For our chat program, the client should be able to tell the server to send a message to everyone else. We'll call this function `distributeMessage`. Since this function needs to run on the server, we'll put it in the server .js file.
 
@@ -59,3 +62,7 @@ The `receiveMessage` function is found in the client code. Here it is for refere
 The client puts its `receiveMessage` function in its `now` pocket so the server can call it when there are new messages. All it does is create a new `div` on the page with the chat message inside it.
 
 Because the client defines the `receiveMessage` function in the `now` pocket, that function also gets added to the server's `everyone.now` pocket. This way, the server can easily call every single client's `receiveMessage` function in one fell swoop. And that is exactly what the server does inside the `distributeMessage` function.
+
+Fin
+---
+That's all there is to building things in NowJS. Armed with this knowledge, you can build all sorts of real-time applications easily and expressively. Happy coding!
