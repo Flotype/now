@@ -8,17 +8,20 @@ At your command line, simply enter `npm install nodejs`.
 
 Setup on the server
 -------------------
-NowJS needs an instance of a node.js `httpServer` in order to communicate. If your application is already using an `httpServer`, NowJS can use the existing instance. Otherwise, you will need to create one.
+NowJS needs an instance of a node.js http server in order to communicate. If your application is already using an http server, NowJS can use the existing instance. Otherwise, you will need to create one. Here's an example server:
+
+    var yourHttpServer = require('http').createServer(function(req, response){ /* Serve your static files */ });
+    yourHttpServer.listen(8080);
 
 At the top of your code, place the following: 
-`var everyone = require("nowjs").initialize(yourHttpServer);`
+`var everyone = require("now").initialize(yourHttpServer);`
 
 Setup on the client
 -------------------
 On pages that you would like to use NowJS on, simply include this script tag in your HTML head:
-`<script src="/nowjs/nowClient.js"></script>`
+`<script src="/nowjs/now.js"></script>`
 
-NowJS only works on pages that are served through the same `httpServer` instance that was passed into the `initialize` function above.
+NowJS only works on pages that are served through the same http server instance that was passed into the `initialize` function above.
 
 Using NowJS
 -------------------
@@ -40,3 +43,23 @@ When a remote machine invokes a function, the `now` namespace that is shared bet
 When you call a function inside the `everyone.now` namespace, NowJS will attempt to call the corresponding function in each connected client's `now` namespace. If the corresponding function exists, a remote function call will be made to that client. If not, a call will not be made.
 
 Setting variables inside the `everyone.now` namespace will set the same value uniformly across all clients' `now` namespaces. It is possible to also get/read values from `everyone.now`, but since clients may change the value of the variable in their own `now` namespace, the returned value is indeterminate/meaningless.
+
+###Client connected/disconnected events on the server
+NowJS allows you to specify a callback to be fired when a client connects or disconnects on the server. To set a listener for the events, do the following:
+
+    everyone.connected(function(){});
+    everyone.disconnected(function(){});
+
+The callbacks are run in the context of the connecting/disconnecting client's `now` namespace. This makes it easy to access information about that client for setup or setdown procedures.
+
+###Client ready event on the client
+NowJS allows you to specify a callback to be fired when the client has successfully connected to the NowJS server. To set a listener for the events, do the following:
+
+    now.ready(function(){});
+
+    
+Further Reading
+----------------------
+Now that you've read the User Manual guide, try the NowJS [Quick Start](http://nowjs.com/guide) and [Best Practices](http://nowjs.com/bestpractices)
+
+Have more questions? You can reach us in #nowjs on freenode

@@ -51,3 +51,9 @@ As described above, some amount of traversal is required to syncronize variables
 
 3. The Internet will always be slower than the local machine
 We try to make remote functions and variables as natural to use as local ones. But the reality is that the latency for any remote action is 6 orders of magnitude longer than the same action done locally. Try to execute things locally when possible.
+
+Further Reading
+----------------------
+Now that you've read the Best Practices guide, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Start](http://nowjs.com/guide)
+
+Have more questions? You can reach us in #nowjs on freenode
