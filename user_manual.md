@@ -44,7 +44,7 @@ When you call a function inside the `everyone.now` namespace, NowJS will attempt
 
 Setting variables inside the `everyone.now` namespace will set the same value uniformly across all clients' `now` namespaces. It is possible to also get/read values from `everyone.now`, but since clients may change the value of the variable in their own `now` namespace, the returned value is indeterminate/meaningless.
 
-###Client connected/disconnected events
+###Client connected/disconnected events on the server
 NowJS allows you to specify a callback to be fired when a client connects or disconnects on the server. To set a listener for the events, do the following:
 
     everyone.connected(function(){});
@@ -52,6 +52,12 @@ NowJS allows you to specify a callback to be fired when a client connects or dis
 
 The callbacks are run in the context of the connecting/disconnecting client's `now` namespace. This makes it easy to access information about that client for setup or setdown procedures.
 
+###Client ready event on the client
+NowJS allows you to specify a callback to be fired when the client has successfully connected to the NowJS server. To set a listener for the events, do the following:
+
+    now.ready(function(){});
+
+    
 Further Reading
 ----------------------
 Now that you've read the User Manual guide, try the NowJS [Quick Start](http://nowjs.com/guide) and [Best Practices](http://nowjs.com/bestpractices)
