@@ -1,0 +1,19 @@
+{
+  "name": "now",
+  "description": "An easy to use real-time RPC library",
+  "version": "0.2.1",
+  "homepage": "http://nowjs.com",
+  "repository": "git://github.com/Flotype/now.git",
+  "author": "Flotype Inc. <team@flotype.com>",
+  "main": "lib/nowServerLib.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "engines": {
+    "node": "*"
+  }, 
+  "dependencies":{
+    "socket.io": "0.6.16",
+    "node-proxy": "0.3.2"
+  }
+}
