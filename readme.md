@@ -43,6 +43,6 @@ NowJS uses the excellent socket.io and node-proxy libraries
 Further Reading
 ---------------
 
-Now that you jave NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Chat Example](http://nowjs.com/guide) 
+Now that you NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Chat Example](http://nowjs.com/guide) 
 
 Have more questions? You can reach us in #nowjs on freenode
