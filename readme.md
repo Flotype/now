@@ -33,7 +33,7 @@ NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">
 <pre><code>
 &lt;script type="text/javascript" src="http://localhost:8080/nowjs/now.js">&lt;/script>
 
-&lt;script type="text/javascript
+&lt;script type="text/javascript"&gt;
   now.ready(function(){
     // alerts "Hello World!"
     alert(now.msg);
