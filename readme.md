@@ -1,4 +1,4 @@
-﻿Get NowJS
+Get NowJS
 =========
 NowJS is a NodeJS module. The client javascript (now.js) is served by the NowJS server.
 
@@ -14,7 +14,7 @@ Install From npm
 
 
 
-NowJS uses the excellent socket.io and node-proxy libraries
+NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">socket.io</a> and <a href="https://github.com/isaacs/node-proxy">node-proxy</a> libraries and portions of <a href="https://github.com/substack/node-sesame">sesame</a>
 
 
 2 Step Setup
@@ -43,6 +43,6 @@ NowJS uses the excellent socket.io and node-proxy libraries
 Further Reading
 ---------------
 
-Now that you NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Chat Example](http://nowjs.com/guide) 
+Now that you jave NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Chat Example](http://nowjs.com/guide) 
 
 Have more questions? You can reach us in #nowjs on freenode
