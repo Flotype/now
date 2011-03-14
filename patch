@@ -1,0 +1,31 @@
+From b0a0c574b623f55c14379de3a8ab96fc99b2e092 Mon Sep 17 00:00:00 2001
+From: Graeme Worthy <graemeworthy@gmail.com>
+Date: Fri, 11 Mar 2011 22:13:42 -0800
+Subject: [PATCH] added some anglebrackets and closing quotation marks, no biggie
+
+---
+ readme.md |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/readme.md b/readme.md
+index deb47a4..36b57cf 100644
+--- a/readme.md
++++ b/readme.md
+@@ -33,7 +33,7 @@ NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">
+ <pre><code>
+ &lt;script type="text/javascript" src="http://localhost:8080/nowjs/now.js">&lt;/script>
+ 
+-&lt;script type="text/javascript
++&lt;script type="text/javascript"&gt;
+   now.ready(function(){
+     // alerts "Hello World!"
+     alert(now.msg);
+@@ -45,4 +45,4 @@ Further Reading
+ 
+ Now that you have NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Chat Example](http://nowjs.com/guide) 
+ 
+-Have more questions? You can reach us in #nowjs on freenode
+\ No newline at end of file
++Have more questions? You can reach us in #nowjs on freenode
+-- 
+1.7.0.2
