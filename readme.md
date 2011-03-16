@@ -45,13 +45,16 @@ FAQ
 -------
 
 Q: Can I pass in a callback or closure, for example, if the remote function is asynchronous??
+
 A: Yes. This is 100% supported
 
+
 Q: How do I use NowJS with [Express](https://github.com/visionmedia/express)?
+
 A: Very easily. 
     var app = express.createServer();
     app.listen(3000);
-    require("now").initialize(app);
+    var everyone = require("now").initialize(app);
 
 
 Further Reading
