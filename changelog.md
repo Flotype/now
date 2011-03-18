@@ -18,7 +18,7 @@ Performance Improvements since 0.2:
 *   Reduced per request latency; internal replacing of server/port info with actual server/port is now only done once on server startup
   
 Bug fixes since version 0.2:
-*   Safari, IE6/7/8, Android, iOS (iPhone/iPad/iPod Touch) Safari now supported
+*   Safari, IE6/7/8, Android, iOS (iPhone/iPad/iPod Touch) Safari now supported. nowUtil.js now contains a minified json2.js shim
 
 *   Rare instances when not all attributes of now on client side would be initialized is now fixed
 
