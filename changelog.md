@@ -5,11 +5,11 @@ Changes since version 0.2:
 
 *   **Breaks** Remote functions can no longer use return values. Please pass in and use a callback parameter when you need a return value from your remote call
 
-*   Internet Explorer IE6/7/8 are now supported! There is lower performance when changing the value of a variable inside now, but function calls are remote calls (pushing/pulling)is 100% realtime
+*   Internet Explorer IE6/7/8 are now supported! There is lower performance when changing the value of a variable inside now, but function calls and remote calls (pushing/pulling) is 100% realtime
 
 Performance Improvements since 0.2:
 
-*   now.js now contains nowUtil.js embedded, removing number of requests
+*   now.js now contains nowUtil.js embedded, reducing number of requests
 
 *   Static files (now.js) are now cached in memory on the server-side, reducing disk reads
 

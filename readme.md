@@ -64,5 +64,7 @@ Now that you have NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [
 
 Have more questions? Please contact us:
 Email: team@nowjs.com
+
 IRC: #nowjs on freenode
+
 Twitter: @NowJSTeam

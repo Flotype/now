@@ -37,15 +37,19 @@ Syncing variables is useful but the true power of NowJS lies in remote function 
 
 Functions that are placed in a shared namespace can be called by either the server or the client. Functions are executed on the machine on which the function was created. When calling a remote function, pass in the arguments as usual; closures and callbacks work fine. 
 
-Note that when making a remote function call, return values are ignored. Any type of value you need to return should be in a callback. 
+Note that when making a remote function call, `return` values are ignored. Any type of value you need to `return` should be in a callback. 
 Quick example:
+
     now.sayHi = function() {
       return "hi"
     }
 Should be changed to
+
     now.sayHi = function(callback) {
       callback("hi")
     }
+
+This change is because `return` is a synchronous operation while communication over the network with Node is asynchronous. Callbacks allow greater flexibility without blocking the main thread.
 
 When a remote machine invokes a function, the `now` namespace that is shared between it and the remote machine is in scope. This namespace can be accessed in the function body through the `this.now` object (i.e. `this` client's `now`). If the function is being executed on the server, the `everyone.now` namespace also remains available.
 
