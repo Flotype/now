@@ -33,7 +33,9 @@ NowJS Version 0.2
 
 Changes since version 0.1:
 *   Unified nowLib.js was split into nowClientLib.js and nowServerLib.js
+
 *   In nowServerLib.js, NowWatcher class was replaced with a Harmony Proxy implementation in proxy.js
+
 *   nowClientLib.js continues to use NowWatcher class for namespace traversal.
 
 Known Issues:
