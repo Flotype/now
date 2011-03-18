@@ -17,7 +17,6 @@ Bug fixes since version 0.2:
   * Array.isArray replaced with more flexible array check (thanks andref)
   * Changed uses of `x in y` to `.hasOwnProperty(prop)`
   * Bugs resulting in cross-port setups not working have been fixed
-  * 
 
 
 NowJS Version 0.2
