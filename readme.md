@@ -14,7 +14,7 @@ Install From npm
 
 
 
-NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">socket.io</a> and <a href="https://github.com/isaacs/node-proxy">node-proxy</a> libraries and portions of <a href="https://github.com/substack/node-sesame">sesame</a>
+NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">socket.io</a> and <a href="https://github.com/isaacs/node-proxy">node-proxy</a> libraries and portions of <a href="https://github.com/substack/node-sesame">sesame</a>. <a href="https://github.com/douglascrockford/JSON-js">json2.js</a> is integrated in nowUtil.js
 
 
 2 Step Setup
