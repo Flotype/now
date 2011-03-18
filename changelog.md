@@ -1,5 +1,5 @@
 NowJS Version 0.3
-
+---------------------------
 
 Changes since version 0.2:
 
@@ -33,6 +33,7 @@ Bug fixes since version 0.2:
 
 
 NowJS Version 0.2
+---------------------------
 
 Changes since version 0.1:
 
