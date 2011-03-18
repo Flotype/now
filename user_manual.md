@@ -43,9 +43,9 @@ Quick example:
       return "hi"
     }
 Should be changed to
-   now.sayHi = function(callback) {
-     callback("hi")
-   }
+    now.sayHi = function(callback) {
+      callback("hi")
+    }
 
 When a remote machine invokes a function, the `now` namespace that is shared between it and the remote machine is in scope. This namespace can be accessed in the function body through the `this.now` object (i.e. `this` client's `now`). If the function is being executed on the server, the `everyone.now` namespace also remains available.
 
