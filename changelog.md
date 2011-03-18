@@ -7,10 +7,6 @@ Changes since version 0.2:
 
 *   Internet Explorer IE6/7/8 are now supported! There is lower performance when changing the value of a variable inside now, but function calls are remote calls (pushing/pulling)is 100% realtime
 
-*   On the server there is now a unique clientId for each connected client. You can loop through `everyone.users` to view all connected clients
-
-*   You can use everyone.withUser(clientId, function); to run a function in the scope of a particular user, as if it were a remote call from the user with that clientId (This means in the function you pass in, you have access to this.now for the user with the clientId that you passed in)
-
 Performance Improvements since 0.2:
 
 *   now.js now contains nowUtil.js embedded, removing number of requests
