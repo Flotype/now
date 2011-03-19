@@ -4,7 +4,7 @@ Installing NowJS is very easy. In order to get started, you'll first need to hav
 
 Installing
 -------------------
-At your command line, simply enter `npm install nodejs`.
+At your command line, simply enter `npm install now`.
 
 Setup on the server
 -------------------
