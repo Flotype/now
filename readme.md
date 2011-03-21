@@ -57,7 +57,7 @@ A: Very easily.
     var everyone = require("now").initialize(app);
 
 
-**Q: Error: " SyntaxError: Unexpected token *" / Can I statically host now.js?**
+**Q: Error: " SyntaxError: Unexpected token *" / Can I statically host the now.js file?**
 
 A: On the client side, make sure you link to now.js like this
 
