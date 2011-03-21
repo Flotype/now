@@ -20,8 +20,3 @@ everyone.disconnected(function(){
 });
 
 everyone.now.distributeMessage = function(message){everyone.now.receiveMessage(this.now.name, message);};
-
-everyone.now.getData = function(callback) {
-
-callback({a: 1, b:2})
-}
