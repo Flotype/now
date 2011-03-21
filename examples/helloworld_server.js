@@ -7,7 +7,7 @@ var server = require('http').createServer(function(req, response){
   });
 });
 server.listen(8080);
-var everyone = require("../lib/nowServerLib.js").initialize(server);
+var everyone = require("now").initialize(server);
 
 
 everyone.connected(function(){
@@ -20,3 +20,8 @@ everyone.disconnected(function(){
 });
 
 everyone.now.distributeMessage = function(message){everyone.now.receiveMessage(this.now.name, message);};
+
+everyone.now.getData = function(callback) {
+
+callback({a: 1, b:2})
+}
