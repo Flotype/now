@@ -57,6 +57,14 @@ A: Very easily.
     var everyone = require("now").initialize(app);
 
 
+**Q: Error: " SyntaxError: Unexpected token *" / Can I statically host the now.js file?**
+
+A: On the client side, make sure you link to now.js like this
+
+     <script src="http://myserver:myport/nowjs/now.js"></script>
+
+You do not need to host the file /nowjs/now.js. It is automatically hosted by the NowJS using the http server you pass into the .initialize(...) in your server code. If you choose to host now.js yourself, you can, but **do not use the version in github repo** you MUST save the file at `http://myserver:myport/nowjs/now.js` and host that, because it is automatically configured for your server.
+
 Further Reading
 ---------------
 
