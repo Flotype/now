@@ -1,7 +1,7 @@
 ﻿var fs = require('fs');
 var server = require('http').createServer(function(req, response){
   fs.readFile('helloworld.html', function(err, data){
-    response.writeHead(200, {'Content-Type':'text/html'});  
+    response.writeHead(200, {'Content-Type':'text/html'}); 
     response.write(data);  
     response.end();
   });
