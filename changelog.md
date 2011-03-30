@@ -1,4 +1,4 @@
-NowJS Version 0.3
+NowJS Version 0.3 - 3/18/2011
 ---------------------------
 
 Changes since version 0.2:
@@ -28,7 +28,7 @@ Bug fixes since version 0.2:
 *   Bugs resulting in cross-port setups not working have been fixed
 
 
-NowJS Version 0.2
+NowJS Version 0.2 - 3/11/2011
 ---------------------------
 
 Changes since version 0.1:
