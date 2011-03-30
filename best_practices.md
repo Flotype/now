@@ -32,8 +32,8 @@ If your system is structured into rooms, you probably want messages to be sent t
     }
     
     everyone.now.filterBroadcast = function(message, targetRoomId){
-      if(targetRoomId == this.roomId){
-        this.now.receiveMessage(message);
+      if(targetRoomId == this.now.roomId){
+        this.now.receiveBroadcast(message);
       }
     }
     
