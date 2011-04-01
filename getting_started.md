@@ -8,7 +8,6 @@ After installing node, you'll need to grab [npm](http://npmjs.org/) (a node.js p
 
 Understanding How It Works
 --------------------------
-<<<<<<< HEAD
 NowJS creates a dropbox object called `now` which is automatically synchronized between a client (typically a browser) and a server. Client and server both share a copy of the same `now`, updated live. The server also gets a special `everyone.now` object that provides a bird's eye view and provides access to all clients simultaneously. `now` and `everyone.now` are both regular JavaScript objects, so they can host any reasonable number of child objects, including functions.
 
 NowJS is vital for simplifying communications that would otherwise require messy AJAX or socket requests. After connecting to a server, a client can access the `now` object at will and use it to store or retrieve data, or invoke server functions (and vice versa).
