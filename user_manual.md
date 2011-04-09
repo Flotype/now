@@ -77,9 +77,9 @@ Calling `require('now')` on the server returns a reference to the NowJS module o
     
     var nowjs = require('now');
     
-In NowJS < 0.5.0, it was common practice to immediately chain an `initialize` call after requiring the module, rather than storing a reference to the module object. Such code would look like this:
+In previous versions of NowJS, before 0.5.0, it was common practice to immediately chain an `initialize` call after requiring the module, rather than storing a reference to the module object. Such code would look like this:
 
-    var everyone = require('now').initialize(httpServer);
+    var everyone = require('now').initialize(httpServer);    // pre 0.5.0
 
 As of NowJS 0.5.0, it is strongly encouraged to break this up into two different calls, so that a reference to the NowJS module object can be stored, like this:
 
