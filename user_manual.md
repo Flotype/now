@@ -13,8 +13,9 @@ NowJS needs an instance of a node.js http server in order to communicate. If you
     var yourHttpServer = require('http').createServer(function(req, response){ /* Serve your static files */ });
     yourHttpServer.listen(8080);
 
-At the top of your code, place the following: 
-`var everyone = require("now").initialize(yourHttpServer);`
+Using this http server, get NowJS and use it to get a reference to the 'everyone' object.
+    var nowjs = require('now');
+    var everyone = nowjs.initialize(yourHttpServer);
 
 Setup on the client
 -------------------
@@ -77,9 +78,9 @@ Calling `require('now')` on the server returns a reference to the NowJS module o
     
     var nowjs = require('now');
     
-In NowJS < 0.5.0, it was common practice to immediately chain an `initialize` call after requiring the module, rather than storing a reference to the module object. Such code would look like this:
+In previous versions of NowJS, before 0.5.0, it was common practice to immediately chain an `initialize` call after requiring the module, rather than storing a reference to the module object. Such code would look like this:
 
-    var everyone = require('now').initialize(httpServer);
+    var everyone = require('now').initialize(httpServer);    // pre 0.5.0
 
 As of NowJS 0.5.0, it is strongly encouraged to break this up into two different calls, so that a reference to the NowJS module object can be stored, like this:
 
@@ -135,7 +136,7 @@ Takes a user's socket.io sessionId string, which is available using `this.user.c
 Takes a user's socket.io client.sessionId string, which is available using `this.user.clientId` and removes that user to the group. Throws an error if `clientId` is not a valid sessionId.
 
 ####.now
-A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group.
+A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group. For example, actions on 'fooGroup.now' affect all users in the group 'fooGroup'.
 
 
     
