@@ -13,8 +13,9 @@ NowJS needs an instance of a node.js http server in order to communicate. If you
     var yourHttpServer = require('http').createServer(function(req, response){ /* Serve your static files */ });
     yourHttpServer.listen(8080);
 
-At the top of your code, place the following: 
-`var everyone = require("now").initialize(yourHttpServer);`
+Using this http server, get NowJS and use it to get a reference to the 'everyone' object.
+    var nowjs = require('now');
+    var everyone = nowjs.initialize(yourHttpServer);
 
 Setup on the client
 -------------------
