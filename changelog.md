@@ -1,3 +1,14 @@
+NowJS Version 0.5 - 4/8/2011
+------------------------------------------
+
+Changes since 0.3:
+
+* initialize() optionally accepts options parameter.
+*  It is possible to set a custom host/port combination in now.js using `options.host` and `options.port`. This overrides the default auto-detected settings.
+*  The object set at `options.socketio` is passed to socket.io as a configuration parameter.
+* Clients can optionally be prevented from making changes to their now namespace. To enable, set the `options.clientWrite` flag to false in the options parameter to `initialize()`
+* Users can be added to groups other than `everyone`. Usage of this API is documented in the User Manual.
+
 NowJS Version 0.3 - 3/18/2011
 ---------------------------
 
