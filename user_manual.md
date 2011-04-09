@@ -96,7 +96,7 @@ Returns a reference to the `everyone` object.
 ###.getGroup(groupName)
 This method takes an arbitrary string `groupName` and returns an `ClientGroup` object whose name is `groupName`. If a group with that name was already created by a previous call to `getGroup`, that group will be returned. Otherwise, a new group will be created and returned.
 
-
+<a name="groups"></a>
 ##Groups in NowJS
 While the `everyone` object is used to perform actions on all connected clients, it is sometimes useful to be able to address a smaller subset of clients. For this reason, NowJS 0.5.0 and above exposes the groups API.
 
@@ -136,10 +136,19 @@ Takes a user's socket.io sessionId string, which is available using `this.user.c
 Takes a user's socket.io client.sessionId string, which is available using `this.user.clientId` and removes that user to the group. Throws an error if `clientId` is not a valid sessionId.
 
 ####.now
-A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group. For example, actions on 'fooGroup.now' affect all users in the group 'fooGroup'.
+A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group. For example, actions on 'fooGroup.now' from the above example affects all users in the group 'foo'.
 
+####.on
+Every group receives two events `connect` and `disconnect`. Connect is triggered when a user is added to the group. Disconnect is triggered when a user is removed from the group. These event handlers are called with one parameter, the this.user.clientId of the user that has connected or disconnected. Additionally you can also access that users this.now object (and also this.user.clientId).
 
+     everyone.on('connect', function(clientId){
+       //this.now.setup();
+     });
     
+     everyone.on('disconnect', function(clientId){
+       //this.now.destruct();
+     });
+
 Further Reading
 ----------------------
 Now that you've read the User Manual guide, try the NowJS [Quick Start](http://nowjs.com/guide) and [Best Practices](http://nowjs.com/bestpractices)
