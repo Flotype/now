@@ -70,6 +70,73 @@ The callbacks are run in the context of the connecting/disconnecting client's `n
 NowJS allows you to specify a callback to be fired when the client has successfully connected to the NowJS server. To set a listener for the events, do the following:
 
     now.ready(function(){});
+    
+##The NowJS module object
+
+Calling `require('now')` on the server returns a reference to the NowJS module object. You should store this in a variable for easy access like this:
+    
+    var nowjs = require('now');
+    
+In NowJS < 0.5.0, it was common practice to immediately chain an `initialize` call after requiring the module, rather than storing a reference to the module object. Such code would look like this:
+
+    var everyone = require('now').initialize(httpServer);
+
+As of NowJS 0.5.0, it is strongly encouraged to break this up into two different calls, so that a reference to the NowJS module object can be store, like this:
+
+    var nowjs = require('now');
+    var everyone = nowjs.initialize(httpServer);
+
+The module object exposes several methods that can be used:
+
+###.initialize(httpServer)
+The initialize function takes a Node.js http server such as the one available in the `http` module or a module like Express.
+Returns a reference to the `everyone` object.
+
+###.getGroup(groupName)
+This method takes an arbitrary string `groupName` and returns an `ClientGroup` object whose name is `groupName`. If a group with that name was already created by a previous call to `getGroup`, that group will be returned. Otherwise, a new group will be created and returned.
+
+
+##Groups in NowJS
+While the `everyone` object is perform actions on all connected clients, it is sometimes useful to be able to address a smaller subset of clients. For this reason, NowJS 0.5.0 and above exposes the groups API.
+
+A group is created or retrieved by passing a string to the `getGroup` method of the NowJS module object. Calling this method returns a group object. For example, to create a group called "foo," one would do this:
+
+    var fooGroup = nowjs.getGroup("foo");`
+
+Users can be added to a group by passing their `this.user.clientId` string to the `addUser` method of the group object. A similar call to `removeUser` will remove the user from the group. Continuing the example above, one could do this:
+
+    everyone.now.addToFooGroup = function(){
+      var fooGroup = nowjs.getGroup("foo");
+      fooGroup.addUser(this.user.clientId);
+    }
+    
+    everyone.now.removeFromGroup = function(){
+      var fooGroup = nowjs.getGroup("foo");
+      fooGroup.removeUser(this.user.clientId);
+    }
+
+The groups behave similarly to the `everyone` object explained earlier. Each group has a `now` namespace that can be used to perform actions on all members of that group. For example,
+
+    everyone.now.sendToFooGroup = function(){
+      var fooGroup = nowjs.getGroup("foo");
+      fooGroup.now.receiveMessage("Hello, members of foo group");
+    }
+
+In the above function, `receiveMessage` would be called on only users who had previously added to the group named "foo."
+
+While the `everyone` object and group objects expose similar functionality, there are subtle yet crucial differences between the way they work. For that reason, the everyone object cannot be retrived like a regular group using `getGroup`.
+It is also highly discouraged to use groups to set variables for only a subset of users, like this: `fooGroup.now.x = 3`. A discussion of this topic can be found in the Best Practices document.
+
+###The ClientGroup object
+####.addUser(clientId)
+Takes a user's socket.io sessionId string, which is available using `this.user.clientId`, and adds that user to the group. Throws an error if `clientId` is not a valid sessionId.
+
+####.removeUser(clientId)
+Takes a user's socket.io client.sessionId string, which is available using `this.user.clientId` and removes that user to the group. Throws an error if `clientId` is not a valid sessionId.
+
+####.now
+A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group.
+
 
     
 Further Reading
