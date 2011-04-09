@@ -138,8 +138,17 @@ Takes a user's socket.io client.sessionId string, which is available using `this
 ####.now
 A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group. For example, actions on 'fooGroup.now' from the above example affects all users in the group 'foo'.
 
+####.on
+Every group receives two events `connect` and `disconnect`. These event handlers are called with one parameter, the this.user.clientId of the user that has connected or disconnected. Additionally you can also access that users this.now object.
 
+     everyone.on('connect', function(clientId){
+       //this.now.setup();
+     });
     
+     everyone.on('disconnect', function(clientId){
+       //this.now.destruct();
+     });
+
 Further Reading
 ----------------------
 Now that you've read the User Manual guide, try the NowJS [Quick Start](http://nowjs.com/guide) and [Best Practices](http://nowjs.com/bestpractices)
