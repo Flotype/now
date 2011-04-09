@@ -10,6 +10,7 @@ Changes since 0.3:
 * Users can be added to groups other than `everyone`. Usage of this API is documented in the User Manual.
 
 Bug fixes since 0.3:
+
 * IE compatibility enhanced
 * Events properly handled
 
