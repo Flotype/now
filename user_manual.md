@@ -136,7 +136,7 @@ Takes a user's socket.io sessionId string, which is available using `this.user.c
 Takes a user's socket.io client.sessionId string, which is available using `this.user.clientId` and removes that user to the group. Throws an error if `clientId` is not a valid sessionId.
 
 ####.now
-A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group. For example, actions on 'fooGroup.now' affect all users in the group 'fooGroup'.
+A `now` namespace similar to `everyone.now`. Actions to this namespace affect all users that are members of the group. For example, actions on 'fooGroup.now' from the above example affects all users in the group 'foo'.
 
 
     
