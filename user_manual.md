@@ -96,7 +96,7 @@ Returns a reference to the `everyone` object.
 ###.getGroup(groupName)
 This method takes an arbitrary string `groupName` and returns an `ClientGroup` object whose name is `groupName`. If a group with that name was already created by a previous call to `getGroup`, that group will be returned. Otherwise, a new group will be created and returned.
 
-
+<a name="groups"></a>
 ##Groups in NowJS
 While the `everyone` object is used to perform actions on all connected clients, it is sometimes useful to be able to address a smaller subset of clients. For this reason, NowJS 0.5.0 and above exposes the groups API.
 
