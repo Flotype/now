@@ -81,7 +81,7 @@ In NowJS < 0.5.0, it was common practice to immediately chain an `initialize` ca
 
     var everyone = require('now').initialize(httpServer);
 
-As of NowJS 0.5.0, it is strongly encouraged to break this up into two different calls, so that a reference to the NowJS module object can be store, like this:
+As of NowJS 0.5.0, it is strongly encouraged to break this up into two different calls, so that a reference to the NowJS module object can be stored, like this:
 
     var nowjs = require('now');
     var everyone = nowjs.initialize(httpServer);
@@ -97,7 +97,7 @@ This method takes an arbitrary string `groupName` and returns an `ClientGroup` o
 
 
 ##Groups in NowJS
-While the `everyone` object is perform actions on all connected clients, it is sometimes useful to be able to address a smaller subset of clients. For this reason, NowJS 0.5.0 and above exposes the groups API.
+While the `everyone` object is used to perform actions on all connected clients, it is sometimes useful to be able to address a smaller subset of clients. For this reason, NowJS 0.5.0 and above exposes the groups API.
 
 A group is created or retrieved by passing a string to the `getGroup` method of the NowJS module object. Calling this method returns a group object. For example, to create a group called "foo," one would do this:
 
@@ -124,7 +124,7 @@ The groups behave similarly to the `everyone` object explained earlier. Each gro
 
 In the above function, `receiveMessage` would be called on only users who had previously added to the group named "foo."
 
-While the `everyone` object and group objects expose similar functionality, there are subtle yet crucial differences between the way they work. For that reason, the everyone object cannot be retrived like a regular group using `getGroup`.
+While the `everyone` object and group objects expose similar functionality, there are subtle yet crucial differences in how they work. For that reason, the everyone object cannot be retrived like a regular group using `getGroup`.
 It is also highly discouraged to use groups to set variables for only a subset of users, like this: `fooGroup.now.x = 3`. A discussion of this topic can be found in the Best Practices document.
 
 ###The ClientGroup object
