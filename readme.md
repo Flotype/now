@@ -1,6 +1,6 @@
 Get NowJS
 =========
-NowJS is a NodeJS module. The client javascript (now.js) is served by the NowJS server.
+NowJS is a Node.js module. The client javascript (now.js) is served by the NowJS server.
 
 
 <a href="https://github.com/Flotype/now/">Go to Github</a> or 
