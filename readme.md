@@ -45,7 +45,7 @@ NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">
 FAQ
 -------
 
-**Q: Can I pass in a callback or closure, for example, if the remote function is asynchronous??**
+**Q: Can I pass in a callback or closure, for example, if the remote function is asynchronous?**
 
 A: Yes. This is 100% supported
 
