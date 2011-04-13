@@ -26,7 +26,8 @@ NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">
     var httpServer = require('http').createServer(function(req, response){ /* Serve your static files */ })
     httpServer.listen(8080);
     
-    var everyone = require("now").initialize(httpServer);
+    var nowjs = require("now");
+    var everyone = nowjs.initialize(httpServer);
     everyone.now.msg = "Hello World!";
     
 **2. On the client**
