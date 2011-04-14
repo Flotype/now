@@ -1,6 +1,6 @@
 Get NowJS
 =========
-NowJS is a NodeJS module. The client javascript (now.js) is served by the NowJS server.
+NowJS is a Node.js module. The client javascript (now.js) is served by the NowJS server.
 
 
 <a href="https://github.com/Flotype/now/">Go to Github</a> or 
@@ -26,7 +26,8 @@ NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">
     var httpServer = require('http').createServer(function(req, response){ /* Serve your static files */ })
     httpServer.listen(8080);
     
-    var everyone = require("now").initialize(httpServer);
+    var nowjs = require("now");
+    var everyone = nowjs.initialize(httpServer);
     everyone.now.msg = "Hello World!";
     
 **2. On the client**
@@ -44,7 +45,7 @@ NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">
 FAQ
 -------
 
-**Q: Can I pass in a callback or closure, for example, if the remote function is asynchronous??**
+**Q: Can I pass in a callback or closure, for example, if the remote function is asynchronous?**
 
 A: Yes. This is 100% supported
 
