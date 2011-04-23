@@ -18,6 +18,18 @@ $(document).ready(function(){
   });
   
 });
+
+now.ready(function() {
+  console.log('NOW READY');
+  var operaSucksOrXHRPollingSucksOrWhat = false;
+  now.getContext(1, function(response) {
+    if (operaSucksOrXHRPollingSucksOrWhat) return;
+    operaSucksOrXHRPollingSucksOrWhat = true;
+    console.log('GOT CONTEXT', response);
+  });
+});
+
+
 </script>
 </head> 
  
