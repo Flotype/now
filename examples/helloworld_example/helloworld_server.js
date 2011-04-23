@@ -7,28 +7,17 @@ var server = require('http').createServer(function(req, response){
   });
 });
 server.listen(8080);
-var everyone = require("./../../lib/nowServerLib.js").initialize(server);
+var everyone = require("now").initialize(server);
 
-var clients = {};
 
 everyone.connected(function(){
-  console.log("Joined: " + this.now.name + "/" + everyone.count);
-  clients[this.clientId] = {now: this.now, connectedClient: true};
+  // This may show up as undefined in IE, Firefox, Safari, because alert boxes are not blocking
+  console.log("Joined: " + this.now.name);
 });
 
 
 everyone.disconnected(function(){
-  console.log("Left: " + this.now.name + "/" + everyone.count);
-  clients[this.clientId].connectedClient = false;
+  console.log("Left: " + this.now.name);
 });
 
 everyone.now.distributeMessage = function(message){everyone.now.receiveMessage(this.now.name, message);};
-
-everyone.now.try = function(){
-  clients[this.clientId].now.getContext();
-
-}
-
-everyone.now.getContext = function(id, cb){ 
-   console.log(this);
-};
