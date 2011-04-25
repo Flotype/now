@@ -11,6 +11,7 @@ var everyone = require("now").initialize(server);
 
 
 everyone.connected(function(){
+  // This may show up as undefined in IE, Firefox, Safari, because alert boxes are not blocking
   console.log("Joined: " + this.now.name);
 });
 
