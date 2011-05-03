@@ -19,8 +19,8 @@ everyone.on('connect', function(){
 
   this.now.room = defaultRoom;
 
-  if (group.distributeMessage) {
-    group.distributeMessage(this.now.name + " has joined the channel");
+  if (group.now.receiveMessage) {
+    group.now.receiveMessage("SERVER", this.now.name + " has joined the channel");
   }
   group.addUser(this.user.clientId);
 
@@ -33,10 +33,19 @@ everyone.on('disconnect', function(){
 });
 
 everyone.now.changeRoom = function(newRoom){
-  nowjs.getGroup(this.now.room).removeUser(this.user.clientId);
-  nowjs.getGroup(newRoom).addUser(this.user.clientId);
+  var group = nowjs.getGroup(this.now.room);
+  
+  group.removeUser(this.user.clientId);
+  group.now.receiveMessage("SERVER", this.now.name + " has left the room");
+
   this.now.room = newRoom;
   this.now.receiveMessage("SERVER", "You're now in " + this.now.room);
+
+  group = nowjs.getGroup(newRoom);
+  if (group.now.receiveMessage) {
+    group.now.receiveMessage("SERVER", this.now.name + " has joined the room");
+  }  
+  group.addUser(this.user.clientId);
 }
 
 everyone.now.distributeMessage = function(message){
