@@ -13,14 +13,15 @@ $(document).ready(function(){
   }
   
   $("#send-button").click(function(){
-    now.distributeMessage($("#text-input").val());
+    message = $("#text-input").val();
+    now.distributeMessage(message);
+    $("#messages").append("<br>Me: " + message);
     $("#text-input").val("");
   });
   
   $(".change").click(function(){
     now.changeRoom($(this).text());
   });
-  
 });
 </script>
 </head> 
