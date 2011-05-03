@@ -17,6 +17,7 @@ $(document).ready(function(){
     now.distributeMessage(message);
     $("#messages").append("<br>Me: " + message);
     $("#text-input").val("");
+    return false;
   });
   
   $(".change").click(function(){
