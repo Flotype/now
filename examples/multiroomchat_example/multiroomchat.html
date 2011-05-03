@@ -12,7 +12,7 @@ $(document).ready(function(){
     $("#messages").append("<br>" + name + ": " + message);
   }
   
-  $("#send-button").click(function(){
+  $("form").submit(function(){
     message = $("#text-input").val();
     now.distributeMessage(message);
     $("#messages").append("<br>Me: " + message);
@@ -35,7 +35,11 @@ $(document).ready(function(){
 </div>
 <br>
 <div id="messages"><br>You're in room 1</div>
-<input type="text" id="text-input">
-<input type="button" value="Send" id="send-button">
+    <form>
+        <p>
+            <input type="text" id="text-input">
+            <input type="button" value="Send" id="send-button">
+        </p>
+    </form>
 </body> 
 </html> 
