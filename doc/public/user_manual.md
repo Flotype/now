@@ -121,9 +121,17 @@ As of NowJS 0.5.0, it is strongly encouraged to break this up into two different
 
 The module object exposes several methods that can be used:
 
-###.initialize(httpServer)
+###.initialize(httpServer, [options])
 The initialize function takes a Node.js http server such as the one available in the `http` module or a module like Express.
 Returns a reference to the `everyone` object.
+
+You can also pass in an options object.
+Here are the currently available options and there defaults
+
+    options: {
+      clientWrite: true, // Enable syncing of changes to variables that originate from the client (browser)
+      socketio: {}   // This is the options object passed into io.listen(port, options)
+    }
 
 ###.getGroup(groupName)
 This method takes an arbitrary string `groupName` and returns an `ClientGroup` object whose name is `groupName`. If a group with that name was already created by a previous call to `getGroup`, that group will be returned. Otherwise, a new group will be created and returned.
