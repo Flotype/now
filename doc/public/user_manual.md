@@ -190,6 +190,11 @@ Every group receives two events `connect` and `disconnect`. Connect is triggered
        //this.now.destruct();
      });
 
+###.hasClient(clientId)
+*Experimental. This method may change in future versions* 
+
+Takes a clientId and returns a boolean `true` or `false` indicating whether the clientId is a member of the group
+
 ###.count
 *Experimental. This method may change in future versions* 
 
