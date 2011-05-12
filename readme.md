@@ -1,4 +1,4 @@
-Get NowJS
+Get NowJS http://www.nowjs.com/
 =========
 NowJS is a Node.js module. The client javascript (now.js) is served by the NowJS server.
 
