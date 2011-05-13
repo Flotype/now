@@ -1,22 +1,8 @@
-NowJS is hiring
+Company
 ===============
 
-#Full Time
+Based in Berkeley, California, Flotype Inc. was founded by three UC Berkeley computer science dropouts. Funded by Silicon Valley's finest angels and VCs, Flotype has created NowJS, a technology that changes the client-server communication paradigm.
 
-We're looking to hire employee #1 at NowJS. We're extremely picky. Experience designing distributed, scalable systems is a must. If you think you have the caliber to join us, shoot us an email.
+Led by a top-notch engineering and sales team, Flotype sells an enterprise-level, production ready version of NowJS that operates across a cluster of NowJS servers, scaling to hundreds of thousands of concurrent users.
 
-#Interns
-
-We're also hiring interns, flexible on the time period (summer, co-ops etc.).
-
-###Preferred Skills:
-- Node.js/Socket.io/NowJS experience
-- Strong JavaScript background
-
-###Benefits:
-- Cool project
-- Experienced, fun founders
-- Great pay (free food/swag/monitors etc.)
-- Weekly team events (kayaking, gokart, paintball etc)
-- Beautiful office in Berkeley
-- Rewarding, enjoyable summer
+For more information, email team@nowjs.com
