@@ -14,9 +14,9 @@ We're also hiring interns, flexible on the time period (summer, co-ops etc.).
 ###Strong JavaScript background
 
 ##Benefits:
-###Cool project
-###Experienced, fun founders
-###Great pay (free food/swag/monitors etc.)
-###Weekly team events (kayaking, gokart, paintball etc)
-###Beautiful office in Berkeley
-###Rewarding, enjoyable summer
+####Cool project
+####Experienced, fun founders
+####Great pay (free food/swag/monitors etc.)
+####Weekly team events (kayaking, gokart, paintball etc)
+####Beautiful office in Berkeley
+####Rewarding, enjoyable summer
