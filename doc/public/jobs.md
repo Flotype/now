@@ -10,13 +10,13 @@ We're looking to hire employee #1 at NowJS. We're extremely picky. Experience de
 We're also hiring interns, flexible on the time period (summer, co-ops etc.).
 
 ###Preferred Skills:
-Node.js/Socket.io/NowJS experience
-Strong JavaScript background
+- Node.js/Socket.io/NowJS experience
+- Strong JavaScript background
 
 ###Benefits:
-Cool project
-Experienced, fun founders
-Great pay (free food/swag/monitors etc.)
-Weekly team events (kayaking, gokart, paintball etc)
-Beautiful office in Berkeley
-Rewarding, enjoyable summer
+- Cool project
+- Experienced, fun founders
+- Great pay (free food/swag/monitors etc.)
+- Weekly team events (kayaking, gokart, paintball etc)
+- Beautiful office in Berkeley
+- Rewarding, enjoyable summer
