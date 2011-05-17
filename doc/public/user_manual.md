@@ -81,8 +81,8 @@ You can also add your own properties to `this.user` (for example, `this.user.log
 ###Client connected/disconnected events on the server
 NowJS allows you to specify a callback to be fired when a client connects or disconnects on the server. To set a listener for the events, do the following:
 
-    everyone.connected(function(){});
-    everyone.disconnected(function(){});
+    everyone.on('connect', function(){});
+    everyone.on('disconnect', function(){});
 
 The callbacks are run in the context `this.now` and `this.user`. This makes it easy to access information about that client for setup or setdown procedures.
 
