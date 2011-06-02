@@ -1,6 +1,6 @@
 {
   "name": "now",
-  "description": "An easy to use real-time RPC library",
+  "description": "NowJS: An easy to use real-time RPC library",
   "version": "0.6.0",
   "homepage": "http://nowjs.com",
   "repository": "git://github.com/Flotype/now.git",
@@ -13,7 +13,7 @@
     "node": "*"
   }, 
   "dependencies":{
-    "socket.io": "0.6.17",
+    "socket.io": "0.6.18",
     "node-proxy": "0.3.2"
   }
 }
