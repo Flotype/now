@@ -10,8 +10,7 @@ $(document).ready(function(){
   now.receiveMessage = function(name, message){
     $("#messages").append("<br>" + name + ": " + message);
   }
-  now.name = prompt("What's your name?", "");
-
+  
   $("#send-button").click(function(){
     now.distributeMessage($("#text-input").val());
     $("#text-input").val("");
@@ -20,6 +19,8 @@ $(document).ready(function(){
   $(".change").click(function(){
     now.changeRoom($(this).text());
   });
+
+  now.name = prompt("What's your name?", "");
 
 });
 </script>
