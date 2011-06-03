@@ -126,12 +126,19 @@ The initialize function takes a Node.js http server such as the one available in
 Returns a reference to the `everyone` object.
 
 You can also pass in an options object.
-Here are the currently available options and there defaults
+Here are the currently available options and their defaults
 
-    options: {
-      clientWrite: true, // Enable syncing of changes to variables that originate from the client (browser)
-      socketio: {}   // This is the options object passed into io.listen(port, options)
+    {
+      "clientWrite" : true, // Enable syncing of changes to variables that originate from the client (browser)
+      "socketio" : {},   // This is the options object passed into io.listen(port, options)
+      "autoHost" : true, // This flag enables NowJS to serve the client-side libraries using the provided httpServer
+      "host" : undefined, // Overrides the autodetected host information when autoHost is enabled. You may need to set this if the server behind a reverse proxy or other complex network setup.
+      "port" : undefined // Overrides the autodetected port information when autoHost is enabled
     }
+    
+These options may also be stored in a configuration file which NowJS will search for. Simply save your options object to a file named nowjs.json . NowJS will search for this file in your shell's current working directory. The configuration file must contain only valid JSON.
+
+NowJS will only search for a configuration file if an options object is not provided. If neither are provided, the default options will be used. If your provided options are incomplete and only a subset of options are specified, the default values will be used for the unspecified options.
 
 ###.getGroup(groupName)
 This method takes an arbitrary string `groupName` and returns an `ClientGroup` object whose name is `groupName`. If a group with that name was already created by a previous call to `getGroup`, that group will be returned. Otherwise, a new group will be created and returned.
@@ -139,11 +146,23 @@ This method takes an arbitrary string `groupName` and returns an `ClientGroup` o
 ###.getClient(clientId, function(){})
 *Experimental. This method may change in future versions* 
 
-Get client allows your to address a single client by passing its clientId as a parameter. The clientId is simply the `this.user.clientId` of the client.
+Get client allows you to address a single client by passing its clientId as a parameter. The clientId is simply the `this.user.clientId` of the client.
 The second parameter is the callback you wish to be called with the client scope.
 Inside the callback you can access `this.user` and `this.now` for the clientId given.
 
 If the clientId given does not exist, the callback is called with an `err` parameter
+
+###.generateClientLibs(serverHost, serverPort, [exportPath])
+Takes the NowJS host and port information as strings and writes the generated client-side Javascript file to exportPath (where exportPath is a valid relative or absolute filesystem path). This is useful when autoHost is disabled and you would like to host the client-side now.js file yourself.
+
+This function is not intended to be used within your main NowJS application itself. Instead, it was meant to be used in a single-purpose script that you run every time you update NowJS. Such a script could look like this:
+
+    var nowjs = require('now');
+    nowjs.generateClientLibs('localhost', 8080, '/some/path/now.js');
+    
+You may then take the generated file and minify/host it yourself.
+If no exportPath is provided, the generated source will be piped to standard output.
+
 
 <a name="groups"></a>
 ##Groups in NowJS
@@ -174,8 +193,7 @@ The groups behave similarly to the `everyone` object explained earlier. Each gro
 
 In the above function, `receiveMessage` would be called on only users who had previously added to the group named "foo."
 
-While the `everyone` object and group objects expose similar functionality, there are subtle yet crucial differences in how they work. For that reason, the everyone object cannot be retrived like a regular group using `getGroup`.
-It is also highly discouraged to use groups to set variables for only a subset of users, like this: `fooGroup.now.x = 3`. A discussion of this topic can be found in the Best Practices document.
+While the `everyone` object and group objects expose similar functionality, there are subtle yet crucial differences in how they work. It is highly discouraged to use groups to set variables for only a subset of users, like this: `fooGroup.now.x = 3`. A discussion of this topic can be found in the Best Practices document.
 
 ###Group objects
 ###.addUser(clientId)
