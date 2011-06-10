@@ -97,7 +97,7 @@ If the client loses communication with the server, a event is fired
      
     now.core.on('disconnect', function(){})
 
-In the current version of NowJS, automatic reconnects are not fully supported.
+All remote functions are deleted at this time. The client will attempt to reconnect to the server using Socket.IO's built-in capabilities, which utilizes exponential backoff.
 
 ###Accessing clientId on the client
 To access the clientId the server uses to identify client on the client side, simply access

@@ -1,5 +1,24 @@
+NowJS Version 0.6.1 - 6/10/2011
+---------------------------
+
+Changes since 0.6:
+
+* Socket.IO dependency updated to 0.6.18.
+* Reconnects implemented.
+* More bug fixes and performance increases.
+
+NowJS Version 0.6 - 5/14/2011
+---------------------------
+
+Changes since 0.5:
+
+* Socket.IO dependency updated to 0.6.17.
+* .hasClient(id) and .count added to ClientGroups.
+*  See API documentation for further information.
+* Various bug fixes and performance increases.
+
 NowJS Version 0.5 - 4/8/2011
-------------------------------------------
+---------------------------
 
 Changes since 0.3:
 
