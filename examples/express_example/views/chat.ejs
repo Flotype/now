@@ -1,0 +1,24 @@
+<h2>Chat Window</h2>
+<div id="messages"></div>
+<div style="position: absolute; bottom: 25;">
+<input type="text" id="text-input">
+<input type="button" value="Send" id="send-button">
+</div>
+
+<script>
+    $(document).ready(function(){
+
+      now.receiveMessage = function(name, message){
+        $("#messages").append("<br>" + name + ": " + message);
+      }
+
+      $("#send-button").click(function(){
+        now.distributeMessage($("#text-input").val());
+        $("#text-input").val("");
+        $("#text-input").focus();
+      });
+
+      now.name = prompt("What's your name?", "");
+
+    });
+</script>

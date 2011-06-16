@@ -1,0 +1,13 @@
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+<p>This is an example of an embedded chat window added to any site. <a href='#' id='chat'>Chat with us</a></p>
+<div id="floater" style="position: absolute; right: 0; top:0; width="25%" height="100%"></div>
+<script>
+    $(document).ready(function() {
+    $('#chat').click(function(e) {
+        e.preventDefault();
+        $('<iframe width="300px" height="100%" sandbox="allow-same-origin allow-forms allow-scripts" src="http://localhost:8080/chat"></iframe>').appendTo('#floater');
+        });
+
+    });
+</script>
