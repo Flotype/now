@@ -1,0 +1,15 @@
+{
+  "author": "Flotype",
+  "name": "now",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Flotype/now-bamf.git"
+  },
+  "main": "lib/server.js",
+  "engines": {
+    "node": "v0.4.5"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
