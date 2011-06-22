@@ -1,7 +1,7 @@
 {
   "author": "Flotype",
   "name": "now",
-  "version": "0.0.1",
+  "version": "0.7.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/Flotype/now-bamf.git"
@@ -10,6 +10,9 @@
   "engines": {
     "node": "v0.4.5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "socket.io": "0.7.2",
+    "node-proxy": "0.3.2"
+},
   "devDependencies": {}
 }
