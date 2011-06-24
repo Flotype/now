@@ -10,13 +10,39 @@ server.listen(8080);
 var nowjs = require("now");
 var everyone = nowjs.initialize(server);
 
-everyone.on("connect", function(){
+
+
+nowjs.on("connect", function(){
   console.log("Joined: " + this.now.name);
 });
 
-everyone.on("disconnect", function(){
+nowjs.on("disconnect", function(){
   console.log("Left: " + this.now.name);
 });
+
+everyone.on('join', function(){
+  console.log("joined " + this.now.name);
+});
+
+
+everyone.on('leave', function(){
+  console.log("left " + this.now.name);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 everyone.now.distributeMessage = function(message){
   everyone.now.receiveMessage(this.now.name, message);
