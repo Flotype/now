@@ -4,7 +4,7 @@
   "version": "0.7.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Flotype/now-bamf.git"
+    "url": "git://github.com/Flotype/now.git"
   },
   "main": "lib/server.js",
   "engines": {
