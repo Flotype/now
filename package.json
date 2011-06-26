@@ -8,7 +8,7 @@
   },
   "main": "lib/server.js",
   "engines": {
-    "node": "v0.4.8"
+    "node": ">= v0.4.0"
   },
   "dependencies": {
     "socket.io": "0.7.2",
