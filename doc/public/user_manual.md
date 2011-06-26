@@ -135,23 +135,6 @@ You can also add your own properties to `this.user` (for example,
 client, but they will be available wherever `this.user` is available.
 
 
-###Client connected/disconnected events on the server
-
-NowJS allows you to specify a callback to be fired when a client
-connects or disconnects on the server. To set a listener for the
-events, do the following:
-
-    everyone.on('connect', function(){});
-    everyone.on('disconnect', function(){});
-
-The callbacks are run in the context `this.now` and `this.user`. This
-makes it easy to access information about that client for setup or
-setdown procedures. Note that we provide aliases for these functions
-in the form of `everyone.connected(callback)` and
-`everyone.disconnected(callback)`. Also note that these functions are
-available for all groups and are triggered by the `addUser(clientId)`
-and `removeUser(clientId)` events.
-
 ###Client ready event on the client
 
 NowJS allows you to specify a callback to be fired when the client has
@@ -230,18 +213,9 @@ available options and their defaults:
       "socketio" : {},        // This is the options object passed into io.listen(port, options)
       "closureTimeout : 30000 // This specifies how long before references to callbacks expire.
     }
-    
-These options may also be stored in a configuration file which NowJS
-will search for. Simply save your options object to a file named
-nowjs.json . NowJS will search for this file in your shell's current
-working directory. The configuration file must contain only valid
-JSON.
 
-NowJS will only search for a configuration file if an options object
-is not provided. If neither are provided, the default options will be
-used. If your provided options are incomplete and only a subset of
-options are specified, the default values will be used for the
-unspecified options.
+If the options object is incomplete, the default values will be used
+in place of any missing options.
 
 ###.getGroup(groupName)
 
@@ -260,28 +234,20 @@ callback you can access `this.user` and `this.now` for the clientId
 given.
 
 If the clientId given does not exist, the callback is called with an
-`err` parameter
+`err` parameter.
 
-###.generateClientLibs(serverHost, serverPort, [exportPath])
+###.on('connect/disconnect', function(){})
 
-Takes the NowJS host and port information as strings and writes the
-generated client-side Javascript file to exportPath (where exportPath
-is a valid relative or absolute filesystem path). This is useful when
-autoHost is disabled and you would like to host the client-side now.js
-file yourself.
+NowJS allows you to specify a callback to be fired when a client
+connects to or disconnects from the server. To set a listener for the
+events, do the following:
 
-This function is not intended to be used within your main NowJS
-application itself. Instead, it was meant to be used in a
-single-purpose script that you run every time you update NowJS. Such a
-script could look like this:
+    nowjs.on('connect', function(){});
+    nowjs.on('disconnect', function(){});
 
-    var nowjs = require('now');
-    nowjs.generateClientLibs('localhost', 8080, '/some/path/now.js');
-    
-You may then take the generated file and minify/host it yourself.  If
-no exportPath is provided, the generated source will be piped to
-standard output.
-
+The callbacks are run in the context `this.now` and `this.user`. This
+makes it easy to access information about that client for setup or
+setdown procedures.
 
 <a name="groups"></a>
 ##Groups in NowJS
@@ -353,8 +319,8 @@ referenced user is not in the group in question.
 
 A `now` namespace similar to `everyone.now`. Actions to this namespace
 affect all users that are members of the group. For example, actions
-on 'fooGroup.now' from the above example affects all users in the
-group 'foo'.
+on 'fooGroup.now' from the above example affect all users in the group
+'foo'.
 
 ###.exclude([clientId1, clientId2, ... ])
 
@@ -363,10 +329,10 @@ group identical to the calling group, except with the specified
 clients excluded. The returned group automatically updates to
 accommodate any changes made to its parent group.
 
-###.on('connect/disconnect', function(){})
+###.on('join/leave', function(){})
 
-Every group receives two events `connect` and `disconnect`. Connect is
-triggered when a user is added to the group. Disconnect is triggered
+Every group receives two events `join` and `leave`. Join is
+triggered when a user is added to the group. Leave is triggered
 when a user is removed from the group or is disconnected from the
 server. You can access that user's `this.now` and `this.user` objects
 from the callback.
@@ -379,22 +345,16 @@ from the callback.
        //this.now.destruct();
      });
 
-###.connected(function(){}), .disconnected(function () {})
+###.hasClient(clientId, callback)
 
-Aliases for `.on('connect', function () {})` and `.on('disconnect',
-function () {})`.
+Takes a clientId and calls `callback` with a boolean `true` or `false`
+indicating whether the clientId is a member of the group. Note that
+this function is now asynchronous.
 
-###.hasClient(clientId)
+###.count(callback)
 
-Takes a clientId and returns a boolean `true` or `false` indicating
-whether the clientId is a member of the group.
-
-###.count
-
-This variable is the number of users in the group. For example, to
-find the number of users in the everyone group
-
-    everyone.count; 
+Calls `callback` with the total number of users in the given
+group. Note that this is now a method, as opposed to a property.
 
 
 Further Reading
