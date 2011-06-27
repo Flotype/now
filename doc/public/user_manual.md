@@ -212,6 +212,9 @@ available options and their defaults:
 
       "socketio" : {},        // This is the options object passed into io.listen(port, options)
       "closureTimeout : 30000 // This specifies how long before references to callbacks expire.
+      "client : {},           // This specifies which options are available by default in the client-side library.
+      "scope" : "window"      // A string representing the default scope in which the now namespace will be established.
+                              // Do note that the object that this points to should already exist by the time now.js is loaded.
     }
 
 If the options object is incomplete, the default values will be used
