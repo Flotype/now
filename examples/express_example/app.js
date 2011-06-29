@@ -29,7 +29,7 @@ console.log("Express server listening on port %d", app.address().port);
 
 // NowJS component
 
-var everyone = require("now").initialize(app);
+var everyone = require("../../").initialize(app);
 
 
 everyone.connected(function(){
