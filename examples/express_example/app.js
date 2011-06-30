@@ -28,16 +28,16 @@ console.log("Express server listening on port %d", app.address().port);
 
 
 // NowJS component
+var nowjs = require("now");
+var everyone = nowjs.initialize(app);
 
-var everyone = require("now").initialize(app);
 
-
-everyone.connected(function(){
+nowjs.on('connect', function(){
       console.log("Joined: " + this.now.name);
 });
 
 
-everyone.disconnected(function(){
+nowjs.on('disconnect', function(){
       console.log("Left: " + this.now.name);
 });
 
