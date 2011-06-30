@@ -31,12 +31,12 @@ console.log("Express server listening on port %d", app.address().port);
 var nowjs = require('now');
 var everyone = nowjs.initialize(app);
 
-nowjs.connected(function(){
+everyone.connected(function(){
       console.log("Joined: " + this.now.name);
 });
 
 
-nowjs.disconnected(function(){
+everyone.disconnected(function(){
       console.log("Left: " + this.now.name);
 });
 
