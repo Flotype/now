@@ -13,14 +13,14 @@ var nowjs = require("now");
 var everyone = nowjs.initialize(server);
 
 
-everyone.on('connect', function(){
+nowjs.on('connect', function(){
   this.now.room = "room 1";
   nowjs.getGroup(this.now.room).addUser(this.user.clientId);
   console.log("Joined: " + this.now.name);
 });
 
 
-everyone.on('disconnect', function(){
+nowjs.on('disconnect', function(){
   console.log("Left: " + this.now.name);
 });
 
