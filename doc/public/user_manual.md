@@ -207,14 +207,17 @@ available options and their defaults:
     {
       "clientWrite" : true,   // Enable syncing of changes to variables that originate from the client (browser)
       "autoHost" : true,      // This flag enables NowJS to serve the client-side libraries using the provided httpServer
-      "host" : undefined,     // Overrides the autodetected host information when autoHost is enabled. You may need to set this if the server behind a reverse proxy or other complex network setup.
-      "port" : undefined,     // Overrides the autodetected port information when autoHost is enabled
-
       "socketio" : {},        // This is the options object passed into io.listen(port, options)
       "closureTimeout : 30000 // This specifies how long before references to callbacks expire.
-      "client : {},           // This specifies which options are available by default in the client-side library.
+
+      // Options applicable when autoHost is enabled
+      "ioUri" : "",           // URI used by the client to connect to the server.  You may need to set this if the server behind a reverse proxy or other complex network setup.
+      "scriptSource" : "",    // Base URI for client-side dependencies.  The default behavior is to use relative URI.
+      "client" : {},          // This specifies which options are available by default in the client-side library.
       "scope" : "window"      // A string representing the default scope in which the now namespace will be established.
                               // Do note that the object that this points to should already exist by the time now.js is loaded.
+
+
     }
 
 If the options object is incomplete, the default values will be used
