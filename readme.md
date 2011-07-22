@@ -80,6 +80,6 @@ Now that you have NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [
 Have more questions? Please contact us:
 Email: team@nowjs.com
 
-IRC: #nowjs on freenode
+IRC: [#nowjs on freenode](http://webchat.freenode.net/?nick=nowjs.&channels=nowjs)
 
-Twitter: @NowJSTeam
+Twitter: [@NowJSTeam](http://twitter.com/nowjsteam)
