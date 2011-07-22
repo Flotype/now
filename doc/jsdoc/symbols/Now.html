@@ -57,7 +57,7 @@
 		
 		Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 		Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
-		Generated on: 2011-6-21 15:12
+		Generated on: 2011-6-22 12:26
 	</div>
 </div>
 
@@ -141,8 +141,8 @@
 									<td class="nameDescription">
 										<div class="fixedFont"><b><a href="../symbols/Now.html#getClient">getClient</a></b>(id, callback)
 										</div>
-										<div class="description">Retrieves a user from the given client ID and executes of several
-actions in the context of that user.</div>
+										<div class="description">Retrieves a user from the given client ID and executes
+of several actions in the context of that user.</div>
 									</td>
 								</tr>
 							
@@ -201,8 +201,8 @@ necessary.</div>
 								<td class="nameDescription">
 									<div class="fixedFont"><b><a href="../symbols/Now.html#event:connect">connect</a></b>()
 									</div>
-									<div class="description">Called in the context of a user when the server
-first receives a message from the given user.</div>
+									<div class="description">Called in the context of a user when the server first
+receives a message from the given user.</div>
 								</td>
 							</tr>
 						
@@ -310,14 +310,20 @@ members of the group specified by this function's argument.</div>
 								</div>
 								
 								<div class="description">
-									Retrieves a user from the given client ID and executes of several
-actions in the context of that user.
+									Retrieves a user from the given client ID and executes
+of several actions in the context of that user.
 									
 									
 									
 									
 								</div>
 								
+								
+									
+										<pre class="code">nowjs.getClient('1234567890' function () {
+  this.now.receiveMessage('SERVER', 'Anything is possible with NowJS.');
+});</pre>
+									
 								
 								
 								
@@ -367,6 +373,10 @@ necessary.
 								</div>
 								
 								
+									
+										<pre class="code">var new_group = nowjs.getGroup('a new group');</pre>
+									
+								
 								
 								
 									<dl class="detailList params">
@@ -399,14 +409,19 @@ necessary.
 								</div>
 								
 								<div class="description">
-									Returns a reference to the `everyone` object. The options object,
-if supplied, will be automatically merged with the default values.
+									Returns a reference to the `everyone` object. The
+options object, if supplied, will be automatically merged with the
+default values.
 									
 									
 									
 									
 								</div>
 								
+								
+									
+										<pre class="code">nowjs.initialize(server, {clientWrite: false, socketio: {'log level': 2});</pre>
+									
 								
 								
 								
@@ -463,14 +478,20 @@ run Now.</dd>
 						</div>
 						
 						<div class="description">
-							Called in the context of a user when the server
-first receives a message from the given user.
+							Called in the context of a user when the server first
+receives a message from the given user.
 							
 							
 							
 							
 						</div>
 						
+						
+							
+								<pre class="code">nowjs.on('connect', function () {
+  this.now.receiveMessage('SERVER', 'Welcome to NowJS.');
+});</pre>
+							
 						
 						
 						
@@ -499,6 +520,12 @@ disconnected from the server.
 						</div>
 						
 						
+							
+								<pre class="code">nowjs.on('disconnect, function () {
+  delete myArray[this.user.clientId];
+});</pre>
+							
+						
 						
 						
 						
@@ -525,6 +552,14 @@ the group specified by this function's argument.
 							
 						</div>
 						
+						
+							
+								<pre class="code">nowjs.on('groupdel', function (group) {
+  if (group.groupName === 'everyone') {
+    console.log('Everyone now no longer possesses ' + group.fqn);
+  }
+});</pre>
+							
 						
 						
 						
@@ -567,6 +602,14 @@ members of the group specified by this function's argument.
 						</div>
 						
 						
+							
+								<pre class="code">nowjs.on('grouprv', function (group) {
+  if (group.groupName === 'everyone') {
+    console.log('Everyone now sees ' + group.fqn + ' as ' + group.val);
+  }
+});</pre>
+							
+						
 						
 						
 							<dl class="detailList params">
@@ -607,6 +650,12 @@ value, accessible via `group.val`.</dd>
 						</div>
 						
 						
+							
+								<pre class="code">nowjs.on('newgroup', function (name) {
+  console.log('You have successfully created the group `' + name + '`');
+});</pre>
+							
+						
 						
 						
 							<dl class="detailList params">
@@ -616,7 +665,7 @@ value, accessible via `group.val`.</dd>
 										<span class="light fixedFont">{<a href="../symbols/Group.html">Group</a>}</span> <b>group</b>
 										
 									</dt>
-									<dd>The group created by Now#getGroup.</dd>
+									<dd>The group created by <a href="../symbols/Now.html#getGroup">Now#getGroup</a>.</dd>
 								
 							</dl>
 						
