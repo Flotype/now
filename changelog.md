@@ -3,14 +3,15 @@ NowJS Version 0.7.0 - 7/16/2011
 Changes since 0.6.1:
 
 * Socket.IO dependency updated to >= 0.7.
-* `group.exclude()` implemented.
+* `group.exclude()` implemented. [Usage](http://nowjs.com/jsdoc/symbols/Group.html#exclude)
 * `group.hasClient()`, `group.count` modified to be asynchronous
-  functions.
+  functions. [Usage](http://nowjs.com/jsdoc/symbols/Group.html#count)
 * Exposed more client-side events.
 * `everyone.on('join', cb)` and `everyone.on('leave', cb)` have
   replaced of `nowjs.on('connect', cb)` and `nowjs.on('disconnect', cb)`
   (and their aliases, `nowjs.connected(cb)` and `nowjs.disconnected(cb)`).
 * Even more performance increases.
+* [Added JSDoc documentation](http://nowjs.com/jsdoc/index.html)
 
 NowJS Version 0.6.1 - 6/10/2011
 ---------------------------
