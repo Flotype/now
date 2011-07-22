@@ -1,21 +1,24 @@
 Get NowJS http://www.nowjs.com/
 =========
-NowJS is a Node.js module. The client javascript (now.js) is served by the NowJS server.
+
+NowJS makes realtime web apps really easy.
 
 
 <a href="https://github.com/Flotype/now/">Go to Github</a> or 
-<a href="https://github.com/Flotype/now/tarball/master">Download the tgz</a>
+<a href="https://github.com/Flotype/now/tarball/master">Download the master tgz</a>
 
 
 Install From npm
 ----------------
 
-`npm install now`
+`npm install now` or `npm install now -g` to install globally
 
 
 
-NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">socket.io</a> and <a href="https://github.com/isaacs/node-proxy">node-proxy</a> libraries and portions of <a href="https://github.com/substack/node-sesame">sesame</a>. <a href="https://github.com/douglascrockford/JSON-js">json2.js</a> is integrated in nowUtil.js
+NowJS is a Node.js module. The client javascript (now.js) is served by the NowJS server.
 
+
+NowJS uses the excellent <a href="https://github.com/LearnBoost/Socket.IO-node">socket.io</a> and <a href="https://github.com/isaacs/node-proxy">node-proxy</a> libraries.
 
 2 Step Setup
 ==============
