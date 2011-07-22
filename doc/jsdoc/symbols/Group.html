@@ -57,7 +57,7 @@
 		
 		Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 		Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
-		Generated on: 2011-6-21 15:12
+		Generated on: 2011-6-22 12:26
 	</div>
 </div>
 
@@ -357,6 +357,27 @@ removed from the group.</div>
 					
 					
 					
+						<dl class="detailList nomargin">
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+								<dt class="heading">See:</dt>
+								
+									<dd><a href="../symbols/Now.html#getGroup">Now#getGroup</a></dd>
+								
+									<dd><a href="../symbols/Group%23now.html">Group#now</a></dd>
+								
+							
+						</dl>
+					
 				</div>
 			</div>
 		
@@ -430,6 +451,10 @@ removed from the group.</div>
 									
 								</div>
 								
+								
+									
+										<pre class="code">everyone.addUser('1234567890');</pre>
+									
 								
 								
 								
@@ -522,6 +547,12 @@ many users it contains).
 									
 								</div>
 								
+								
+									
+										<pre class="code">everyone.count(function (ct) {
+  console.log(ct);
+});</pre>
+									
 								
 								
 								
@@ -617,6 +648,18 @@ its parent group.
 								</div>
 								
 								
+									
+										<pre class="code">everyone.now.distribute = function (msg) {
+  everyone.exclude([this.user.clientId]).now.receive(this.now.name, msg);
+};</pre>
+									
+										<pre class="code">factionOne.now.distribute = function (msg) {
+  factionTwo.getUsers(function (users) {
+    factionOne.exclude(users).now.receive(this.user.clientId, msg);
+  });
+};</pre>
+									
+								
 								
 								
 									<dl class="detailList params">
@@ -659,6 +702,12 @@ corresponding to all users in the group.
 								</div>
 								
 								
+									
+										<pre class="code">everyone.getUsers(function (users) {
+  for (var i in users) console.log(i);
+});</pre>
+									
+								
 								
 								
 									<dl class="detailList params">
@@ -674,6 +723,27 @@ corresponding to the client IDs of all users in the group.</dd>
 									</dl>
 								
 								
+								
+									<dl class="detailList nomargin">
+									
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+										
+											<dt class="heading">See:</dt>
+											
+												<dd><a href="../symbols/Now.html#getClient">Now#getClient</a></dd>
+											
+										
+									
+									</dl>
 								
 								<div class="hr"></div>
 							</li>
@@ -700,6 +770,14 @@ group.
 									
 								</div>
 								
+								
+									
+										<pre class="code">group.hasClient('1234567890', function (bool) {
+  if (bool) {
+    console.log('User is a member of `group`.');
+  }
+});</pre>
+									
 								
 								
 								
@@ -748,6 +826,10 @@ user's membership in the group.</dd>
 									
 								</div>
 								
+								
+									
+										<pre class="code">otherGroup.removeUser('1234567890');</pre>
+									
 								
 								
 								
@@ -892,6 +974,12 @@ added to the group.
 						</div>
 						
 						
+							
+								<pre class="code">everyone.on('join', function () {
+  otherGroup.addUser(this.user.clientId);
+});</pre>
+							
+						
 						
 						
 						
@@ -918,6 +1006,20 @@ removed from the group.
 							
 						</div>
 						
+						
+							
+								<pre class="code">otherGroup.on('leave', function () {
+  // Store the context, i.e. the user who has just left.
+  var self = this;
+  // Check that the user is still connected to the server.
+  everyone.hasClient(this.user.clientId, function (bool) {
+    if (bool) {
+      // Send parting words to the client.
+      this.now.receive('SERVER', 'Goodbye. I'll miss you dearly.');
+    }
+  });
+});</pre>
+							
 						
 						
 						
