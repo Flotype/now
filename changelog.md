@@ -1,3 +1,29 @@
+NowJS Version 0.7.3 - 7/26/2011
+---------------------------
+Changes since 0.7.2:
+
+* Fixed array passed in as options failing (for socket.io transports options)
+* Exclude supports passing in single clientId
+* Deletevar bug, GH #111, which prevented initializing fields in `now` to empty objects
+* Improved documentation
+
+
+NowJS Version 0.7.2 - 7/22/2011
+---------------------------
+Changes since 0.7.1:
+
+* Fix broken exclude
+
+
+NowJS Version 0.7.1 - 7/22/2011
+---------------------------
+Changes since 0.7.0:
+
+* Fix bugs in handlers for numeric group name
+* Fixed duplicate rv messages
+* Added documentation
+
+
 NowJS Version 0.7.0 - 7/16/2011
 ---------------------------
 Changes since 0.6.1:
