@@ -1,3 +1,12 @@
+NowJS Version 0.7.4 - 8/04/2011
+---------------------------
+Changes since 0.7.3:
+
+* Arrays are now handled properly on the server-side.
+* Fixed deletion of objects on the server-side.
+* Terminal non-leaf nodes are now properly synchronized and sent to clients.
+* Various other bugfixes and optimizations.
+
 NowJS Version 0.7.3 - 7/26/2011
 ---------------------------
 Changes since 0.7.2:
