@@ -24,304 +24,319 @@
 <span class='line'> 17</span>    * @see Group#now
 <span class='line'> 18</span>    */</span><span class="WHIT">
 <span class='line'> 19</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">groupName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="COMM">//all users in the group</span><span class="WHIT">
-<span class='line'> 21</span> <span class='line'> 22</span> </span><span class="WHIT">    </span><span class="NAME">this.users</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 23</span> 
-<span class='line'> 24</span> <span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">this.groupName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">groupName</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 26</span> 
-<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">this.excludes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'> 29</span>      * @name Group#now
-<span class='line'> 30</span>      * @namespace The now namespace for this particular group. Actions
-<span class='line'> 31</span>      * to this namespace affect all users that are members of the
-<span class='line'> 32</span>      * group. All functions that are called will be called in the
-<span class='line'> 33</span>      * context of each individual user in the group.
-<span class='line'> 34</span> 
-<span class='line'> 35</span>      * @example everyone.now.prop = 42;
-<span class='line'> 36</span>      * @example everyone.now.func = function () {
-<span class='line'> 37</span>      *  console.log('hello!');
-<span class='line'> 38</span>      * };
-<span class='line'> 39</span>      */</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">this.now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Proxy.wrap</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="COMM">//group scope table</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="NAME">this.scopeTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ScopeTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 43</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="COMM">// all users in the group</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">this.users</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 22</span> <span class='line'> 23</span> 
+</span><span class="WHIT">    </span><span class="NAME">this.groupName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">groupName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">this.excludes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 27</span>      * @name Group#now
+<span class='line'> 28</span>      * @namespace The now namespace for this particular group. Actions
+<span class='line'> 29</span>      * to this namespace affect all users that are members of the
+<span class='line'> 30</span>      * group. All functions that are called will be called in the
+<span class='line'> 31</span>      * context of each individual user in the group.
+<span class='line'> 32</span> 
+<span class='line'> 33</span>      * @example everyone.now.prop = 42;
+<span class='line'> 34</span>      * @example everyone.now.func = function () {
+<span class='line'> 35</span>      *  console.log('hello!');
+<span class='line'> 36</span>      * };
+<span class='line'> 37</span>      */</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">    </span><span class="NAME">this.now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Proxy.wrap</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="COMM">// group scope table</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">this.scopeTable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">ScopeTable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.__proto__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">EventEmitter.prototype</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 44</span> 
-<span class='line'> 45</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.__proto__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">EventEmitter.prototype</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 46</span> 
-<span class='line'> 47</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'> 48</span>    * @name count
-<span class='line'> 49</span>    * @function
-<span class='line'> 50</span>    * @memberOf Group#
-<span class='line'> 51</span> 
-<span class='line'> 52</span>    * @description Used to find the cardinality of the group (how
-<span class='line'> 53</span>    * many users it contains).
-<span class='line'> 54</span> 
-<span class='line'> 55</span>    * @param {Function} callback Called with a Number corresponding to
-<span class='line'> 56</span>    * the group's user count.
-<span class='line'> 57</span> 
-<span class='line'> 58</span>    * @example everyone.count(function (ct) {
-<span class='line'> 59</span>    *   console.log(ct);
-<span class='line'> 60</span>    * });
-<span class='line'> 61</span>    */</span><span class="WHIT">
-<span class='line'> 62</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 63</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 65</span> 
-<span class='line'> 66</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'> 67</span>    * @name getUsers
-<span class='line'> 68</span>    * @function
-<span class='line'> 69</span>    * @memberOf Group#
-<span class='line'> 70</span> 
-<span class='line'> 71</span>    * @description Used to retrieve a list of the client IDs
-<span class='line'> 72</span>    * corresponding to all users in the group.
-<span class='line'> 73</span> 
-<span class='line'> 74</span>    * @param {Function} callback Called with an Array of Strings
-<span class='line'> 75</span>    * corresponding to the client IDs of all users in the group.
-<span class='line'> 76</span> 
-<span class='line'> 77</span>    * @example everyone.getUsers(function (users) {
-<span class='line'> 78</span>    *   for (var i = 0; i &lt; users.length; i++) console.log(users[i]);
-<span class='line'> 79</span>    * });
-<span class='line'> 80</span> 
-<span class='line'> 81</span>    * @see nowjs#getClient
-<span class='line'> 82</span>    */</span><span class="WHIT">
-<span class='line'> 83</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.getUsers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 86</span> 
-<span class='line'> 87</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'> 88</span>    * @name connected
-<span class='line'> 89</span>    * @function
-<span class='line'> 90</span>    * @memberOf Group#
-<span class='line'> 91</span>    * @deprecated As of 0.7.0. Use nowjs:connect instead.
-<span class='line'> 92</span>    */</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.connected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 94</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.on</span><span class="PUNC">(</span><span class="STRN">'connect'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 96</span> 
-<span class='line'> 97</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'> 98</span>    * @name disconnected
-<span class='line'> 99</span>    * @function
-<span class='line'>100</span>    * @memberOf Group#
-<span class='line'>101</span>    * @deprecated As of 0.7.0. Use nowjs:disconnect instead.
-<span class='line'>102</span>    */</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.disconnected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.on</span><span class="PUNC">(</span><span class="STRN">'disconnect'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>106</span> 
-<span class='line'>107</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>108</span>    * @name addUser
-<span class='line'>109</span>    * @function
-<span class='line'>110</span>    * @memberOf Group#
-<span class='line'>111</span>    * @description Adds the user identified by clientId to this group.
-<span class='line'>112</span> 
-<span class='line'>113</span>    * @param {String} clientId The client ID associated with the target
-<span class='line'>114</span>    * user.
-<span class='line'>115</span> 
-<span class='line'>116</span>    * @example everyone.addUser('1234567890');
-<span class='line'>117</span>    */</span><span class="WHIT">
-<span class='line'>118</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.addUser</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>119</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>120</span> </span><span class="WHIT">    </span><span class="NAME">this.hasClient</span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>122</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">      </span><span class="NAME">nowjs.getClient</span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">        </span><span class="COMM">// Scoping note: `self` refers to the group, `this` refers to</span><span class="WHIT">
-<span class='line'>126</span> </span><span class="WHIT">        </span><span class="COMM">// the new client.</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">        </span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">this.user.clientId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">        </span><span class="NAME">this.groups</span><span class="PUNC">[</span><span class="NAME">self.groupName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>129</span> 
-<span class='line'>130</span> </span><span class="WHIT">        </span><span class="COMM">// Send the client any new variables that it does not already have</span><span class="WHIT">
-<span class='line'>131</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">toSend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>132</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">self.scopeTable.data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>133</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>134</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ll</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">ll</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="WHIT">          </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="WHIT">          </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.scopeTable.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">          </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">nowUtil.noop</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">Array.isArray</span><span class="PUNC">(</span><span class="NAME">val</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">              </span><span class="PUNC">!</span><span class="NAME">nowUtil.hasProperty</span><span class="PUNC">(</span><span class="NAME">this.scopeTable.data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>139</span> </span><span class="WHIT">            </span><span class="NAME">toSend</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.getValOrFqn</span><span class="PUNC">(</span><span class="NAME">val</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">          </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>142</span> 
-<span class='line'>143</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">self.isSuperGroup</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">nowUtil.isEmptyObj</span><span class="PUNC">(</span><span class="NAME">toSend</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>144</span> </span><span class="WHIT">          </span><span class="NAME">this.socket.emit</span><span class="PUNC">(</span><span class="STRN">'rv'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">toSend</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="STRN">'_events'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self._events</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>147</span> 
-<span class='line'>148</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>149</span>          * @name Group#join
-<span class='line'>150</span>          * @event
-<span class='line'>151</span>          * @description Called in the context of a user who has just been
-<span class='line'>152</span>          * added to the group.
-<span class='line'>153</span> 
-<span class='line'>154</span>          * @example everyone.on('join', function () {
-<span class='line'>155</span>          *   otherGroup.addUser(this.user.clientId);
-<span class='line'>156</span>          * });
-<span class='line'>157</span>          */</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">        </span><span class="NAME">self.emit.apply</span><span class="PUNC">(</span><span class="NAME">user</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'join'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>161</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>162</span> 
-<span class='line'>163</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>164</span>    * @name removeUser
-<span class='line'>165</span>    * @function
-<span class='line'>166</span>    * @memberOf Group#
-<span class='line'>167</span>    * @version 0.7.0
-<span class='line'>168</span>    * @description Removes the user identified by clientId from this group.
-<span class='line'>169</span> 
-<span class='line'>170</span>    * @param {String} clientId The client ID associated with the target
-<span class='line'>171</span>    * user.
-<span class='line'>172</span> 
-<span class='line'>173</span>    * @example otherGroup.removeUser('1234567890');
-<span class='line'>174</span>    */</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.removeUser</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>176</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">    </span><span class="NAME">this.hasClient</span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>178</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>180</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>181</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="STRN">'_events'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self._events</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>182</span> 
-<span class='line'>183</span> </span><span class="WHIT">      </span><span class="COMM">/**
-<span class='line'>184</span>        * @name Group#leave
-<span class='line'>185</span>        * @event
-<span class='line'>186</span>        * @version 0.7.0
-<span class='line'>187</span>        * @description Called in the context of a user who has just been
-<span class='line'>188</span>        * removed from the group.
-<span class='line'>189</span> 
-<span class='line'>190</span>        * @example otherGroup.on('leave', function () {
-<span class='line'>191</span>        *   // Store the context, i.e. the user who has just left.
-<span class='line'>192</span>        *   var self = this;
-<span class='line'>193</span>        *   // Check that the user is still connected to the server.
-<span class='line'>194</span>        *   everyone.hasClient(this.user.clientId, function (bool) {
-<span class='line'>195</span>        *     if (bool) {
-<span class='line'>196</span>        *       // Send parting words to the client.
-<span class='line'>197</span>        *       this.now.receive('SERVER', 'Goodbye. I'll miss you dearly.');
-<span class='line'>198</span>        *     }
-<span class='line'>199</span>        *   });
-<span class='line'>200</span>        * });
-<span class='line'>201</span>        */</span><span class="WHIT">
-<span class='line'>202</span> </span><span class="WHIT">      </span><span class="NAME">self.emit.apply</span><span class="PUNC">(</span><span class="NAME">user</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'leave'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>203</span> </span><span class="WHIT">      </span><span class="COMM">// Delete all remote functions that are part of this group from</span><span class="WHIT">
-<span class='line'>204</span> </span><span class="WHIT">      </span><span class="COMM">// the user.</span><span class="WHIT">
-<span class='line'>205</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fqns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">self.scopeTable.data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>206</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">fqns.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>207</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">self.scopeTable.data</span><span class="PUNC">[</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'>208</span> </span><span class="WHIT">            </span><span class="NAME">self.scopeTable.data</span><span class="PUNC">[</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">nowUtil.noop</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
-<span class='line'>209</span> </span><span class="WHIT">            </span><span class="NAME">user.scopeTable.data</span><span class="PUNC">[</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>210</span> </span><span class="WHIT">          </span><span class="COMM">// Tell the user to delete his function.</span><span class="WHIT">
-<span class='line'>211</span> </span><span class="WHIT">          </span><span class="NAME">user.deleteVar</span><span class="PUNC">(</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>212</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>213</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>214</span> </span><span class="WHIT">      </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>215</span> </span><span class="WHIT">      </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">user.groups</span><span class="PUNC">[</span><span class="NAME">self.groupName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>216</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>217</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>218</span> 
-<span class='line'>219</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>220</span>    * @memberOf Group#
-<span class='line'>221</span>    * @function
-<span class='line'>222</span>    * @name exclude
-<span class='line'>223</span>    * @version 0.7.0
-<span class='line'>224</span> 
-<span class='line'>225</span>    * @description Returns a new Group that is identical to the calling
-<span class='line'>226</span>    * group, except with the specified clients excluded. The returned
-<span class='line'>227</span>    * group automatically updates to accommodate any changes made to
-<span class='line'>228</span>    * its parent group.
-<span class='line'>229</span> 
-<span class='line'>230</span>    * @param {Array} clientIds A list of client IDs corresponding to
-<span class='line'>231</span>    * clients to exclude.
-<span class='line'>232</span> 
-<span class='line'>233</span>    * @example everyone.now.distribute = function (msg) {
-<span class='line'>234</span>    *   everyone.exclude([this.user.clientId]).now.receive(this.now.name, msg);
-<span class='line'>235</span>    * };
-<span class='line'>236</span>    * @example factionOne.now.distribute = function (msg) {
-<span class='line'>237</span>    *   factionTwo.getUsers(function (users) {
-<span class='line'>238</span>    *     factionOne.exclude(users).now.receive(this.user.clientId, msg);
-<span class='line'>239</span>    *   });
-<span class='line'>240</span>    * };
-<span class='line'>241</span> 
-<span class='line'>242</span>    * @type Group
-<span class='line'>243</span>    */</span><span class="WHIT">
-<span class='line'>244</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.exclude</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientIds</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>245</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">excludes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>246</span> </span><span class="WHIT">    </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">clientIds.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>247</span> </span><span class="WHIT">      </span><span class="NAME">excludes</span><span class="PUNC">[</span><span class="NAME">clientIds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>248</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>249</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">excludes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="NAME">this.excludes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">excludes</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>250</span> </span><span class="WHIT">    </span><span class="NAME">group.now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Proxy.wrap</span><span class="PUNC">(</span><span class="NAME">group</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>251</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>252</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>253</span> 
-<span class='line'>254</span> </span><span class="WHIT">  </span><span class="COMM">/**
-<span class='line'>255</span>    * @memberOf Group#
-<span class='line'>256</span>    * @function
-<span class='line'>257</span>    * @name hasClient
-<span class='line'>258</span> 
-<span class='line'>259</span>    * @description Used to determine a given user's membership in the
-<span class='line'>260</span>    * group.
-<span class='line'>261</span> 
-<span class='line'>262</span>    * @param {String} clientId The client ID associated with the target
-<span class='line'>263</span>    * user.
+<span class='line'> 45</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 46</span>    * @name count
+<span class='line'> 47</span>    * @function
+<span class='line'> 48</span>    * @memberOf Group#
+<span class='line'> 49</span> 
+<span class='line'> 50</span>    * @description Used to find the cardinality of the group (how
+<span class='line'> 51</span>    * many users it contains).
+<span class='line'> 52</span> 
+<span class='line'> 53</span>    * @param {Function} callback Called with a Number corresponding to
+<span class='line'> 54</span>    * the group's user count.
+<span class='line'> 55</span> 
+<span class='line'> 56</span>    * @example everyone.count(function (ct) {
+<span class='line'> 57</span>    *   console.log(ct);
+<span class='line'> 58</span>    * });
+<span class='line'> 59</span>    */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.count</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 65</span>    * @name getUsers
+<span class='line'> 66</span>    * @function
+<span class='line'> 67</span>    * @memberOf Group#
+<span class='line'> 68</span> 
+<span class='line'> 69</span>    * @description Used to retrieve a list of the client IDs
+<span class='line'> 70</span>    * corresponding to all users in the group.
+<span class='line'> 71</span> 
+<span class='line'> 72</span>    * @param {Function} callback Called with an Array of Strings
+<span class='line'> 73</span>    * corresponding to the client IDs of all users in the group.
+<span class='line'> 74</span> 
+<span class='line'> 75</span>    * @example everyone.getUsers(function (users) {
+<span class='line'> 76</span>    *   for (var i = 0; i &lt; users.length; i++) console.log(users[i]);
+<span class='line'> 77</span>    * });
+<span class='line'> 78</span> 
+<span class='line'> 79</span>    * @see nowjs#getClient
+<span class='line'> 80</span>    */</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.getUsers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> 
+<span class='line'> 85</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 86</span>    * @name connected
+<span class='line'> 87</span>    * @function
+<span class='line'> 88</span>    * @memberOf Group#
+<span class='line'> 89</span>    * @deprecated As of 0.7.0. Use nowjs:connect instead.
+<span class='line'> 90</span>    */</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.connected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.on</span><span class="PUNC">(</span><span class="STRN">'connect'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> 
+<span class='line'> 95</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'> 96</span>    * @name disconnected
+<span class='line'> 97</span>    * @function
+<span class='line'> 98</span>    * @memberOf Group#
+<span class='line'> 99</span>    * @deprecated As of 0.7.0. Use nowjs:disconnect instead.
+<span class='line'>100</span>    */</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.disconnected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.on</span><span class="PUNC">(</span><span class="STRN">'disconnect'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>106</span>    * @name addUser
+<span class='line'>107</span>    * @function
+<span class='line'>108</span>    * @memberOf Group#
+<span class='line'>109</span>    * @description Adds the user identified by clientId to this group.
+<span class='line'>110</span> 
+<span class='line'>111</span>    * @param {String} clientId The client ID associated with the target
+<span class='line'>112</span>    * user.
+<span class='line'>113</span> 
+<span class='line'>114</span>    * @example everyone.addUser('1234567890');
+<span class='line'>115</span>    */</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.addUser</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="NAME">this.hasClient</span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">self.excludes</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="NAME">self.excludes</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">      </span><span class="NAME">nowjs.getClient</span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">        </span><span class="COMM">// Scoping note: `self` refers to the group, `this` refers to</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">        </span><span class="COMM">// the new client.</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">        </span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">this.user.clientId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">        </span><span class="NAME">this.groups</span><span class="PUNC">[</span><span class="NAME">self.groupName</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">        </span><span class="COMM">// Send the client any new variables that it does not already have</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">toSend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">self.scopeTable.data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ll</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">ll</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">          </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">keys</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">          </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.scopeTable.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">          </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">nowUtil.noop</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">Array.isArray</span><span class="PUNC">(</span><span class="NAME">val</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">              </span><span class="PUNC">!</span><span class="NAME">nowUtil.hasProperty</span><span class="PUNC">(</span><span class="NAME">this.scopeTable.data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">            </span><span class="NAME">toSend</span><span class="PUNC">[</span><span class="NAME">key</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.getValOrFqn</span><span class="PUNC">(</span><span class="NAME">val</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">          </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">self.isSuperGroup</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">nowUtil.isEmptyObj</span><span class="PUNC">(</span><span class="NAME">toSend</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">          </span><span class="NAME">this.socket.emit</span><span class="PUNC">(</span><span class="STRN">'rv'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">toSend</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="STRN">'_events'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self._events</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>150</span> <span class='line'>151</span>          * @name Group#join
+<span class='line'>152</span>          * @event
+<span class='line'>153</span>          * @description Called in the context of a user who has just been
+<span class='line'>154</span>          * added to the group.
+<span class='line'>155</span> 
+<span class='line'>156</span>          * @example everyone.on('join', function () {
+<span class='line'>157</span>          *   otherGroup.addUser(this.user.clientId);
+<span class='line'>158</span>          * });
+<span class='line'>159</span>          */</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">        </span><span class="NAME">self.emit.call</span><span class="PUNC">(</span><span class="NAME">user</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'join'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> 
+<span class='line'>165</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>166</span>    * @name removeUser
+<span class='line'>167</span>    * @function
+<span class='line'>168</span>    * @memberOf Group#
+<span class='line'>169</span>    * @version 0.7.0
+<span class='line'>170</span>    * @description Removes the user identified by clientId from this group.
+<span class='line'>171</span> 
+<span class='line'>172</span>    * @param {String} clientId The client ID associated with the target
+<span class='line'>173</span>    * user.
+<span class='line'>174</span> 
+<span class='line'>175</span>    * @example otherGroup.removeUser('1234567890');
+<span class='line'>176</span>    */</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.removeUser</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">    </span><span class="NAME">this.hasClient</span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">      </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">hasClient</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="STRN">'_events'</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self._events</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">      </span><span class="COMM">/**
+<span class='line'>186</span>        * @name Group#leave
+<span class='line'>187</span>        * @event
+<span class='line'>188</span>        * @version 0.7.0
+<span class='line'>189</span>        * @description Called in the context of a user who has just been
+<span class='line'>190</span>        * removed from the group.
+<span class='line'>191</span> 
+<span class='line'>192</span>        * @example otherGroup.on('leave', function () {
+<span class='line'>193</span>        *   // Store the context, i.e. the user who has just left.
+<span class='line'>194</span>        *   var self = this;
+<span class='line'>195</span>        *   // Check that the user is still connected to the server.
+<span class='line'>196</span>        *   everyone.hasClient(this.user.clientId, function (bool) {
+<span class='line'>197</span>        *     if (bool) {
+<span class='line'>198</span>        *       // Send parting words to the client.
+<span class='line'>199</span>        *       this.now.receive('SERVER', 'Goodbye. I'll miss you dearly.');
+<span class='line'>200</span>        *     }
+<span class='line'>201</span>        *   });
+<span class='line'>202</span>        * });
+<span class='line'>203</span>        */</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">      </span><span class="NAME">self.emit.call</span><span class="PUNC">(</span><span class="NAME">user</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'leave'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">      </span><span class="COMM">// Delete all remote functions that are part of this group from</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">      </span><span class="COMM">// the user.</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fqns</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">self.scopeTable.data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">fqns.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">self.scopeTable.data</span><span class="PUNC">[</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">            </span><span class="NAME">self.scopeTable.data</span><span class="PUNC">[</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">nowUtil.noop</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">            </span><span class="NAME">user.scopeTable.data</span><span class="PUNC">[</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">          </span><span class="COMM">// Tell the user to delete his function.</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">          </span><span class="NAME">user.deleteVar</span><span class="PUNC">(</span><span class="NAME">fqns</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">      </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">      </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">user.groups</span><span class="PUNC">[</span><span class="NAME">self.groupName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> 
+<span class='line'>221</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>222</span>    * @memberOf Group#
+<span class='line'>223</span>    * @function
+<span class='line'>224</span>    * @name exclude
+<span class='line'>225</span>    * @version 0.7.0
+<span class='line'>226</span> 
+<span class='line'>227</span>    * @description Returns a new Group that is identical to the calling
+<span class='line'>228</span>    * group, except with the specified clients excluded. The returned
+<span class='line'>229</span>    * group automatically updates to accommodate any changes made to
+<span class='line'>230</span>    * its parent group.
+<span class='line'>231</span> 
+<span class='line'>232</span>    * @param {Array} clientIds A list of client IDs corresponding to
+<span class='line'>233</span>    * clients to exclude.
+<span class='line'>234</span> 
+<span class='line'>235</span>    * @example everyone.now.distribute = function (msg) {
+<span class='line'>236</span>    *   everyone.exclude([this.user.clientId]).now.receive(this.now.name, msg);
+<span class='line'>237</span>    * };
+<span class='line'>238</span>    * @example factionOne.now.distribute = function (msg) {
+<span class='line'>239</span>    *   factionTwo.getUsers(function (users) {
+<span class='line'>240</span>    *     factionOne.exclude(users).now.receive(this.user.clientId, msg);
+<span class='line'>241</span>    *   });
+<span class='line'>242</span>    * };
+<span class='line'>243</span> 
+<span class='line'>244</span>    * @type Group
+<span class='line'>245</span>    */</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.exclude</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientIds</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">excludes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">clientIds</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">      </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.exclude</span><span class="PUNC">(</span><span class="PUNC">[</span><span class="NAME">clientIds</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">      </span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">clientIds.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">        </span><span class="NAME">excludes</span><span class="PUNC">[</span><span class="NAME">clientIds</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">      </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">excludes</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="NAME">this.excludes</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">excludes</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">    </span><span class="NAME">group.now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Proxy.wrap</span><span class="PUNC">(</span><span class="NAME">group</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> 
+<span class='line'>260</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>261</span>    * @memberOf Group#
+<span class='line'>262</span>    * @function
+<span class='line'>263</span>    * @name hasClient
 <span class='line'>264</span> 
-<span class='line'>265</span>    * @param {Function} callback Called with a Boolean indicating the
-<span class='line'>266</span>    * user's membership in the group.
-<span class='line'>267</span> 
-<span class='line'>268</span>    * @example group.hasClient('1234567890', function (bool) {
-<span class='line'>269</span>    *   if (bool) {
-<span class='line'>270</span>    *     console.log('User is a member of `group`.');
-<span class='line'>271</span>    *   }
-<span class='line'>272</span>    * });
-<span class='line'>273</span>    */</span><span class="WHIT">
-<span class='line'>274</span> </span><span class="WHIT">  </span><span class="COMM">//returns boolean whether or not user is in a group</span><span class="WHIT">
-<span class='line'>275</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.hasClient</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>276</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>277</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>278</span> 
-<span class='line'>279</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.get</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>280</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.scopeTable.get</span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>281</span> </span><span class="WHIT">    </span><span class="COMM">// If this is a regular group, look in `everyone` for the value</span><span class="WHIT">
-<span class='line'>282</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.isSuperGroup</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>283</span> </span><span class="WHIT">      </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowjs.getGroup</span><span class="PUNC">(</span><span class="STRN">'everyone'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">scopeTable.get</span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>284</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>265</span>    * @description Used to determine a given user's membership in the
+<span class='line'>266</span> <span class='line'>267</span>    * group.
+<span class='line'>268</span> 
+<span class='line'>269</span>    * @param {String} clientId The client ID associated with the target
+<span class='line'>270</span>    * user.
+<span class='line'>271</span> 
+<span class='line'>272</span>    * @param {Function} callback Called with a Boolean indicating the
+<span class='line'>273</span>    * user's membership in the group.
+<span class='line'>274</span> 
+<span class='line'>275</span>    * @example group.hasClient('1234567890', function (bool) {
+<span class='line'>276</span>    *   if (bool) {
+<span class='line'>277</span>    *     console.log('User is a member of `group`.');
+<span class='line'>278</span>    *   }
+<span class='line'>279</span>    * });
+<span class='line'>280</span>    */</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.hasClient</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">clientId</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">    </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">[</span><span class="NAME">clientId</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>283</span> <span class='line'>284</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>285</span> 
-<span class='line'>286</span> </span><span class="WHIT">    </span><span class="COMM">// If this is a function, return a multicaller.</span><span class="WHIT">
-<span class='line'>287</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>288</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fqn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fqn</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>289</span> </span><span class="WHIT">      </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fn.multicall.bind</span><span class="PUNC">(</span><span class="NAME">group</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>290</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>291</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>292</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>293</span> 
-<span class='line'>294</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.deleteVar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>295</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fqn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fqn</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>296</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.emit</span><span class="PUNC">(</span><span class="STRN">'groupdel'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>297</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>298</span> 
-<span class='line'>299</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.set</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>300</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fqn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fqn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>301</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.emit</span><span class="PUNC">(</span><span class="STRN">'grouprv'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>287</span>    * @private
+<span class='line'>288</span>    */</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.get</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.scopeTable.get</span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">    </span><span class="COMM">// If this is a regular group, look in `everyone` for the value</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.isSuperGroup</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">      </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowjs.getGroup</span><span class="PUNC">(</span><span class="STRN">'everyone'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">scopeTable.get</span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> </span><span class="WHIT">    </span><span class="COMM">// If this is a function, return a multicaller.</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">      </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fqn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fqn</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">      </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">fn.multicall.bind</span><span class="PUNC">(</span><span class="NAME">group</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>302</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>303</span> 
-<span class='line'>304</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Group</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>305</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>306</span> 
-<span class='line'>307</span> </span><span class="COMM">/**
-<span class='line'>308</span>  * @name Group#connect
-<span class='line'>309</span>  * @event
-<span class='line'>310</span>  * @deprecated As of 0.7.0. Use nowjs#connect instead.
-<span class='line'>311</span>  * @description Called in the context of a user when the server
-<span class='line'>312</span>  * first receives a message from the given user.
-<span class='line'>313</span>  */</span><span class="WHIT">
-<span class='line'>314</span> 
-<span class='line'>315</span> </span><span class="COMM">/**
-<span class='line'>316</span>  * @name Group#disconnect
-<span class='line'>317</span>  * @event
-<span class='line'>318</span>  * @deprecated As of 0.7.0. Use nowjs#disconnect instead.
-<span class='line'>319</span>  * @description Called in the context of a user who has just
-<span class='line'>320</span>  * disconnected from the server.
-<span class='line'>321</span>  */</span><span class="WHIT">
-<span class='line'>322</span> </span></pre></body></html>
+<span class='line'>304</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>305</span>    * @private
+<span class='line'>306</span>    */</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.deleteVar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fqn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fqn</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.emit</span><span class="PUNC">(</span><span class="STRN">'groupdel'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>311</span> 
+<span class='line'>312</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>313</span>    * @private
+<span class='line'>314</span>    */</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">  </span><span class="NAME">Group.prototype.set</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">fqn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">fqn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fqn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">val</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">    </span><span class="NAME">nowjs.emit</span><span class="PUNC">(</span><span class="STRN">'grouprv'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span> 
+<span class='line'>320</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Group</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> 
+<span class='line'>323</span> </span><span class="COMM">/**
+<span class='line'>324</span>  * @name Group#connect
+<span class='line'>325</span>  * @event
+<span class='line'>326</span>  * @deprecated As of 0.7.0. Use nowjs#connect instead.
+<span class='line'>327</span>  * @description Called in the context of a user when the server
+<span class='line'>328</span>  * first receives a message from the given user.
+<span class='line'>329</span>  */</span><span class="WHIT">
+<span class='line'>330</span> 
+<span class='line'>331</span> </span><span class="COMM">/**
+<span class='line'>332</span>  * @name Group#disconnect
+<span class='line'>333</span>  * @event
+<span class='line'>334</span>  * @deprecated As of 0.7.0. Use nowjs#disconnect instead.
+<span class='line'>335</span>  * @description Called in the context of a user who has just
+<span class='line'>336</span>  * disconnected from the server.
+<span class='line'>337</span>  */</span><span class="WHIT">
+<span class='line'>338</span> </span></pre></body></html>
