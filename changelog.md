@@ -2,6 +2,7 @@ NowJS Version 0.7.4 - 8/04/2011
 ---------------------------
 Changes since 0.7.3:
 
+* NowJS client lib can now be used directly without modification. Use `nowInitialize('http://uri:80/', [options]);` to start a connection manually
 * Arrays are now handled properly on the server-side.
 * Fixed deletion of objects on the server-side.
 * Terminal non-leaf nodes are now properly synchronized and sent to clients.
