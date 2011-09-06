@@ -13,41 +13,12 @@ var everyone = nowjs.initialize(server);
 
 
 nowjs.on("connect", function(){
-  group.addUser(this.user.clientId);
   console.log("Joined: " + this.now.name);
 });
 
 nowjs.on("disconnect", function(){
   console.log("Left: " + this.now.name);
 });
-
-everyone.on('join', function(){
-  console.log("joined " + this.now.name);
-});
-
-
-everyone.on('leave', function(){
-  console.log("left " + this.now.name);
-});
-
-
-
-
-var group = nowjs.getGroup('x');
-
-
-everyone.now.add = function(){
-
-  group.now.x = {};
-  group.now.x.a = 1;
-  group.now.x.b = function(){console.log('hello'); everyone.now.receiveMessage('hi', 'hi')}
-}
-
-everyone.now.test = function(){group.now.x.b();};
-
-everyone.now.exclude = function(){
-  group = group.exclude(this.user.clientId);
-}
 
 
 everyone.now.distributeMessage = function(message){
