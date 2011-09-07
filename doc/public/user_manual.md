@@ -364,7 +364,7 @@ Further Reading
 ----------------------
 
 Now that you've read the User Manual guide, try the NowJS
-[Quick Start](http://nowjs.com/guide) and
-[Best Practices](http://nowjs.com/bestpractices)
+[Quick Start](http://nowjs.org/guide) and
+[Best Practices](http://nowjs.org/bestpractices)
 
 Have more questions? You can reach us in #nowjs on freenode.
