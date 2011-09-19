@@ -63,6 +63,12 @@ A: Very easily.
     app.listen(3000);
     var everyone = require("now").initialize(app);
 
+**Q: How do I disable WebSockets or only use xhr-polling?**
+
+A: You can specifiy exactly which transports to use as an initialization options as follows:
+    var nowjs = require("now");
+    var everyone = nowjs.initialize(yourHttpServer, {socketio: {transports: ['xhr-polling', 'jsonp-polling']}});
+
 
 **Q: Error: " SyntaxError: Unexpected token *" / Can I statically host the now.js file?**
 
