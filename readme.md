@@ -1,4 +1,4 @@
-Get NowJS http://www.nowjs.org/
+Get NowJS http://www.nowjs.com/
 =========
 
 ###NowJS makes realtime web apps really easy.
@@ -82,10 +82,10 @@ You do not need to host the file /nowjs/now.js. It is automatically hosted by th
 Further Reading
 ---------------
 
-Now that you have NowJS, try the NowJS [User Manual](http://nowjs.org/doc) and [Quick Chat Example](http://nowjs.org/guide) 
+Now that you have NowJS, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Chat Example](http://nowjs.com/guide) 
 
 Have more questions? Please contact us:
-Email: team@nowjs.org
+Email: team@nowjs.com
 
 IRC: [#nowjs on freenode](http://webchat.freenode.net/?nick=nowjs.&channels=nowjs)
 

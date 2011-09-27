@@ -16,6 +16,6 @@ We try to make remote functions and variables as natural to use as local ones. B
 
 Further Reading
 ----------------------
-Now that you've read the Best Practices guide, try the NowJS [User Manual](http://nowjs.org/doc) and [Quick Start](http://nowjs.org/guide)
+Now that you've read the Best Practices guide, try the NowJS [User Manual](http://nowjs.com/doc) and [Quick Start](http://nowjs.com/guide)
 
 Have more questions? You can reach us in #nowjs on freenode
