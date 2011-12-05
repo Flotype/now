@@ -1,3 +1,13 @@
+NowJS Version 0.7.6 - 11/11/2011
+---------------------------
+Changes since 0.7.5:
+* Fix to client side bug involving forceGetParentVarAtFqn
+* Fix to issue involving redeclaration of synced functions
+* Socket.io dependency at 0.8.7
+
+NowJS Version 0.7.5
+-------------------
+
 NowJS Version 0.7.4 - 8/04/2011
 ---------------------------
 Changes since 0.7.3:
