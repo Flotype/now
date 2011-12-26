@@ -5,7 +5,7 @@ var app = express.createServer();
 // Configuration
 
 app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+app.set('view engine', './ejs/lib/ejs.js');
 
 
 

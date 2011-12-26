@@ -1,0 +1,3 @@
+*.node
+src/build
+src/.lock-wscript

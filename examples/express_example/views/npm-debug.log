@@ -1,0 +1,102 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'ejs', '-g' ]
+info using npm@1.1.0-beta-4
+info using node@v0.6.6
+verbose config file /Users/zhenghaoqian/.npmrc
+verbose config file /usr/local/etc/npmrc
+verbose config file /usr/local/lib/node_modules/npm/npmrc
+verbose into /usr/local/lib [ 'ejs' ]
+verbose cache add ejs
+verbose cache add [ 'ejs', null ]
+silly cache add: name, spec, args [ undefined, 'ejs', [ 'ejs', null ] ]
+verbose parsed url { pathname: 'ejs', path: 'ejs', href: 'ejs' }
+verbose addNamed [ 'ejs', '' ]
+verbose addNamed [ null, '' ]
+silly name, range, hasData [ 'ejs', '', false ]
+verbose raw, before any munging ejs
+verbose url resolving [ 'https://registry.npmjs.org/', './ejs' ]
+verbose url resolved https://registry.npmjs.org/ejs
+verbose etag "7AWFMVWRV8J4INSIL1S2KYIKM"
+http GET https://registry.npmjs.org/ejs
+http 304 https://registry.npmjs.org/ejs
+silly get cb [ 304,
+silly get cb   { server: 'CouchDB/1.1.0 (Erlang OTP/R14B04)',
+silly get cb     etag: '"7AWFMVWRV8J4INSIL1S2KYIKM"',
+silly get cb     date: 'Sat, 24 Dec 2011 09:39:58 GMT',
+silly get cb     'content-length': '0' } ]
+verbose etag ejs from cache
+silly name, range, hasData 2 [ 'ejs', '', true ]
+silly versions [ 'ejs',
+silly versions   [ '0.0.1',
+silly versions     '0.0.2',
+silly versions     '0.0.3',
+silly versions     '0.0.4',
+silly versions     '0.1.0',
+silly versions     '0.2.0',
+silly versions     '0.2.1',
+silly versions     '0.3.0',
+silly versions     '0.3.1',
+silly versions     '0.4.0',
+silly versions     '0.4.1',
+silly versions     '0.4.2',
+silly versions     '0.4.3',
+silly versions     '0.5.0',
+silly versions     '0.6.0',
+silly versions     '0.6.1' ] ]
+verbose bin dist [ '0.6-ares1.7.5-DEV-evundefined-openssl0.9.8r-v83.6.6.14-darwin-x64-11.2.0',
+verbose bin dist   { shasum: '16ccc98eeeac166982927fa67eb3fca8865f6871',
+verbose bin dist     tarball: 'http://registry.npmjs.org/ejs/-/ejs-0.6.1.tgz' } ]
+verbose caching /Users/zhenghaoqian/.npm/ejs/0.6.1/package/package.json
+verbose loadDefaults ejs@0.6.1
+silly resolved [ { name: 'ejs',
+silly resolved     description: 'Embedded JavaScript templates',
+silly resolved     version: '0.6.1',
+silly resolved     author: { name: 'TJ Holowaychuk', email: 'tj@vision-media.ca' },
+silly resolved     keywords: [ 'template', 'engine', 'ejs' ],
+silly resolved     devDependencies: { mocha: '*' },
+silly resolved     main: './lib/ejs.js',
+silly resolved     _id: 'ejs@0.6.1',
+silly resolved     dependencies: {},
+silly resolved     engines: { node: '*' },
+silly resolved     _engineSupported: true,
+silly resolved     _npmVersion: '1.1.0-beta-4',
+silly resolved     _nodeVersion: 'v0.6.6',
+silly resolved     _defaultsLoaded: true } ]
+info into /usr/local/lib ejs@0.6.1
+info installOne ejs@0.6.1
+info unbuild /usr/local/lib/node_modules/ejs
+verbose caching /usr/local/lib/node_modules/ejs/package.json
+verbose loadDefaults ejs@0.6.1
+info preuninstall ejs@0.6.1
+info uninstall ejs@0.6.1
+verbose unbuild ejs@0.6.1 [ true,
+verbose unbuild ejs@0.6.1   '/usr/local/lib/node_modules',
+verbose unbuild ejs@0.6.1   '/usr/local/lib/node_modules' ]
+info postuninstall ejs@0.6.1
+ERR! error installing ejs@0.6.1
+info unbuild /usr/local/lib/node_modules/ejs
+verbose caching /usr/local/lib/node_modules/ejs/package.json
+verbose loadDefaults ejs@0.6.1
+info preuninstall ejs@0.6.1
+info uninstall ejs@0.6.1
+verbose unbuild ejs@0.6.1 [ true,
+verbose unbuild ejs@0.6.1   '/usr/local/lib/node_modules',
+verbose unbuild ejs@0.6.1   '/usr/local/lib/node_modules' ]
+info postuninstall ejs@0.6.1
+ERR! error rolling back ejs@0.6.1 Error: EACCES, permission denied '/usr/local/lib/node_modules/ejs/.gitmodules'
+verbose installOne cb ejs@0.6.1
+ERR! Error: EACCES, permission denied '/usr/local/lib/node_modules/ejs/.gitmodules'
+ERR! Report this *entire* log at:
+ERR!     <http://github.com/isaacs/npm/issues>
+ERR! or email it to:
+ERR!     <npm-@googlegroups.com>
+ERR! 
+ERR! System Darwin 11.2.0
+ERR! command "node" "/usr/local/bin/npm" "install" "ejs" "-g"
+ERR! cwd /Users/zhenghaoqian/Documents/Javascript/nowjs/examples/express_example/views
+ERR! node -v v0.6.6
+ERR! npm -v 1.1.0-beta-4
+ERR! path /usr/local/lib/node_modules/ejs/.gitmodules
+ERR! code EACCES
+ERR! message EACCES, permission denied '/usr/local/lib/node_modules/ejs/.gitmodules'
+verbose exit [ 1, true ]

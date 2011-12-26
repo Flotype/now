@@ -12,16 +12,35 @@ $(document).ready(function(){
   }
   
   $("#send-button").click(function(){
-    now.distributeMessage($("#text-input").val());
+    m = $('#text-input').val()
     $("#text-input").val("");
+    if (m === 'remove'){
+      now.remove('room 2');
+      //document.write("the groups is removed" + now.room);
+      return;
+    };
+   
+    now.distributeMessage(m);
   });
-
+  $("#removegroup").click(function(){
+    now.distributeMessage("moving..");
+    now.remove("room 2");  
+    now.distributeMessage("removed!");
+  });
   $(".change").click(function(){
     now.changeRoom($(this).text());
   });
 
-  now.name = prompt("What's your name?", "");
+  $(".remove").click(function(){
+    now.distributeMessage("moving..");
+    now.removeGroup("room 2");  
+    now.distributeMessage("removed!");
+  });
 
+ 
+
+  now.name = prompt("What's your name?", "");
+  
 });
 </script>
 </head>
@@ -32,10 +51,13 @@ $(document).ready(function(){
   <a href="#" class="change selected">room 1</a> -
   <a href="#" class="change">room 2</a> -
   <a href="#" class="change">room 3</a>
+  <a href="#" class="reomve">room_2</a>
+
 </div>
 <br>
 <div id="messages"><br>You're in room 1</div>
 <input type="text" id="text-input">
 <input type="button" value="Send" id="send-button">
+<input type="button" value="Remove" id="removegroup">
 </body>
 </html>

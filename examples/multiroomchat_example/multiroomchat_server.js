@@ -24,6 +24,14 @@ nowjs.on('disconnect', function(){
   console.log("Left: " + this.now.name);
 });
 
+
+everyone.now.remove = function (name){
+  
+  console.log("removing group");
+  nowjs.removeGroup(name);
+};
+
+
 everyone.now.changeRoom = function(newRoom){
   nowjs.getGroup(this.now.room).removeUser(this.user.clientId);
   nowjs.getGroup(newRoom).addUser(this.user.clientId);
@@ -31,6 +39,12 @@ everyone.now.changeRoom = function(newRoom){
   this.now.receiveMessage("SERVER", "You're now in " + this.now.room);
 }
 
+
+
 everyone.now.distributeMessage = function(message){
+  console.log(this.now.name + "says" + message);
   nowjs.getGroup(this.now.room).now.receiveMessage(this.now.name, message);
 };
+
+//directly called the removeGroup
+//nowjs.removeGroup('room 2');
