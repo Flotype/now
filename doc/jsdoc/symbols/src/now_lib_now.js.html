@@ -1,0 +1,288 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">io</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'socket.io'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fileServer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'./fileServer'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">EventEmitter</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'events'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">EventEmitter</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nowUtil</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'./nowUtil'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">nowUtil</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>  5</span> 
+<span class='line'>  6</span> </span><span class="COMM">/**
+<span class='line'>  7</span>  * @name nowjs
+<span class='line'>  8</span>  * @constructor
+<span class='line'>  9</span>  * @description The object returned by require('now').
+<span class='line'> 10</span>  */</span><span class="WHIT">
+<span class='line'> 11</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">Now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="WHIT">  </span><span class="NAME">this.closures</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> </span><span class="WHIT">  </span><span class="NAME">this.groups</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 14</span> </span><span class="WHIT">  </span><span class="NAME">this.users</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="WHIT">  </span><span class="NAME">this.options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">    </span><span class="NAME">clientWrite</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">    </span><span class="NAME">autoHost</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">    </span><span class="NAME">socketio</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="STRN">"log level"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="NAME">client</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="NAME">scope</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'window'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">    </span><span class="NAME">closureTimeout</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">30000</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="NAME">Now.prototype.__proto__</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">EventEmitter.prototype</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="NAME">Now.prototype._readConfigFile</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">  </span><span class="NAME">path</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">path</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">process.cwd</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/nowjs.json"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">  </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'fs'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">readFileSync</span><span class="PUNC">(</span><span class="NAME">path</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">parsedConf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="KEYW">try</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">      </span><span class="NAME">parsedConf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">JSON.parse</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">      </span><span class="COMM">//throw new logging.NowError("Malformed configuration file.");</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">      </span><span class="COMM">//throw e;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">parsedConf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">catch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">err</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">    </span><span class="COMM">//throw e;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">    </span><span class="COMM">//logging.log("No configuration file found");</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> </span><span class="COMM">/**
+<span class='line'> 46</span>  * @memberOf nowjs#
+<span class='line'> 47</span>  * @function
+<span class='line'> 48</span>  * @name getClient
+<span class='line'> 49</span> 
+<span class='line'> 50</span>  * @description Retrieves a user from the given client ID and executes
+<span class='line'> 51</span>  * of several actions in the context of that user.
+<span class='line'> 52</span> 
+<span class='line'> 53</span>  * @param {String} id The client ID associated with the target user.
+<span class='line'> 54</span>  * @param {Function} callback Takes no arguments. Called in the
+<span class='line'> 55</span>  * context of the user corresponding to the given id.
+<span class='line'> 56</span>  * @example nowjs.getClient('1234567890' function () {
+<span class='line'> 57</span>  *   this.now.receiveMessage('SERVER', 'Anything is possible with NowJS.');
+<span class='line'> 58</span>  * });
+<span class='line'> 59</span>  */</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="NAME">Now.prototype.getClient</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">  </span><span class="NAME">callback.apply</span><span class="PUNC">(</span><span class="NAME">this.users</span><span class="PUNC">[</span><span class="NAME">id</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="COMM">/**
+<span class='line'> 65</span>  * @memberOf nowjs#
+<span class='line'> 66</span>  * @function
+<span class='line'> 67</span>  * @name getGroups
+<span class='line'> 68</span> 
+<span class='line'> 69</span>  * @description Retrieves a list (represented in Javascript as an
+<span class='line'> 70</span>  * array) of all groups that have been created and passes it in to the
+<span class='line'> 71</span>  * supplied callback.
+<span class='line'> 72</span> 
+<span class='line'> 73</span>  * @param {Function} callback Takes one argument, an array of all
+<span class='line'> 74</span>  * groups that have been created.
+<span class='line'> 75</span> 
+<span class='line'> 76</span>  * @example nowjs.on('connect', function () {
+<span class='line'> 77</span>  *   var self = this;
+<span class='line'> 78</span>  *   getGroups(function (groups) {
+<span class='line'> 79</span>  *     nowjs.getGroup(groups[Math.floor(groups.length * Math.random())]).addUser(self);
+<span class='line'> 80</span>  *   });
+<span class='line'> 81</span>  * });
+<span class='line'> 82</span>  */</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="NAME">Now.prototype.getGroups</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">  </span><span class="NAME">callback</span><span class="PUNC">(</span><span class="NAME">Object.keys</span><span class="PUNC">(</span><span class="NAME">this.groups</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="COMM">/**
+<span class='line'> 88</span>  * @memberOf nowjs#
+<span class='line'> 89</span>  * @function
+<span class='line'> 90</span>  * @name getGroup
+<span class='line'> 91</span>  * @description Retrieves and returns a group from its name, creating it if
+<span class='line'> 92</span>  * necessary.
+<span class='line'> 93</span>  * @param {String} name The name of the group to be retrieved.
+<span class='line'> 94</span>  * @type Group
+<span class='line'> 95</span>  * @example var new_group = nowjs.getGroup('a new group');
+<span class='line'> 96</span>  */</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="NAME">Now.prototype.getGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">nowUtil.hasProperty</span><span class="PUNC">(</span><span class="NAME">this.groups</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">    </span><span class="NAME">this.groups</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">this.Group</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>101</span>      * @name nowjs#newgroup
+<span class='line'>102</span>      * @event
+<span class='line'>103</span>      * @param {Group} group The group created by {@link nowjs#getGroup}.
+<span class='line'>104</span>      * @description Called when a new group is created.
+<span class='line'>105</span>      * @example nowjs.on('newgroup', function (group) {
+<span class='line'>106</span>      *   console.log('You have successfully created the group `' + group.groupName + '`');
+<span class='line'>107</span>      * });
+<span class='line'>108</span>      */</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> </span><span class="WHIT">    </span><span class="NAME">this.emit</span><span class="PUNC">(</span><span class="STRN">'newgroup'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.groups</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.groups</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="COMM">/**
+<span class='line'>116</span>  * @memberOf nowjs#
+<span class='line'>117</span>  * @function
+<span class='line'>118</span>  * @name removeGroup
+<span class='line'>119</span>  * @description Removes all traces of a group.
+<span class='line'>120</span>  * @param {String} name The name of the group to be retrieved.
+<span class='line'>121</span>  * @type Group
+<span class='line'>122</span>  * @example var new_group = nowjs.getGroup('a new group');
+<span class='line'>123</span>  */</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="NAME">Now.prototype.removeGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">  </span><span class="COMM">/**
+<span class='line'>126</span>    * @name nowjs#removegroup
+<span class='line'>127</span>    * @event
+<span class='line'>128</span>    * @param {Group} group The group removed by {@link nowjs#getGroup}.
+<span class='line'>129</span>    * @description Called when a group is removed.
+<span class='line'>130</span>    * @example nowjs.on('removegroup', function (group) {
+<span class='line'>131</span>    *   console.log('Group `' + group.groupName + '` eliminated from existence.');
+<span class='line'>132</span>    * });
+<span class='line'>133</span>    */</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">  </span><span class="NAME">this.emit</span><span class="PUNC">(</span><span class="STRN">'removegroup'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="COMM">/**
+<span class='line'>139</span>  * @static
+<span class='line'>140</span>  * @memberOf nowjs
+<span class='line'>141</span>  * @function
+<span class='line'>142</span>  * @name initialize
+<span class='line'>143</span> 
+<span class='line'>144</span>  * @description Returns a reference to the `everyone` object. The
+<span class='line'>145</span>  * options object, if supplied, will be automatically merged with the
+<span class='line'>146</span>  * default values.
+<span class='line'>147</span> 
+<span class='line'>148</span>  * @param {httpServer} server A Node.js http server (such as the one
+<span class='line'>149</span>  * available in the http module or a module like Express) on which to
+<span class='line'>150</span>  * run Now.
+<span class='line'>151</span> 
+<span class='line'>152</span>  * @param {Object} [options={"clientWrite" : true, "autoHost" : true,
+<span class='line'>153</span>   "host" : undefined, "port" : undefined, "socketio" : {},
+<span class='line'>154</span>   "closureTimeout : 30000, "client : {},  "scope" : "window"}]
+<span class='line'>155</span> 
+<span class='line'>156</span>  * @type Group
+<span class='line'>157</span> 
+<span class='line'>158</span>  * @example nowjs.initialize(server, {clientWrite: false, socketio: {'log level': 2});
+<span class='line'>159</span>  */</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="NAME">Now.prototype.initialize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">server</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">  </span><span class="COMM">// Merge options</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">  </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">    </span><span class="NAME">nowUtil.extend</span><span class="PUNC">(</span><span class="NAME">this.options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">    </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this._readConfigFile</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">      </span><span class="NAME">nowUtil.extend</span><span class="PUNC">(</span><span class="NAME">this.options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="WHIT">  </span><span class="NAME">this.Group</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'./group'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">initialize</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">  </span><span class="NAME">this.User</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'./user'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">initialize</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">  </span><span class="NAME">this.Handlers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'./handlers'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">initialize</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">  </span><span class="NAME">this.Support</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">require</span><span class="PUNC">(</span><span class="STRN">'./support'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">initialize</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>175</span> 
+<span class='line'>176</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="WHIT">  </span><span class="NAME">fileServer.wrapServer</span><span class="PUNC">(</span><span class="NAME">server</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.options</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">  </span><span class="NAME">this.server</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">io.listen</span><span class="PUNC">(</span><span class="NAME">server</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.options.socketio</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> 
+<span class='line'>181</span> </span><span class="WHIT">  </span><span class="COMM">// Need this to be separate from clientsMap.</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">  </span><span class="NAME">this.server.sockets.on</span><span class="PUNC">(</span><span class="STRN">'connection'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">socket</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">self.User</span><span class="PUNC">(</span><span class="NAME">socket</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">    </span><span class="NAME">socket.user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.users</span><span class="PUNC">[</span><span class="NAME">socket.id</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">user</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">    </span><span class="NAME">self.getGroup</span><span class="PUNC">(</span><span class="STRN">'everyone'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addUser</span><span class="PUNC">(</span><span class="NAME">socket.id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">    </span><span class="NAME">socket.emit</span><span class="PUNC">(</span><span class="STRN">'rd'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> 
+<span class='line'>189</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">everyone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.getGroup</span><span class="PUNC">(</span><span class="STRN">'everyone'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">  </span><span class="NAME">everyone.isSuperGroup</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> 
+<span class='line'>192</span> </span><span class="WHIT">  </span><span class="COMM">// Shim for backwards compatibility.</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">  </span><span class="NAME">this.on</span><span class="PUNC">(</span><span class="STRN">'connect'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">    </span><span class="NAME">user._events</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">everyone._events</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">    </span><span class="NAME">everyone.emit.apply</span><span class="PUNC">(</span><span class="NAME">user</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'connect'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> 
+<span class='line'>199</span> </span><span class="WHIT">  </span><span class="NAME">this.on</span><span class="PUNC">(</span><span class="STRN">'disconnect'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">user</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">nowUtil.clone</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">    </span><span class="NAME">user._events</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">everyone._events</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">    </span><span class="NAME">everyone.emit.apply</span><span class="PUNC">(</span><span class="NAME">user</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'disconnect'</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">  </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> 
+<span class='line'>205</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">everyone</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> </span><span class="NAME">Now.prototype.addSupportServer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">host</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">port</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">  </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">server</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">this.Support</span><span class="PUNC">(</span><span class="NAME">host</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">port</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">  </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">server</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="NAME">exports.Now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Now</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> 
+<span class='line'>215</span> </span><span class="COMM">/**
+<span class='line'>216</span>  * @name nowjs#connect
+<span class='line'>217</span>  * @event
+<span class='line'>218</span>  * @version 0.7.0
+<span class='line'>219</span> 
+<span class='line'>220</span>  * @description Called in the context of a user when the server first
+<span class='line'>221</span>  * receives a message from the given user.
+<span class='line'>222</span> 
+<span class='line'>223</span>  * @example nowjs.on('connect', function () {
+<span class='line'>224</span>  *   this.now.receiveMessage('SERVER', 'Welcome to NowJS.');
+<span class='line'>225</span>  * });
+<span class='line'>226</span>  */</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="COMM">/**
+<span class='line'>229</span>  * @name nowjs#disconnect
+<span class='line'>230</span>  * @event
+<span class='line'>231</span>  * @version 0.7.0
+<span class='line'>232</span> 
+<span class='line'>233</span>  * @description Called in the context of a user who has just
+<span class='line'>234</span>  * disconnected from the server.
+<span class='line'>235</span> 
+<span class='line'>236</span>  * @example nowjs.on('disconnect, function () {
+<span class='line'>237</span>  *   delete myArray[this.user.clientId];
+<span class='line'>238</span>  * });
+<span class='line'>239</span>  */</span><span class="WHIT">
+<span class='line'>240</span> 
+<span class='line'>241</span> </span><span class="COMM">/**
+<span class='line'>242</span>  * @name nowjs#groupdel
+<span class='line'>243</span>  * @event
+<span class='line'>244</span>  * @version 0.7.0
+<span class='line'>245</span> 
+<span class='line'>246</span>  * @param {Group} group Actually not quite a group; this parameter
+<span class='line'>247</span>  * refers to a clone of the group in question that also carries the
+<span class='line'>248</span>  * fully qualified name (fqn) of the variable to delete. Access the
+<span class='line'>249</span>  * fqn via `group.fqn`.
+<span class='line'>250</span> 
+<span class='line'>251</span>  * @description Called when deleting a variable from all members of
+<span class='line'>252</span>  * the group specified by this function's argument.
+<span class='line'>253</span> 
+<span class='line'>254</span>  * @example nowjs.on('groupdel', function (group) {
+<span class='line'>255</span>  *   if (group.groupName === 'everyone') {
+<span class='line'>256</span>  *     console.log('Everyone now no longer possesses ' + group.fqn);
+<span class='line'>257</span>  *   }
+<span class='line'>258</span>  * });
+<span class='line'>259</span>  */</span><span class="WHIT">
+<span class='line'>260</span> 
+<span class='line'>261</span> </span><span class="COMM">/**
+<span class='line'>262</span>  * @name nowjs#grouprv
+<span class='line'>263</span>  * @event
+<span class='line'>264</span>  * @version 0.7.0
+<span class='line'>265</span> 
+<span class='line'>266</span>  * @param {Group} group Similar to {@link nowjs#groupdel}, this is also
+<span class='line'>267</span>  * a clone of the actual group. In addition to the fully qualified
+<span class='line'>268</span>  * name, this clone also possesses a serialized form of its target
+<span class='line'>269</span>  * value, accessible via `group.val`.
+<span class='line'>270</span> 
+<span class='line'>271</span>  * @description Called when replacing the value of a variable for all
+<span class='line'>272</span>  * members of the group specified by this function's argument.
+<span class='line'>273</span> 
+<span class='line'>274</span>  * @example nowjs.on('grouprv', function (group) {
+<span class='line'>275</span>  *   if (group.groupName === 'everyone') {
+<span class='line'>276</span>  *     console.log('Everyone now sees ' + group.fqn + ' as ' + group.val);
+<span class='line'>277</span>  *   }
+<span class='line'>278</span>  * });
+<span class='line'>279</span>  */</span><span class="WHIT">
+<span class='line'>280</span> 
+<span class='line'>281</span> </span></pre></body></html>
