@@ -533,7 +533,7 @@ supplied callback.
 					
 					<pre class="code">nowjs.on('connect', function () {
   var self = this;
-  getGroups(function (groups) {
+  nowjs.getGroups(function (groups) {
     nowjs.getGroup(groups[Math.floor(groups.length * Math.random())]).addUser(self);
   });
 });</pre>
