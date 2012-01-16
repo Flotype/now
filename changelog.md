@@ -1,6 +1,19 @@
+NowJS Version 0.8.0 - 1/16/2012
+---------------------------
+Changes since 0.7.6:
+
+* Client library now serves minified version by default. Pass option `debug: true` to serve unminified source
+* /bin/build.js creates minified now.js in dist folder
+* Experimental connect/express session support. Simply pass a connect or express http server in nowjs.initialize and `this.user.session` should be available. Change options `cookieKey` to specificy connect.sid key
+* Support passing in options to socket.io on client side, `nowInitialize(uri, {socketio: {/* socket.io options */}});`
+* Fix possible DoS exploit with large length argument lists
+* Node.js client for NowJS now available in /lib/nodeclient/now.js
+
+
 NowJS Version 0.7.6 - 11/11/2011
 ---------------------------
 Changes since 0.7.5:
+
 * Fix to client side bug involving forceGetParentVarAtFqn
 * Fix to issue involving redeclaration of synced functions
 * Socket.io dependency at 0.8.7
