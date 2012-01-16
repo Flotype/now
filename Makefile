@@ -1,3 +1,3 @@
 build:
-	@node ./bin/build_now.js;
+	@node ./bin/build.js;
 	
