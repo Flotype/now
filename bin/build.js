@@ -21,7 +21,6 @@ files.forEach(function (file) {
   fs.readFile(file, function (err, content) {
       
     if (err) throw err;
-    console.log("y");
     var code = content.toString();
     var ast = jsp.parse(code);
     ast = pro.ast_squeeze(ast, {make_seqs: false, dead_code: false});
@@ -34,7 +33,6 @@ files.forEach(function (file) {
       , 0
       , 'utf8'  
     );
-    console.log("z");
     
   });
 }); 
