@@ -3,7 +3,7 @@
   "author": "Flotype",
   "name": "now",
   "description": "NowJS: An easy to use real-time RPC library",
-  "version": "0.7.6",
+  "version": "0.8.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/Flotype/now.git"

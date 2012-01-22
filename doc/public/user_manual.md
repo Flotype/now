@@ -217,6 +217,10 @@ available options and their defaults:
                               // Do note that the object that this points to should already exist by the time now.js is loaded.
     }
 
+If the `client.socketio.resource` option is set it will also be used 
+for the path of the socket.io.js file. This option can be useful in 
+the case of a reverse proxy setup.
+
 If the options object is incomplete, the default values will be used
 in place of any missing options.
 
