@@ -15,13 +15,21 @@ $(document).ready(function(){
     now.distributeMessage($("#text-input").val());
     $("#text-input").val("");
   });
-
+  
   $(".change").click(function(){
     now.changeRoom($(this).text());
   });
-
+  
+  $("#text-input").keypress(function (e) {
+    if (e.which && e.which === 13) {
+      $("#send-button").click();
+      return false;
+    }
+  });
+  
   now.name = prompt("What's your name?", "");
-
+  
+  $("#text-input").focus();
 });
 </script>
 </head>

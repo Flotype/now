@@ -28,7 +28,8 @@ everyone.now.changeRoom = function(newRoom){
   nowjs.getGroup(this.now.room).removeUser(this.user.clientId);
   nowjs.getGroup(newRoom).addUser(this.user.clientId);
   this.now.room = newRoom;
-  this.now.receiveMessage("SERVER", "You're now in " + this.now.room);
+  var others = Object.keys(nowjs.getGroup(this.now.room).users).length - 1;
+  this.now.receiveMessage("SERVER", "You're now in " + this.now.room + " (" + others + " other(s) in this room).");
 }
 
 everyone.now.distributeMessage = function(message){
