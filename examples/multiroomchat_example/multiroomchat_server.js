@@ -25,11 +25,16 @@ nowjs.on('disconnect', function(){
 });
 
 everyone.now.changeRoom = function(newRoom){
+  this.now.distributeMessage("[leaving " + this.now.room + "]");
   nowjs.getGroup(this.now.room).removeUser(this.user.clientId);
   nowjs.getGroup(newRoom).addUser(this.user.clientId);
   this.now.room = newRoom;
-  var others = Object.keys(nowjs.getGroup(this.now.room).users).length - 1;
-  this.now.receiveMessage("SERVER", "You're now in " + this.now.room + " (" + others + " other(s) in this room).");
+  this.now.distributeMessage("[entering " + this.now.room + "]");
+  var that = this;
+  nowjs.getGroup(this.now.room).count(function(count){
+    var prettyCount = (count === 1) ? "Room is empty." : (count - 1) + " other(s) in room.";
+    that.now.receiveMessage("SERVER", "You're now in " + that.now.room + ". " + prettyCount);
+  });
 }
 
 everyone.now.distributeMessage = function(message){

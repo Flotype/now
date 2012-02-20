@@ -8,7 +8,7 @@
 <script>
 $(document).ready(function(){
   now.receiveMessage = function(name, message){
-    $("#messages").append("<br>" + name + ": " + message);
+    $("#messages").append("<br><b>" + name + "</b>: " + message);
   }
   
   $("#send-button").click(function(){
