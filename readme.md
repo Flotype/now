@@ -1,4 +1,4 @@
-Get NowJS http://www.nowjs.com/
+Get NowJS http://www.nowjs.org/
 =========
 
 ###NowJS makes realtime web apps really easy.
