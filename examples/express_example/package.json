@@ -1,0 +1,19 @@
+{
+  "name": "nowjs-express-example",
+  "version": "0.0.2",
+  "author": "ericz (Eric Zhang) <eric@nowjs.com>",
+  "description": "This is an example of an embedded chat window added to any site.",
+  "keywords": [
+    "nowjs",
+    "express",
+    "example"
+  ],
+  "dependencies" : {
+    "now"     :  ">=0.7",
+    "express" :  ">=2.4",
+    "ejs"     :  ">=0.5"
+  },
+  "engine": {
+    "node": ">=0.4"
+  }
+} 

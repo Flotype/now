@@ -1,0 +1,16 @@
+{
+  "name": "nowjs-helloworld-example",
+  "version": "0.0.6",
+  "author": "ericz (Eric Zhang) <eric@nowjs.com>",
+  "description": "'Hello world' example for NowJS.",
+  "keywords": [
+    "nowjs",
+    "example"
+  ],
+  "dependencies" : {
+    "now"     :  ">=0.7"
+  },
+  "engine": {
+    "node": ">=0.4"
+  }
+} 
