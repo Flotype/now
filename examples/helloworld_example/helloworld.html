@@ -16,9 +16,16 @@ $(document).ready(function(){
     $("#text-input").val("");
   });
   
-
+  $("#text-input").keypress(function (e) {
+    if (e.which && e.which === 13) {
+      $("#send-button").click();
+      return false;
+    }
+  });
+  
   now.name = prompt("What's your name?", "");
-
+  
+  $("#text-input").focus();
 });
 </script>
 </head>
