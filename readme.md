@@ -59,9 +59,10 @@ A: Yes. This is 100% supported
 **Q: How do I use NowJS with [Express](https://github.com/visionmedia/express)?**
 
 A: Very easily. 
+
     var app = express.createServer();
-    app.listen(3000);
-    var everyone = require("now").initialize(app);
+    var server = app.listen(3000);
+    var everyone = require("now").initialize(server);
 
 **Q: How do I disable WebSockets or only use xhr-polling?**
 
