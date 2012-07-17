@@ -1,44 +1,41 @@
-var express = require('express');
+var port     = 8080;
+var express  = require('express');
+var app      = express.createServer();
+var server   = app.listen(port);
+console.log("Express server listening on port " + port);
 
-var app = express.createServer();
-
-// Configuration
-
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-
+// App Configuration
+app.configure(function(){
+  app.use(express.methodOverride());
+  app.use(express.bodyParser());
+  app.use(express.static(__dirname + '/public'));
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'jade');
+});
 
 // Routes
-
 app.get('/', function(req, res){
-  res.render('index', {locals: {
-    title: 'NowJS + Express Example'
-  }});
+  res.render('index', {
+    'title': 'NowJS + Express Example'
+  });
 });
 
 app.get('/chat', function(req, res){
-  res.render('chat', {locals: {
+  res.render('chat', {
     title: 'NowJS + Express Example'
-  }});
+  });
 });
-
-app.listen(8080);
-console.log("Express server listening on port %d", app.address().port);
-
 
 // NowJS component
-var nowjs = require("now");
-var everyone = nowjs.initialize(app);
-
+var nowjs    = require("now");
+var everyone = nowjs.initialize(server);
 
 nowjs.on('connect', function(){
-      console.log("Joined: " + this.now.name);
+  console.log("Joined: " + this.now.name);
 });
 
-
 nowjs.on('disconnect', function(){
-      console.log("Left: " + this.now.name);
+  console.log("Left: " + this.now.name);
 });
 
 everyone.now.distributeMessage = function(message){
