@@ -1,0 +1,8 @@
+extends layout
+block content
+  h2 Chat Window
+  div(id='messages')
+  div(style='position: absolute; bottom: 25;)
+  input(type='text', id='text-input')
+  input(type='button', value='Send', id='send-button')
+  script(src='/javascript/chat.js')

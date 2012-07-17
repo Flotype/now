@@ -1,7 +1,7 @@
 {
   "name": "nowjs-express-example",
-  "version": "0.0.2",
-  "author": "ericz (Eric Zhang) <eric@nowjs.com>",
+  "version": "0.0.3",
+  "author": "mdesign83 (Karoly Marton) <m.karoly@martondesign.com>",
   "description": "This is an example of an embedded chat window added to any site.",
   "keywords": [
     "nowjs",
@@ -9,9 +9,9 @@
     "example"
   ],
   "dependencies" : {
-    "now"     :  ">=0.7",
-    "express" :  ">=2.4",
-    "ejs"     :  ">=0.5"
+    "now"     :  ">=0.8.1",
+    "express" :  ">=3.0.0",
+    "jade"     : ">=0.26.3"
   },
   "engine": {
     "node": ">=0.4"
