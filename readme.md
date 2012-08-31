@@ -60,9 +60,10 @@ A: Yes. This is 100% supported
 
 A: Very easily. 
 
-    var app = express.createServer();
-    var server = app.listen(3000);
+    var app = express();
+    var server = http.createServer(app);
     var everyone = require("now").initialize(server);
+	server.listen(3000);
 
 **Q: How do I disable WebSockets or only use xhr-polling?**
 
