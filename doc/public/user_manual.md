@@ -41,7 +41,7 @@ The secret to NowJS lies in two magic objects called `now` and
 automatically added the `now` object to the browser document's global
 namespace.
 
-###The shared namespaces
+### The shared namespaces
 
 Each client has a `now` object, which is a namespace that is shared
 between the server and that particular client. Any variables or
@@ -58,7 +58,7 @@ clients as well as all future clients.
 You can also create custom groups that behave just like everyone.now,
 but only include a subset of connected users.
 
-###Remote function calls
+### Remote function calls
 
 Syncing variables is useful but the true power of NowJS lies in remote
 function calls. This means that the client can call functions that
@@ -94,7 +94,7 @@ can be accessed in the function body through the `this.now` object
 (i.e. `this` client's `now`). If the function is being executed on the
 server, the `everyone.now` namespace also remains available.
 
-###Special behavior of everyone.now
+### Special behavior of everyone.now
 
 When you call a function inside the `everyone.now` namespace, NowJS
 will attempt to call the corresponding function in each connected
@@ -135,7 +135,7 @@ You can also add your own properties to `this.user` (for example,
 client, but they will be available wherever `this.user` is available.
 
 
-###Client ready event on the client
+### Client ready event on the client
 
 NowJS allows you to specify a callback to be fired when the client has
 successfully connected to the NowJS server. To set a listener for the
@@ -144,7 +144,7 @@ events, do the following:
     now.ready(function(){});
     
 
-###Client disconnect event on the client
+### Client disconnect event on the client
 
 If the client loses communication with the server, a event is fired
      
@@ -164,14 +164,14 @@ Other events that are fired:
 * `connect_failed`, indicating that the initial connection failed for some reason;
 * `error`, indicating an error.
 
-###Accessing clientId on the client
+### Accessing clientId on the client
 
 To access the clientId the server uses to identify client on the
 client side, simply access
     
     now.core.clientId;
 
-##The NowJS module object
+## The NowJS module object
 
 Calling `require('now')` on the server returns a reference to the
 NowJS module object. You should store this in a variable for easy
@@ -195,7 +195,7 @@ stored, like this:
 
 The module object exposes several methods that can be used:
 
-###.initialize(httpServer, [options])
+### .initialize(httpServer, [options])
 
 The initialize function takes a Node.js http server such as the one
 available in the `http` module or a module like Express.  Returns a
@@ -224,14 +224,14 @@ the case of a reverse proxy setup.
 If the options object is incomplete, the default values will be used
 in place of any missing options.
 
-###.getGroup(groupName)
+### .getGroup(groupName)
 
 This method takes an arbitrary string `groupName` and returns an
 `ClientGroup` object whose name is `groupName`. If a group with that
 name was already created by a previous call to `getGroup`, that group
 will be returned. Otherwise, a new group will be created and returned.
 
-###.getClient(clientId, function(){})
+### .getClient(clientId, function(){})
 
 getClient allows you to address a single client by passing its
 clientId as a parameter. The clientId is simply the
@@ -243,7 +243,7 @@ given.
 If the clientId given does not exist, the callback is called with an
 `err` parameter.
 
-###.on('connect/disconnect', function(){})
+### .on('connect/disconnect', function(){})
 
 NowJS allows you to specify a callback to be fired when a client
 connects to or disconnects from the server. To set a listener for the
@@ -257,7 +257,7 @@ makes it easy to access information about that client for setup or
 setdown procedures.
 
 <a name="groups"></a>
-##Groups in NowJS
+## Groups in NowJS
 
 While the `everyone` object is used to perform actions on all
 connected clients, it is sometimes useful to be able to address a
@@ -310,33 +310,33 @@ work. It is highly discouraged to use groups to set variables for only
 a subset of users, like this: `fooGroup.now.x = 3`. A discussion of
 this topic can be found in the Best Practices document.
 
-###Group objects
-###.addUser(clientId)
+### Group objects
+### .addUser(clientId)
 
 Takes a user's `this.user.clientId`, and adds that user to the
 group. Does nothing if `clientId` is not a valid sessionId.
 
-###.removeUser(clientId)
+### .removeUser(clientId)
 
 Takes a user's `this.user.clientId` and removes that user to the
 group. Does nothing if `clientId` is not a valid sessionId or the
 referenced user is not in the group in question.
 
-###.now
+### .now
 
 A `now` namespace similar to `everyone.now`. Actions to this namespace
 affect all users that are members of the group. For example, actions
 on 'fooGroup.now' from the above example affect all users in the group
 'foo'.
 
-###.exclude([clientId1, clientId2, ... ])
+### .exclude([clientId1, clientId2, ... ])
 
 Takes an array of users' `this.user.clientId`, and generates a new
 group identical to the calling group, except with the specified
 clients excluded. The returned group automatically updates to
 accommodate any changes made to its parent group.
 
-###.on('join/leave', function(){})
+### .on('join/leave', function(){})
 
 Every group receives two events `join` and `leave`. Join is
 triggered when a user is added to the group. Leave is triggered
@@ -352,13 +352,13 @@ from the callback.
        //this.now.destruct();
      });
 
-###.hasClient(clientId, callback)
+### .hasClient(clientId, callback)
 
 Takes a clientId and calls `callback` with a boolean `true` or `false`
 indicating whether the clientId is a member of the group. Note that
 this function is now asynchronous.
 
-###.count(callback)
+### .count(callback)
 
 Calls `callback` with the total number of users in the given
 group. Note that this is now a method, as opposed to a property.

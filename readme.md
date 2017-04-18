@@ -1,7 +1,7 @@
 Get NowJS http://www.nowjs.com/
 =========
 
-###NowJS makes realtime web apps really easy.
+### NowJS makes realtime web apps really easy.
 
 
 <a href="https://github.com/Flotype/now/">Go to Github</a> or 
